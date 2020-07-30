@@ -1,0 +1,23 @@
+{
+  "name": "bot-template",
+  "version": "1.0.0",
+  "description": "template for your own discord bot",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mrKarton/SampleDiscordBot.git"
+  },
+  "author": "mrKarton",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mrKarton/SampleDiscordBot/issues"
+  },
+  "homepage": "https://github.com/mrKarton/SampleDiscordBot#readme",
+  "dependencies": {
+    "discord.js": "^12.1.1",
+    "request": "^2.88.2"
+  }
+}
