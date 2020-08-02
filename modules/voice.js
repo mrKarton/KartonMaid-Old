@@ -25,7 +25,7 @@ function start(bot, msg, args)
   }
   else
   {
-    msg.reply("Уже играю");
+    add(bot, msg, args)
   }
 }
 
@@ -64,7 +64,7 @@ function add(bot, msg, args)
     {
       queue.get(msg.guild.id).songs.push(funcs.getStrValuesAfter(0, args));
       msg.channel.send(new discord.MessageEmbed().setColor("#00e600").setTitle("Добавлено")
-      .setDescription("Трек " + funcs.getStrValuesAfter(0, args) + " добавлен в ваш плейлист"));
+      .setDescription("Трек **" + funcs.getStrValuesAfter(0, args) + "** добавлен в ваш плейлист"));
     }
     else
     {
@@ -80,21 +80,19 @@ function add(bot, msg, args)
 
 function Stop(bot, msg, args)
 {
-  console.log(msg.guild.member(msg.author).voice.channel.id);
-
-  console.log(bot.voice.connections.get(msg.guild.id).channel.id);
-
   if(queue.has(msg.guild.id))
   {
     if(msg.guild.member(msg.author).voice.channel.id == bot.voice.connections.get(msg.guild.id).channel.id)
     {
-      // console.log(bot.voice.connections.get(queue.get(msg.guild.id).channel));
       queue.get(msg.guild.id).connection.disconnect();
       queue.delete(msg.guild.id);
+      msg.channel.send(new discord.MessageEmbed().setColor("#00e600").setTitle("Воспроизведение остановлено")
+      .setDescription("Бот отключен от голосового канала"));
     }
     else
     {
-      msg.channel.send(new discord.MessageEmbed().setColor("#ff0000").setTitle("Ошибка при остановке трека").setDescription("Вы жолжны быть в одном голосовом канале для остановки"));
+      msg.channel.send(new discord.MessageEmbed().setColor("#ff0000").setTitle("Ошибка при остановке трека")
+      .setDescription("Вы жолжны быть в одном голосовом канале для остановки"));
     }
   }
   else
@@ -107,7 +105,7 @@ function Skip(bot, msg, args)
 {
   if(queue.has(msg.guild.id))
   {
-    if(queue.get(voiceChannel.guild.id).songs.length - 1 == queue.get(voiceChannel.guild.id).position)
+    if(queue.get(msg.guild.id).songs.length - 1 == queue.get(msg.guild.id).position)
     {
       msg.channel.send(new discord.MessageEmbed().setColor("#ff0000").setTitle("Ошибка при попуске трека")
       .setDescription("Невозможно пропустить трек, так как он является последним в вашей очереди"));
@@ -116,8 +114,8 @@ function Skip(bot, msg, args)
     {
       if(msg.guild.member(msg.author).voice.channel.id == bot.voice.connections.get(msg.guild.id).channel.id)
       {
-        play(msg, queue.get(msg.guild.id).songs[queue.get(msg.guild.id).position]);
         queue.get(msg.guild.id).position += 1;
+        play(msg, queue.get(msg.guild.id).songs[queue.get(msg.guild.id).position]);
       }
       else
       {
@@ -126,12 +124,69 @@ function Skip(bot, msg, args)
       }
     }
   }
+  else
+  {
+    msg.channel.send(new discord.MessageEmbed().setColor("#ff0000").setTitle("Ошибка при пропуске трека")
+        .setDescription("Воспроизведение не запущено на сервере"));
+  }
+}
+
+function goBack(bot, msg, args)
+{
+  if(queue.has(msg.guild.id))
+  {
+    if(queue.get(msg.guild.id).position == 0)
+    {
+      msg.channel.send(new discord.MessageEmbed().setColor("#ff0000").setTitle("Ошибка при возврате трека")
+      .setDescription("Невозможно отктить трек, так как он является первым в вашей очереди"));
+    }
+    else
+    {
+      if(msg.guild.member(msg.author).voice.channel.id == bot.voice.connections.get(msg.guild.id).channel.id)
+      {
+        queue.get(msg.guild.id).position -= 1;
+        play(msg, queue.get(msg.guild.id).songs[queue.get(msg.guild.id).position]);
+      }
+      else
+      {
+        msg.channel.send(new discord.MessageEmbed().setColor("#ff0000").setTitle("Ошибка при возврате трека")
+        .setDescription("Вы жолжны быть в одном голосовом канале для пропуска"));
+      }
+    }
+  }
+  else
+  {
+    msg.channel.send(new discord.MessageEmbed().setColor("#ff0000").setTitle("Ошибка при возврате трека")
+        .setDescription("Воспроизведение не запущено на сервере"));
+  }
+}
+
+function getQueue(bot, msg, args)
+{
+  if(queue.has(msg.guild.id))
+  {
+    var str = "";
+    for(var i = 0; i < queue.get(msg.guild.id).songs.length; i++)
+    {
+      if(i == queue.get(msg.guild.id).position)
+      {
+        str += "***->***  "
+      }
+      str += "**" + i + "** - " + queue.get(msg.guild.id).songs[i] + "\n\n";
+    }
+    msg.channel.send(new discord.MessageEmbed().setColor("#00e600").setTitle("Очередь воспроизведения").setDescription(str));
+  }
+  else
+  {
+    msg.channel.send(new discord.MessageEmbed().setColor("#ff0000").setTitle("Нвозможно получить очередб треков")
+        .setDescription("Воспроизведение не запущено на сервере"));
+  }
 }
 
 async function Stream(voiceChannel, link, msg) {
   const connection = await voiceChannel.join();
   
-  connection.play(ytdl(link, {filter:'audioonly'})).on('end', ()=>{console.log('ended')});
+  connection.play(ytdl(link, {filter:'audioonly'}));
   connection.dispatcher.on('finish', ()=> {
     if(queue.get(voiceChannel.guild.id).songs.length - 1 == queue.get(voiceChannel.guild.id).position)
     {
@@ -151,8 +206,10 @@ var list = [
     {name: ["играть", "play"], out:start, ab:"Привнесёт веселья в вашу тусу! Введите название песни и музыка начнёт играть! Ю-ХУ! (Пока работает только на одном канале)"},
     {name: ["add", "добавить", "адд"], out:add, ab:"Создайте свой невероятный плейст, добавив в него трек вам по душе."},
     {name: ["стоп", "stop"], out:Stop, ab:"Остновите воспроизведение и закрйте плеер! Вечеринка закончилась."},
-    {name: ["скип", "skip", "следущ", "пропуск", "пропустить"], out:Skip, ab:"\"Кто-нибудь, вырубите это №;!2\" - пропустите текущий трек с помощью этой команды"}
+    {name: ["скип", "skip", "следущ", "пропуск", "пропустить"], out:Skip, ab:"\"Кто-нибудь, вырубите это №;!2\" - пропустите текущий трек с помощью этой команды"},
+    {name: ["очередь", "порядок", "queue"], out:getQueue, ab:"Узнайте, что играет сейчас и что будет играть далее с помощью этой команды!"},
+    {name: ["возврат", "предыдущ", "back"], out:goBack, ab:"Блин, прошлая песня была не плоха, давайте ещё раз её послушаем? А давайте! Включите предыдущую песню с помощью **ВОТ ЭТОЙ** команды"}
 ]
 
 module.exports.commands = list;
-module.exports.about = {name:["музыка", "плеер", "music"], about: "О да, наконец-то, блин, нормальная музыка! Подключите бота к своему голосовму каналу и запустите воспроизведение."};
+module.exports.about = {name:["музыка", "плеер", "music", "voice", "воис"], about: "О да, наконец-то, блин, нормальная музыка! Подключите бота к своему голосовму каналу и запустите воспроизведение."};

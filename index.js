@@ -14,7 +14,7 @@ bot.login(config.token); //logining with token from config
 bot.on('message', (message)=>{
 
 
-    if(message.content.startsWith(config.prefix) && message.author.id != bot.user.id); 
+    if(message.content.startsWith(config.prefix)); 
     {
         var args = splitForBot(message.content);
         if(args != 0)  
