@@ -3,8 +3,11 @@ const bot = new discord.Client();       // connecting to discord
 const config = require('./conf.json');  // loading configuration from conf.json
 
 var commands = require('./moduler.js').commands;
+var startupDat;
 
 bot.on('ready', ()=> {
+    startupDat = new Date();
+    bot.startupDate = startupDat;
     console.log('Bot is ready to use.');// when bot is ready, message it
     bot.generateInvite(["ADMINISTRATOR"]).then((link)=>{console.log("My link: " + link)});//when invition link created, messgae it
 });
