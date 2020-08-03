@@ -1,10 +1,12 @@
 
 class Guild
 {
-    constructor(id, prefix)
+    constructor(id, prefix, language)
     {
         this.id = id;
         this.prefix = prefix;
+        this.language = language;
+        this.closedModules = Array();
     }
 }
 

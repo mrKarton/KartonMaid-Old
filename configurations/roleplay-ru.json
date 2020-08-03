@@ -1,0 +1,57 @@
+{
+    "kiss":{
+        "gif": [
+            "https://media1.tenor.com/images/31362a548dc7574f80d01a42a637bc93/tenor.gif",
+            "https://media1.tenor.com/images/52771f6dbc90809d30d2eae46d3db02b/tenor.gif?itemid=17014519"
+        ],
+        "phrase": [
+            "поцеловал", "засосал"
+        ],
+        "title": [
+            "UwU", "О БОЖЕ МОЙ!!"
+        ]
+    },
+    "kick":{
+        "gif": [
+            "https://media.tenor.com/images/7f530983a66c994677b6fe6d64971337/tenor.gif",
+            "https://media1.tenor.com/images/74f415e0baaea783a655d5f46f7a3ece/tenor.gif",
+            "https://media.tenor.com/images/78066d5016667952d8a4171025e73330/tenor.gif"
+        ],
+        "phrase": [
+            "уебал",
+            "ударил",
+            "избил"
+        ],
+        "title": [
+            "На на%Yй",
+            "О нет!"
+        ]
+    },
+    "kill":{
+        "gif": [
+            "https://media1.tenor.com/images/2291d3d08dd10a5fce38688f5ec77abb/tenor.gif",
+            "https://media1.tenor.com/images/119537ab2dd98f1a68d6ab57ac514646/tenor.gif",
+            "https://media1.tenor.com/images/3264c743df173b2cece21083b0cfc6a3/tenor.gif"
+        ],
+        "phrase": [
+            "убил", "нанёс 28 ударов ножом"
+        ],
+        "title": [
+            "ПАМ-ПАМ", 
+            "ВОУ"
+        ]
+    },
+    "hug":{
+        "gif": [
+            "https://media1.tenor.com/images/fd47e55dfb49ae1d39675d6eff34a729/tenor.gif",
+            "https://media1.tenor.com/images/d7529f6003b20f3b21f1c992dffb8617/tenor.gif?itemid=4782499"
+        ],
+        "phrase": [
+            "обнял"
+        ],
+        "title": [
+            "UwU", 
+            "О БОЖЕ МОЙ!!"
+        ]
+    }
+}

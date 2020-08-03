@@ -1,11 +1,11 @@
 var discord = require('discord.js');
 var conf = require('../conf.json');
 var funcs = require('./functions.js');
-var data = require('../configurations/roleplay.json');
+var dataRus = require('../configurations/roleplay-ru.json');
 
 function kick(bot, msg, args)
 {
-    RP(bot,msg,args,"kill");
+    RP(bot,msg,args,"kick");
 }
 
 function kiss(bot,msg,args)
@@ -29,23 +29,24 @@ function RP(bot, msg, args, type)
     switch(type)
     {
         case "kick":
-            dat = data.kick;
+            dat = dataRus.kick;
+            console.log("1212");
         break;
 
         case "kiss":
-            dat = data.kiss;
+            dat = dataRus.kiss;
         break;
 
         case "kill":
-            dat = data.kill;
+            dat = dataRus.kill;
         break;
 
         case "hug":
-            dat = data.hug;
+            dat = dataRus.hug;
         break;
 
     }
-
+    console.log(dat);
     var embed = new discord.MessageEmbed().setColor("#ffff00")
     .setTitle(dat.title[funcs.getRandomInt(0, dat.title.length)])
     .setDescription("<@" + msg.author.id + "> " + dat.phrase[funcs.getRandomInt(0, dat.phrase.length)] + 
@@ -60,8 +61,10 @@ function RP(bot, msg, args, type)
 }
 
 module.exports.commands = [
-    {name: ["ударить", "уебать", "пнуть"], out:kick, about:"Чувак, ты это заслужил!"},
-    {name: ["цем", "поцеловать", "kiss"], out:kiss, about:"Поцелуйте своего любимого человека.."},
-    {name: ["убить", "kill"], out:kill, about:"Совершите ужасное убийство кого-то с помощью этой команды"},
-    {name: ["обнять", "hug"], out:hug, about:"Обнимашки!"}
+    {name: ["ударить", "уебать", "пнуть", "ударил"], out:kick, about:"Чувак, ты это заслужил!"},
+    {name: ["цем", "поцеловать", "kiss", "поцеловал"], out:kiss, about:"Поцелуйте своего любимого человека.."},
+    {name: ["убить", "kill", "убил"], out:kill, about:"Совершите ужасное убийство кого-то с помощью этой команды"},
+    {name: ["обнять", "hug", "обнял"], out:hug, about:"Обнимашки!"}
 ];
+
+module.exports.module = {name:["РП", "Roleplay", "RP", "Ролеплей"], about:"**!Модуль в активной разработке!**"}

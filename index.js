@@ -1,6 +1,8 @@
 const discord = require('discord.js');  //
 const bot = new discord.Client();       // connecting to discord
 const config = require('./conf.json');  // loading configuration from conf.json
+var fs = require('fs');
+var guildClass = require('./GuildConfigs/guild-class');
 
 var commands = require('./moduler.js').commands;
 var startupDat;
@@ -14,12 +16,21 @@ bot.on('ready', ()=> {
 
 bot.login(config.token); //logining with token from config
 
+bot.on('guildCreate', (guild)=>{
+    fs.open('GuildConfigs/' + guild.id + ".json", 'w+', (err, fd)=>{
+        if(err) console.log(err);
+    });
+    var newGC = new guildClass(guild.id, "!", "rus");
+    fs.writeFile('GuildConfigs/' + guild.id + ".json", JSON.stringify(newGC), ()=>{});
+});
+
+
+
 bot.on('message', (message)=>{
 
-
-    if(message.content.startsWith(config.prefix)); 
+    if(message.content.startsWith(require('./GuildConfigs/' + message.guild.id + ".json").prefix)); 
     {
-        var args = splitForBot(message.content);
+        var args = splitForBot(message.content, require('./GuildConfigs/' + message.guild.id + ".json").prefix);
         if(args != 0)  
         {
             var comm = args[0];
@@ -37,11 +48,11 @@ bot.on('message', (message)=>{
     }                      
 });
 
-function splitForBot(content)
+function splitForBot(content, prefix)
 {
     if(typeof(content) == typeof("String")) //Checking for type of content (we need a string)
     {
-        var step1 = content.split(config.prefix);//spliting prefix
+        var step1 = content.split(prefix);//spliting prefix
         if(step1[1] != null)                     //if there are comands
         {
             var step2 = step1[1].split(" ");     //spliting arguments
