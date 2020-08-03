@@ -10,7 +10,7 @@ function MakeEmbed(bot, msg, args)
         var em = new discord.MessageEmbed().setColor(args[1]).setTitle(args[2]).setDescription(funcs.getStrValuesAfter(3, args))
         .setAuthor(user.username, user.avatarURL());
 
-        bot.guilds.cache.get(msg.guild.id).channels.cache.get(funcs.getChannelID(args[0])).send(em);
+        bot.guilds.cache.get(msg.guild.id).channels.cache.get(funcs.getID(args[0])).send(em);
     }
 }
 

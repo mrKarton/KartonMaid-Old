@@ -60,11 +60,19 @@ function add(bot, msg, args)
 {
   if(queue.has(msg.guild.id))
   {
-    if(msg.guild.member(msg.author).voice.channel.id == bot.voice.connections.get(msg.guild.id).channel.id)
+    if(msg.guild.member(msg.author).voice.channel != null)
     {
-      queue.get(msg.guild.id).songs.push(funcs.getStrValuesAfter(0, args));
-      msg.channel.send(new discord.MessageEmbed().setColor("#00e600").setTitle("Добавлено")
-      .setDescription("Трек **" + funcs.getStrValuesAfter(0, args) + "** добавлен в ваш плейлист"));
+      if(msg.guild.member(msg.author).voice.channel.id == bot.voice.connections.get(msg.guild.id).channel.id)
+      {
+        queue.get(msg.guild.id).songs.push(funcs.getStrValuesAfter(0, args));
+        msg.channel.send(new discord.MessageEmbed().setColor("#00e600").setTitle("Добавлено")
+        .setDescription("Трек **" + funcs.getStrValuesAfter(0, args) + "** добавлен в ваш плейлист"));
+      }
+      else
+      {
+        msg.channel.send(new discord.MessageEmbed().setColor("#ff0000").setTitle("Ошибка при остановке трека")
+        .setDescription("Вы жолжны быть в одном голосовом канале для добавления"));
+      }
     }
     else
     {
@@ -82,12 +90,20 @@ function Stop(bot, msg, args)
 {
   if(queue.has(msg.guild.id))
   {
-    if(msg.guild.member(msg.author).voice.channel.id == bot.voice.connections.get(msg.guild.id).channel.id)
+    if(msg.guild.member(msg.author).voice.channel != null)
     {
-      queue.get(msg.guild.id).connection.disconnect();
-      queue.delete(msg.guild.id);
-      msg.channel.send(new discord.MessageEmbed().setColor("#00e600").setTitle("Воспроизведение остановлено")
-      .setDescription("Бот отключен от голосового канала"));
+      if(msg.guild.member(msg.author).voice.channel.id == bot.voice.connections.get(msg.guild.id).channel.id)
+      {
+        queue.get(msg.guild.id).connection.disconnect();
+        queue.delete(msg.guild.id);
+        msg.channel.send(new discord.MessageEmbed().setColor("#00e600").setTitle("Воспроизведение остановлено")
+        .setDescription("Бот отключен от голосового канала"));
+      }
+      else
+      {
+        msg.channel.send(new discord.MessageEmbed().setColor("#ff0000").setTitle("Ошибка при остановке трека")
+        .setDescription("Вы жолжны быть в одном голосовом канале для остановки"));
+      }
     }
     else
     {
@@ -112,10 +128,18 @@ function Skip(bot, msg, args)
     }
     else
     {
-      if(msg.guild.member(msg.author).voice.channel.id == bot.voice.connections.get(msg.guild.id).channel.id)
+      if(msg.guild.member(msg.author).voice.channel != null)
       {
-        queue.get(msg.guild.id).position += 1;
-        play(msg, queue.get(msg.guild.id).songs[queue.get(msg.guild.id).position]);
+        if(msg.guild.member(msg.author).voice.channel.id == bot.voice.connections.get(msg.guild.id).channel.id)
+        {
+          queue.get(msg.guild.id).position += 1;
+          play(msg, queue.get(msg.guild.id).songs[queue.get(msg.guild.id).position]);
+        }
+        else
+        {
+          msg.channel.send(new discord.MessageEmbed().setColor("#ff0000").setTitle("Ошибка при пропуске трека")
+          .setDescription("Вы жолжны быть в одном голосовом канале для пропуска"));
+        }
       }
       else
       {
@@ -142,16 +166,24 @@ function goBack(bot, msg, args)
     }
     else
     {
-      if(msg.guild.member(msg.author).voice.channel.id == bot.voice.connections.get(msg.guild.id).channel.id)
+      if(msg.guild.member(msg.author).voice.channel != null)
       {
-        queue.get(msg.guild.id).position -= 1;
-        play(msg, queue.get(msg.guild.id).songs[queue.get(msg.guild.id).position]);
+        if(msg.guild.member(msg.author).voice.channel.id == bot.voice.connections.get(msg.guild.id).channel.id)
+        {
+          queue.get(msg.guild.id).position -= 1;
+          play(msg, queue.get(msg.guild.id).songs[queue.get(msg.guild.id).position]);
+        }
+        else
+        {
+          msg.channel.send(new discord.MessageEmbed().setColor("#ff0000").setTitle("Ошибка при возврате трека")
+          .setDescription("Вы жолжны быть в одном голосовом канале для пропуска"));
+        }
       }
       else
-      {
-        msg.channel.send(new discord.MessageEmbed().setColor("#ff0000").setTitle("Ошибка при возврате трека")
-        .setDescription("Вы жолжны быть в одном голосовом канале для пропуска"));
-      }
+        {
+          msg.channel.send(new discord.MessageEmbed().setColor("#ff0000").setTitle("Ошибка при возврате трека")
+          .setDescription("Вы жолжны быть в одном голосовом канале для пропуска"));
+        }
     }
   }
   else
@@ -178,7 +210,7 @@ function getQueue(bot, msg, args)
   }
   else
   {
-    msg.channel.send(new discord.MessageEmbed().setColor("#ff0000").setTitle("Нвозможно получить очередб треков")
+    msg.channel.send(new discord.MessageEmbed().setColor("#ff0000").setTitle("Нвозможно получить очередь треков")
         .setDescription("Воспроизведение не запущено на сервере"));
   }
 }

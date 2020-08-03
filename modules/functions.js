@@ -1,6 +1,6 @@
 const { modules } = require("../moduler");
 
-function getChannelID(snake)
+function getID(snake)
 {
     var step1 = "";
     for(var i = 2; i < snake.length; i++)
@@ -50,7 +50,7 @@ function getValuesAfter(it, arr)
 
 // module.exports = exports;
 
-module.exports.getChannelID = getChannelID;
+module.exports.getID = getID;
 module.exports.getStrValuesAfter = getStrValuesAfter;
 module.exports.getRandomInt = getRandomInt;
 module.exports.isAdmin = isAdmin;
