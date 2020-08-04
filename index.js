@@ -37,7 +37,7 @@ bot.on('guildCreate', (guild)=>{
 
 bot.on('message', (message)=>{
 
-    if(message.content.startsWith(require('./GuildConfigs/' + message.guild.id + ".json").prefix)); 
+    if(message.content.startsWith(require('./GuildConfigs/guilds/' + message.guild.id + ".json").prefix)); 
     {
         var args = splitForBot(message.content, require('./GuildConfigs/guilds/' + message.guild.id + ".json").prefix);
         if(args != 0)  
