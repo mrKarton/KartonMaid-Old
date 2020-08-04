@@ -2,6 +2,7 @@ const discord = require('discord.js');  //
 const bot = new discord.Client();       // connecting to discord
 const config = require('./conf.json');  // loading configuration from conf.json
 var fs = require('fs');
+var version = require('./version.json');
 var guildClass = require('./GuildConfigs/guild-class');
 
 var commands = require('./moduler.js').commands;
@@ -10,11 +11,19 @@ var startupDat;
 bot.on('ready', ()=> {
     startupDat = new Date();
     bot.startupDate = startupDat;
-    console.log('Bot is ready to use.');// when bot is ready, message it
+    console.log(bot.user.username + "#" + bot.user.discriminator + " started");// when bot is ready, message it
     bot.generateInvite(["ADMINISTRATOR"]).then((link)=>{console.log("My link: " + link)});//when invition link created, messgae it
 });
 
-bot.login(config.token); //logining with token from config
+
+if(!version.dev)
+{
+    bot.login(config.token); //logining with token from config
+}
+else
+{
+    bot.login(config.devToken); //logining with dev token
+}
 
 bot.on('guildCreate', (guild)=>{
     fs.open('GuildConfigs/' + guild.id + ".json", 'w+', (err, fd)=>{
