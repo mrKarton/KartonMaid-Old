@@ -1,6 +1,6 @@
 {
-    "dev": true,
-    "version": 0.1,
-    "localistion": 0.0,
+    "dev": false,
+    "version": 0.5,
+    "localistion": 60,
     "changelog":"N/A"
 }

@@ -1,0 +1,4 @@
+{
+    "module":{"title":"About module ", "commands": "Commands: ", "alter_names":"Another titles "},
+    "commands":{"Title":"Bot commands:", "Body":"I sent Private message for you."}
+}

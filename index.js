@@ -4,7 +4,7 @@ const config = require('./conf.json');  // loading configuration from conf.json
 var fs = require('fs');
 var version = require('./version.json');
 var guildClass = require('./GuildConfigs/guild-class');
-
+var guildF = require('./GuildConfigs/functions');
 var commands = require('./moduler.js').commands;
 var startupDat;
 
@@ -37,24 +37,35 @@ bot.on('guildCreate', (guild)=>{
 
 bot.on('message', (message)=>{
 
-    if(message.content.startsWith(require('./GuildConfigs/guilds/' + message.guild.id + ".json").prefix)); 
-    {
-        var args = splitForBot(message.content, require('./GuildConfigs/guilds/' + message.guild.id + ".json").prefix);
-        if(args != 0)  
-        {
-            var comm = args[0];
+    var LangID = 0;
 
-            for(var i = 0; i < commands.length; i ++)
+    if(message.guild != null)
+    {
+        if(guildF.getLang(message.guild.id) == "en")
+        {
+            LangID = 1;
+        }
+        
+
+        if(message.content.startsWith(require('./GuildConfigs/guilds/' + message.guild.id + ".json").prefix)); 
+        {
+            var args = splitForBot(message.content, require('./GuildConfigs/guilds/' + message.guild.id + ".json").prefix);
+            if(args != 0)  
             {
-                //console.log(comm + " " + commands[i].name)
-                if(commands[i].name.indexOf(comm) != -1)
+                var comm = args[0];
+
+                for(var i = 0; i < commands.length; i ++)
                 {
-                    commands[i].out(bot, message, getValuesAfter(1, args));
-                    break;
+                    //console.log(comm + " " + commands[i].name)
+                    if(commands[i].name[LangID].indexOf(comm) != -1)
+                    {
+                        commands[i].out(bot, message, getValuesAfter(1, args));
+                        break;
+                    }
                 }
             }
-        }
-    }                      
+        }    
+    }                  
 });
 
 function splitForBot(content, prefix)

@@ -1,0 +1,19 @@
+{
+    "play":{"title":"Now Playing", "unexpectedError": "Error:", "ConnErr":"You have to connect to voice channel for playing music!"},
+
+    "add":{"title":"Track Added", "body":["Track ", " added in qour queue"],
+        "errorTitle":"Error", "ConnErr": "You have to connect to same voice channel as bot",
+        "notStarted":"There's no queue in this server"},
+
+    "stop":{"title":"Track stopped", "body":"Bot disconnected",
+    "errorTitle":"Error", "ConnErr":"You have to connect to same voice channel as bot",
+    "notStartd":"Nothing playing in this server"},
+
+    "skip":{"errTitle":"Can't skip track", "ConnErr":"You have to connect to same voice channel as bot",
+    "queueErr":"It is last track in your queue", "notStarted":"There's no queue in this server"},
+
+    "goBack":{"errTitle":"Can't return track", "ConnErr":"You have to connect to same voice channel as bot",
+    "queueErr":"It is first track in your queue", "notStarted":"There's no queue in this server"},
+
+    "getQueue":{"Title": "Queue:", "errTitle":"Can't get queue", "err":"There's no queue in this server"}
+}

@@ -1,0 +1,4 @@
+{
+    "setPrefix":{"body":"Prefix changed succsessfull", "syntaxError":"The prefix must not contain spaces"},
+    "changeLang":{"error": "The language is not supported", "succsess":"The language was changed successfully, and some modules will be translated within 5 minutes"}
+}

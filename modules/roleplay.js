@@ -61,10 +61,10 @@ function RP(bot, msg, args, type)
 }
 
 module.exports.commands = [
-    {name: ["ударить", "уебать", "пнуть", "ударил"], out:kick, about:"Чувак, ты это заслужил!"},
-    {name: ["цем", "поцеловать", "kiss", "поцеловал"], out:kiss, about:"Поцелуйте своего любимого человека.."},
-    {name: ["убить", "kill", "убил"], out:kill, about:"Совершите ужасное убийство кого-то с помощью этой команды"},
-    {name: ["обнять", "hug", "обнял"], out:hug, about:"Обнимашки!"}
+    {name: [["ударить", "уебать", "пнуть", "ударил"], ["hit"]], out:kick, about:["Чувак, ты это заслужил!", "Not translated"]},
+    {name: [["цем", "поцеловать","поцеловал"],["kiss"]], out:kiss, about:["Поцелуйте своего любимого человека..", "Not translated"]},
+    {name: [["убить", "убил"], ["kill"]], out:kill, about:["Совершите ужасное убийство кого-то с помощью этой команды", "Not translated"]},
+    {name: [["обнять", "обнял"], ["hug"]], out:hug, about:["Обнимашки!", "Not translated"]}
 ];
 
-module.exports.module = {name:["РП", "Roleplay", "RP", "Ролеплей"], about:"**!Модуль в активной разработке!**"}
+module.exports.module = {name:[["РП", "Ролеплей"], ["Roleplay", "RP"]], about:["**!Модуль в активной разработке!**", "***!module not translated!***"]}

@@ -32,7 +32,7 @@ function Servs(bot, msg,args)
 }
 
 module.exports.commands = [
-    {name: ["log"], out: log},
-    {name: ["test"], out:Test},
-    {name: ["servs"], out:Servs}
+    {name: [["log"], ["log"]], out: log},
+    {name: [["test"], ["log"]], out:Test},
+    {name: [["servs"], ["log"]], out:Servs}
 ];
