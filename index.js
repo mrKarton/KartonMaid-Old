@@ -30,7 +30,7 @@ bot.on('guildCreate', (guild)=>{
         if(err) console.log(err);
     });
     var newGC = new guildClass(guild.id, "!", "rus");
-    fs.writeFile('GuildConfigs/gulds/' + guild.id + ".json", JSON.stringify(newGC), ()=>{});
+    fs.writeFile('GuildConfigs/guilds/' + guild.id + ".json", JSON.stringify(newGC), (err)=>{console.log(err)});
 });
 
 
