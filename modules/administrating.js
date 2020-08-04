@@ -11,10 +11,10 @@ function setPrefix(bot, msg, args)
     }
     else
     {
-        var guildObj = require('../GuildConfigs/' + msg.guild.id + ".json");
+        var guildObj = require('../GuildConfigs/guilds' + msg.guild.id + ".json");
         guildObj.prefix = args[0];
 
-        fs.writeFile('./GuildConfigs/' + msg.guild.id + ".json", JSON.stringify(guildObj), (err)=>{if(err) console.log(err)});
+        fs.writeFile('./GuildConfigs/guilds' + msg.guild.id + ".json", JSON.stringify(guildObj), (err)=>{if(err) console.log(err)});
 
         msg.reply("префикс успешно изменён.");
     }

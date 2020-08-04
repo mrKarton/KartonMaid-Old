@@ -26,11 +26,11 @@ else
 }
 
 bot.on('guildCreate', (guild)=>{
-    fs.open('GuildConfigs/' + guild.id + ".json", 'w+', (err, fd)=>{
+    fs.open('GuildConfigs/guilds' + guild.id + ".json", 'w+', (err, fd)=>{
         if(err) console.log(err);
     });
     var newGC = new guildClass(guild.id, "!", "rus");
-    fs.writeFile('GuildConfigs/' + guild.id + ".json", JSON.stringify(newGC), ()=>{});
+    fs.writeFile('GuildConfigs/gulds' + guild.id + ".json", JSON.stringify(newGC), ()=>{});
 });
 
 
