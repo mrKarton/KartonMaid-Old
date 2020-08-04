@@ -26,11 +26,11 @@ else
 }
 
 bot.on('guildCreate', (guild)=>{
-    fs.open('GuildConfigs/guilds' + guild.id + ".json", 'w+', (err, fd)=>{
+    fs.open('GuildConfigs/guilds/' + guild.id + ".json", 'w+', (err, fd)=>{
         if(err) console.log(err);
     });
     var newGC = new guildClass(guild.id, "!", "rus");
-    fs.writeFile('GuildConfigs/gulds' + guild.id + ".json", JSON.stringify(newGC), ()=>{});
+    fs.writeFile('GuildConfigs/gulds/' + guild.id + ".json", JSON.stringify(newGC), ()=>{});
 });
 
 
@@ -39,7 +39,7 @@ bot.on('message', (message)=>{
 
     if(message.content.startsWith(require('./GuildConfigs/' + message.guild.id + ".json").prefix)); 
     {
-        var args = splitForBot(message.content, require('./GuildConfigs/' + message.guild.id + ".json").prefix);
+        var args = splitForBot(message.content, require('./GuildConfigs/guilds/' + message.guild.id + ".json").prefix);
         if(args != 0)  
         {
             var comm = args[0];
