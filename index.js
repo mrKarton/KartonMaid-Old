@@ -26,14 +26,14 @@ else
 }
 
 bot.on('guildCreate', (guild)=>{
-    fs.open('GuildConfigs/guilds/' + guild.id + ".json", 'w+', (err, fd)=>{
+    cpnsole.log('new guild ' + guild.name);
+    fs.open('./GuildConfigs/guilds/' + guild.id + ".json", 'w+', (err, fd)=>{
         if(err) console.log(err);
     });
+
     var newGC = new guildClass(guild.id, "!", "rus");
-    fs.writeFileSync('GuildConfigs/guilds/' + guild.id + ".json", JSON.stringify(newGC), (err)=>{console.log(err)});
+    fs.writeFileSync('./GuildConfigs/guilds/' + guild.id + ".json", JSON.stringify(newGC), (err)=>{console.log(err)});
 });
-
-
 
 bot.on('message', (message)=>{
 
