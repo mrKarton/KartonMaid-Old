@@ -2,6 +2,7 @@ var discord = require('discord.js');
 var conf = require('../conf.json');
 var funcs = require('./functions.js');
 var dataRus = require('../configurations/roleplay-ru.json');
+var colors = require('../configurations/colors.json');
 
 function kick(bot, msg, args)
 {
@@ -25,23 +26,29 @@ function hug(bot,msg,args)
 
 function RP(bot, msg, args, type)
 {
+    var color_data = colors.roleplay;
+    var color = color_data.kick;
     var dat;
     switch(type)
     {
         case "kick":
+            color = color_data.kick;
             dat = dataRus.kick;
             console.log("1212");
         break;
 
         case "kiss":
             dat = dataRus.kiss;
+            color = color_data.kiss;
         break;
 
         case "kill":
+            color = color_data.kill;
             dat = dataRus.kill;
         break;
 
         case "hug":
+            color = color_data.hug;
             dat = dataRus.hug;
         break;
 

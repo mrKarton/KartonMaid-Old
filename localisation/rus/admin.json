@@ -1,4 +1,4 @@
 {
     "setPrefix":{"body":"Префикс успешно изменён", "syntaxError":"В префиксе не должно быть пробелов"},
-    "changeLang":{"error": "Язык не поддерживается", "succsess":"Язык успешно изменён, некоторые модули будут переведены в течение 5 минут"}
+    "changeLang":{"error": "The language is not supported, try `en` or `rus`", "succsess":"Язык успешно изменён, некоторые модули будут переведены в течение 5 минут/The language was changed successfully, and some modules will be translated within 5 minutes"}
 }

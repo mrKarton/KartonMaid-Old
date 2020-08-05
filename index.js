@@ -6,6 +6,7 @@ var version = require('./version.json');
 var guildClass = require('./GuildConfigs/guild-class');
 var guildF = require('./GuildConfigs/functions');
 var commands = require('./moduler.js').commands;
+var funcs = require('./modules/functions');
 var startupDat;
 
 bot.on('ready', ()=> {
@@ -26,45 +27,58 @@ else
 }
 
 bot.on('guildCreate', (guild)=>{
-    cpnsole.log('new guild ' + guild.name);
+    var lang = "en";
+
+    if(guild.region == "russia")
+    {
+        lang = "rus";
+    }
+
     fs.open('./GuildConfigs/guilds/' + guild.id + ".json", 'w+', (err, fd)=>{
         if(err) console.log(err);
     });
-
-    var newGC = new guildClass(guild.id, "!", "rus");
+    var newGC = new guildClass(guild.id, "!", lang);
     fs.writeFileSync('./GuildConfigs/guilds/' + guild.id + ".json", JSON.stringify(newGC), (err)=>{console.log(err)});
+    console.log(newGC);
+    if(guild.systemChannel != null)
+    {
+        guild.systemChannel.send(funcs.getHelloMsg(newGC.language, bot));
+    }
 });
 
 bot.on('message', (message)=>{
-
+    
     var LangID = 0;
 
     if(message.guild != null)
     {
-        if(guildF.getLang(message.guild.id) == "en")
+        if(message.author.id != bot.user.id)
         {
-            LangID = 1;
-        }
-        
-
-        if(message.content.startsWith(require('./GuildConfigs/guilds/' + message.guild.id + ".json").prefix)); 
-        {
-            var args = splitForBot(message.content, require('./GuildConfigs/guilds/' + message.guild.id + ".json").prefix);
-            if(args != 0)  
+            if(guildF.getLang(message.guild.id) == "en")
             {
-                var comm = args[0];
+                LangID = 1;
+            }
+            
 
-                for(var i = 0; i < commands.length; i ++)
+            if(message.content.startsWith(require('./GuildConfigs/guilds/' + message.guild.id + ".json").prefix)); 
+            {
+                var args = splitForBot(message.content, require('./GuildConfigs/guilds/' + message.guild.id + ".json").prefix);
+                if(args != 0)  
                 {
-                    //console.log(comm + " " + commands[i].name)
-                    if(commands[i].name[LangID].indexOf(comm) != -1)
+                    var comm = args[0];
+
+                    for(var i = 0; i < commands.length; i ++)
                     {
-                        commands[i].out(bot, message, getValuesAfter(1, args));
-                        break;
+                        // TODO - Я могу сделать поля в объектах комманд для того, что бы оптимизировать объём кода.
+                        if(commands[i].name[LangID].indexOf(comm) != -1)
+                        {
+                            commands[i].out(bot, message, getValuesAfter(1, args));
+                            break;
+                        }
                     }
                 }
-            }
-        }    
+            }  
+        }  
     }                  
 });
 

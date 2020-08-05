@@ -1,6 +1,7 @@
 var discord = require('discord.js');
 var conf = require('../conf.json');
 var funcs = require('./functions.js');
+var colors = require('../configurations/colors.json');
 
 function MakeEmbed(bot, msg, args)
 {
@@ -46,7 +47,7 @@ function getCoala(bot, msg, args)
 
     var Head = Heads[funcs.getRandomInt(0, Heads.length)]
 
-    var em = new discord.MessageEmbed().setTitle(Head).setFooter(Phrase).setImage(URL).setColor("#42aaff");
+    var em = new discord.MessageEmbed().setTitle(Head).setFooter(Phrase).setImage(URL).setColor(colors.fun);
 
     msg.channel.send(em);
 }
@@ -74,7 +75,7 @@ function meme(bot, msg, args)
         var em = new discord.MessageEmbed().setImage(Data.url)
         .setURL(Data.postLink)
         .setAuthor(Data.subreddit, "https://i.pinimg.com/736x/db/a1/39/dba13992aa33c33e549c4ef9fbb7effe.jpg")
-        .setTitle(Data.title).setColor("#42aaff").setFooter(Head);
+        .setTitle(Data.title).setColor(colors.fun).setFooter(Head);
 
         msg.channel.send(em);
     });

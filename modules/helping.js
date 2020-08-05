@@ -3,6 +3,7 @@ var conf = require('../conf.json');
 var funcs = require('./functions.js');
 var moduler = require('../moduler.js');
 
+var colors = require('../configurations/colors.json');
 
 var guildF = require('../GuildConfigs/functions');
 
@@ -40,7 +41,7 @@ function commands(bot, msg, args)
     }
 
     msg.author.send(em);
-    msg.channel.send(new discord.MessageEmbed().setColor("#00e600").setDescription("<@" + msg.author.id + ">," + lang.commands.Body));
+    msg.channel.send(new discord.MessageEmbed().setColor(colors.info).setDescription("<@" + msg.author.id + ">," + lang.commands.Body));
 }
 
 function getModule(bot, msg, args)
@@ -66,7 +67,7 @@ function getModule(bot, msg, args)
         if(moduler.modules[i].module.name[langID].indexOf(args[0]) != -1)
         {
             var mod = moduler.modules[i];
-            var embed = new discord.MessageEmbed().setColor("#00e600")
+            var embed = new discord.MessageEmbed().setColor(colors.info)
             .setTitle(lang.module.title + "\"" + mod.module.name[langID][0] + "\"")
             .setDescription(mod.module.about[langID]);
 
@@ -120,7 +121,7 @@ function Info(bot, msg, args)
       embed.setFooter("Бот полностью разработан пользователем " + bot.users.cache.get(conf.karton).username + "#" + bot.users.cache.get(conf.karton).discriminator + 
       " при поддержке \"Karton Bots Industries\". Спасибо за внимание!", bot.users.cache.get(conf.karton).avatarURL());
       embed.setThumbnail(bot.user.avatarURL());
-      embed.setColor("#ff526c");
+      embed.setColor(colors.info);
       msg.channel.send(embed);
     }
     //#endregion
@@ -157,16 +158,76 @@ function Info(bot, msg, args)
       embed.setFooter("A bot by " + bot.users.cache.get(conf.karton).username + "#" + bot.users.cache.get(conf.karton).discriminator + 
       " with the support of \"Karton Bots Industries\".", bot.users.cache.get(conf.karton).avatarURL());
       embed.setThumbnail(bot.user.avatarURL());
-      embed.setColor("#ff526c");
+      embed.setColor(colors.info);
       msg.channel.send(embed);
     }
+}
+
+function dev(bot, msg, args)
+{
+  var version = require('../version.json');
+  if(guildF.getLang(msg.guild.id) == "rus")
+  {
+    var embed = new discord.MessageEmbed().setTitle("Информация о разработке");
+    embed.setColor(colors.info);
+    embed.setDescription("Информация о разработке бота и о том, как вы можете мне помочь.");
+    embed.setThumbnail(bot.user.avatarURL());
+    embed.addField("Баг репорт:", "Вы можете отпавить сведения о найденом баге с помощью команды `" 
+    + guildF.getPrefix(msg.guild.id) + "репорт`. (Команда доступна только серверным администраторам во избежание спама)");
+    embed.addField("Информация о версии:", "Основная инфа.")
+    embed.addField("Версия:", version.version, true);
+    embed.addField("Перевод на английский:", version.localistion + "%", true);
+    embed.addField("Список изменений:", version.changelog, true);
+
+    if(version.dev)
+    {
+      embed.addField("Внимание!", "Это нестабильная версия бота.");
+    }
+
+    embed.addField("Помощь разработчику:", "Вы можете помочь мне с \n **-переводом** \n **-РП**(Поиск GIF, написание фраз)" + 
+    "\n **Связь с разработчиком:** \n [Email](https://gornostaev.dmitry04@gmail.com) \n [Telegram](https://telegram.me/mrKarton) \n [GitHub](https://github.com/mrKarton) ");
+
+    embed.setFooter("Бот полностью разработан пользователем " + bot.users.cache.get(conf.karton).username + "#" + bot.users.cache.get(conf.karton).discriminator + 
+      " при поддержке \"Karton Bots Industries\". Спасибо за внимание!", bot.users.cache.get(conf.karton).avatarURL());
+
+    msg.channel.send(embed);
+  }
+
+  else
+  {
+    var embed = new discord.MessageEmbed().setTitle("Developing information");
+    embed.setColor(colors.info);
+    embed.setDescription("Information on the development of the bot and how you can help me.");
+    embed.setThumbnail(bot.user.avatarURL());
+    embed.addField("Bug report:", "You can send information about a found bug using the command `" 
+    + guildF.getPrefix(msg.guild.id) + "report`. (This command is only available to server administrators to avoid spam)");
+    embed.addField("Version information:", "Basic info")
+    embed.addField("Version:", version.version, true);
+    embed.addField("English translation:", version.localistion + "%", true);
+    embed.addField("Changelog:", version.changelog, true);
+
+    if(version.dev)
+    {
+      embed.addField("!CAUTION!", "This is instabile version.");
+    }
+
+    embed.addField("Developer assistance:", "You can help me with \ n **-translation** \n ** - RP**(GIF search, keyword writing) \n **-[Donate](https://www.donationalerts.com/r/kartonks)**" + 
+    "\n **Contact the developer** \n [Email](https://gornostaev.dmitry04@gmail.com) \n [Telegram](https://telegram.me/mrKarton) \n [GitHub](https://github.com/mrKarton) ");
+
+    embed.setFooter("A bot by " + bot.users.cache.get(conf.karton).username + "#" + bot.users.cache.get(conf.karton).discriminator + 
+      " with the support of \"Karton Bots Industries\".", bot.users.cache.get(conf.karton).avatarURL());
+
+    msg.channel.send(embed);
+  }
 }
 
 var list = [
     {name: [["команды"], ["commands"]], out:commands, ab:["Показывает список команд", "Shows full commands list"]},
     {name: [["модуль"], ["module"]], out:getModule, ab:["Получить оперативную информацию о модуле. (В качестве аргумента укажите название модуля)", 
     "Get information about module"]},
-    {name: [["помощь", "хелп", "инфо"], ["help", "info"]], out: Info, ab:["Получить основную помощь по боту", "Get main bot help and statistic"]}
+    {name: [["помощь", "хелп", "инфо"], ["help", "info"]], out: Info, ab:["Получить основную помощь по боту", "Get main bot help and statistic"]},
+    {name:[["разраб", "разработка"], ["dev", "developing"]], out:dev, ab:["Узнать о версии бота и о том, как можно помочь разработчику", 
+    "Find out about the bot version and how you can help the developer"]}
 ]
 
 module.exports.commands = list;

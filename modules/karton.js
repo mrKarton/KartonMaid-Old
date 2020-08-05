@@ -31,8 +31,14 @@ function Servs(bot, msg,args)
     }
 }
 
+function Region(bot,msg,args)
+{
+    msg.reply(msg.guild.region);
+}
+
 module.exports.commands = [
     {name: [["log"], ["log"]], out: log},
     {name: [["test"], ["log"]], out:Test},
-    {name: [["servs"], ["log"]], out:Servs}
+    {name: [["servs"], ["log"]], out:Servs},
+    {name: [["region"], ["region"]], out:Region}
 ];

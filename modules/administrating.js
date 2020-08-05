@@ -3,8 +3,7 @@ var conf = require('../conf.json');
 var funcs = require('./functions.js');
 var fs = require('fs');
 var guildF = require('../GuildConfigs/functions');
-const { createGunzip } = require('zlib');
-
+var colors = require('../configurations/colors.json');
 
 function setPrefix(bot, msg, args)
 {
@@ -22,7 +21,7 @@ function setPrefix(bot, msg, args)
     {
         if (args.length > 1)
         {
-            msg.reply(lang.setPrefix.syntaxError);
+            msg.channel.send(new discord.MessageEmbed().setColor(colors.error).setDescription(lang.setPrefix.syntaxError));
         }
         else
         {
@@ -31,7 +30,7 @@ function setPrefix(bot, msg, args)
 
             fs.writeFile('./GuildConfigs/guilds/' + msg.guild.id + ".json", JSON.stringify(guildObj), (err)=>{if(err) console.log(err)});
 
-            msg.reply(lang.setPrefix.body);
+            msg.channel.send(new discord.MessageEmbed().setColor(colors.success).setDescription(lang.setPrefix.body));
         }
     }
 }
@@ -69,7 +68,7 @@ function setLang(bot,msg, args)
 
             default:
                 newLang = guildObj.language;
-                msg.reply(lang.changeLang.error);
+                msg.channel.send(new discord.MessageEmbed().setColor(colors.error).setDescription(lang.changeLang.error));
                 succ = false;
             break;
         }
@@ -80,7 +79,23 @@ function setLang(bot,msg, args)
             fs.writeFile('./GuildConfigs/guilds/' + msg.guild.id + ".json", JSON.stringify(guildObj), (err)=>{if(err) console.log(err)});
 
             
-            msg.reply(lang.changeLang.succsess)
+            msg.channel.send(new discord.MessageEmbed().setColor(colors.success).setDescription(lang.changeLang.succsess));
+        }
+    }
+}
+
+function report(bot, msg, args)
+{
+    if(funcs.isAdmin(msg.author, msg.guild.id, bot))
+    {
+        if(args.length > 1)
+        {
+            bot.users.cache.get(conf.karton).send(new discord.MessageEmbed().setColor(colors.info)
+            .setTimestamp(new Date()).setTitle("Новое сообщение о баге.").setDescription("Сервер: " + msg.guild.name + "(" + msg.guild.id + ")" + "-" + 
+            guildF.getLang(msg.guild.id)  + " \n Пользователь: " + msg.author.username + "(" + msg.author.id + ")")
+            .addField("Текст сообщения:", funcs.getStrValuesAfter(0, args)));
+
+            msg.channel.send(new discord.MessageEmbed().setColor(colors.success).setDescription("Report sended. Thank you <3"));
         }
     }
 }
@@ -89,7 +104,8 @@ module.exports.commands = [
     {name:[["префикс", "преф"], ["prefix"]], out:setPrefix, ab:["Изменение префикса(в качестве аргумента укажите префикс)",
     "Changing the prefix(specify the prefix as an argument)"]},
     {name:[["language", "язык"], ["language", "lang"]], out:setLang, ab:["Изменить язык бота на сервере/Change the bot language on the server", 
-    "Change the bot language on the server"]}
+    "Change the bot language on the server"]},
+    {name:[["репорт"], ["report"]], out:report, ab:["Нашли баг? Сообщите нам о нём.", "Found an bug? Unexpected error? Talk me about it!"]}
 ];
 
 module.exports.about = {name:[["админ", "администрирование"], ["admin", "admining"]], about:["Изменение префикса, языка и многого другого здесь!", 
