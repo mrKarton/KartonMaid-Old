@@ -1,0 +1,5 @@
+{
+    "total":["Total ", " accounts"],
+    "online":"Online: ",
+    "bots":"Bots online: "
+}

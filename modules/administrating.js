@@ -100,12 +100,104 @@ function report(bot, msg, args)
     }
 }
 
+async function enableStat(bot, msg, args)
+{
+    var en = require('../localisation/en/admin.json');
+    var rus = require('../localisation/rus/admin.json');
+
+    var lang = rus;
+
+    if(guildF.getLang(msg.guild.id) == "en")
+    {
+        lang = en;
+    }
+    
+    var guildC = require('../GuildConfigs/guilds/' + msg.guild.id + '.json');
+
+    if(!guildC.statEnabled)
+    {
+
+        msg.channel.send(new discord.MessageEmbed().setColor(colors.info).setDescription(lang.stat.processing));
+        var statChanels = Array();
+        var allStat = await msg.guild.channels.create('Статистика 0', {type:'voice', permissionOverwrites:[
+            {
+                id:msg.guild.roles.everyone.id,
+                deny:["CONNECT"]
+            }
+        ], position: 0});
+        statChanels.push(allStat.id);
+
+        var onlineStat = await msg.guild.channels.create('Статистика 1', {type:'voice', permissionOverwrites:[
+            {
+                id:msg.guild.roles.everyone.id,
+                deny:["CONNECT"]
+            }
+        ], position: 0});
+        statChanels.push(onlineStat.id);
+
+        var botStat = await msg.guild.channels.create('Статистика 2', {type:'voice', permissionOverwrites:[
+            {
+                id:msg.guild.roles.everyone.id,
+                deny:["CONNECT"]
+            }
+        ], position: 0});
+        statChanels.push(botStat.id);
+
+        guildF.setStatChannels(statChanels, msg.guild.id)
+        
+        msg.channel.send(new discord.MessageEmbed().setColor(colors.success).setDescription(lang.stat.eSuccess));
+    }
+    else
+    {
+        msg.channel.send(new discord.MessageEmbed().setColor(colors.error).setDescription(lang.stat.eErr));
+    }
+}
+
+function disableStat(bot, msg, args)
+{
+    var en = require('../localisation/en/admin.json');
+    var rus = require('../localisation/rus/admin.json');
+
+    var lang = rus;
+
+    if(guildF.getLang(msg.guild.id) == "en")
+    {
+        lang = en;
+    }
+
+    
+    var guildC = require('../GuildConfigs/guilds/' + msg.guild.id + '.json');
+
+    if(guildC.statEnabled)
+    {
+        bot.channels.cache.get(guildC.statChannels[0]).delete();
+        bot.channels.cache.get(guildC.statChannels[1]).delete();
+        bot.channels.cache.get(guildC.statChannels[2]).delete();
+
+        var gc = require('../GuildConfigs/guilds/' + msg.guild.id + ".json");
+        
+        gc.statChannels = [];
+        gc.statEnabled = false;
+        fs.writeFileSync('./GuildConfigs/guilds/' + msg.guild.id + ".json", JSON.stringify(gc), (err)=>{console.log(err)});
+
+        msg.channel.send(new discord.MessageEmbed().setColor(colors.error).setDescription(lang.stat.dSuccess));
+    }
+    else
+    {
+        msg.channel.send(new discord.MessageEmbed().setColor(colors.error).setDescription(lang.stat.dErr));
+    }
+}
+
 module.exports.commands = [
     {name:[["префикс", "преф"], ["prefix"]], out:setPrefix, ab:["Изменение префикса(в качестве аргумента укажите префикс)",
     "Changing the prefix(specify the prefix as an argument)"]},
     {name:[["language", "язык"], ["language", "lang"]], out:setLang, ab:["Изменить язык бота на сервере/Change the bot language on the server", 
     "Change the bot language on the server"]},
-    {name:[["репорт"], ["report"]], out:report, ab:["Нашли баг? Сообщите нам о нём.", "Found an bug? Unexpected error? Talk me about it!"]}
+    {name:[["репорт"], ["report"]], out:report, ab:["Нашли баг? Сообщите нам о нём.", "Found an bug? Unexpected error? Talk me about it!"]},
+    {name:[["статистика.включить", "стат.включить", "стат.вкл"],["statistic.enable", "stat.enable"]], out:enableStat, ab: ["Включитие статистику сервера, которая будет описана в списке каналов",
+    "turn on the servers statistic. I'll print it in channels list"]},
+    {name:[["статистика.выключить", "стат.выключить", "стат.выкл"], ["statistic.disable", "stat.disable"]], out:disableStat, ab: ["Отключение статистики сервера. Каналы будут удалены автоматически",
+    "Disable the server stats. I'll delete() this channels."]}
 ];
 
 module.exports.about = {name:[["админ", "администрирование"], ["admin", "admining"]], about:["Изменение префикса, языка и многого другого здесь!", 

@@ -1,4 +1,5 @@
 {
     "setPrefix":{"body":"Префикс успешно изменён", "syntaxError":"В префиксе не должно быть пробелов"},
-    "changeLang":{"error": "The language is not supported, try `en` or `rus`", "succsess":"Язык успешно изменён, некоторые модули будут переведены в течение 5 минут/The language was changed successfully, and some modules will be translated within 5 minutes"}
+    "changeLang":{"error": "The language is not supported, try `en` or `rus`", "succsess":"Язык успешно изменён, некоторые модули будут переведены в течение 5 минут/The language was changed successfully, and some modules will be translated within 5 minutes"},
+    "stat":{"processing":"Включение..", "eSuccess":"Статистика успешно включена", "dSuccess":"Статистика выключена", "eErr":"Ошибка: Статистика уже включена", "dErr":"Ошибка: статистика выключена"}
 }

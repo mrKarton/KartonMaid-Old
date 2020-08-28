@@ -7,6 +7,9 @@ class Guild
         this.prefix = prefix;
         this.language = language;
         this.closedModules = Array();
+
+        this.statEnabled = false;
+        this.statChannels = [];
     }
 }
 

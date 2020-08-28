@@ -14,6 +14,18 @@ bot.on('ready', ()=> {
     bot.startupDate = startupDat;
     console.log(bot.user.username + "#" + bot.user.discriminator + " started");// when bot is ready, message it
     bot.generateInvite(["ADMINISTRATOR"]).then((link)=>{console.log("My link: " + link)});//when invition link created, messgae it
+
+    var keys = bot.guilds.cache.keyArray();
+    for(var i = 0; i < keys.length; i++)
+    {
+        var gc = require('./GuildConfigs/guilds/' + keys[i] + ".json");
+        if(!gc.statEnabled)
+        {
+            gc.statEnabled = false;
+            gc.statChannels = [];
+            fs.writeFileSync('./GuildConfigs/guilds/' + keys[i] + ".json", JSON.stringify(gc), (err)=>{console.log(err)});
+        }
+    }
 });
 
 
@@ -60,7 +72,7 @@ bot.on('message', (message)=>{
             }
             
 
-            if(message.content.startsWith(require('./GuildConfigs/guilds/' + message.guild.id + ".json").prefix)); 
+            if(message.content.startsWith(require('./GuildConfigs/guilds/' + message.guild.id + ".json").prefix))
             {
                 var args = splitForBot(message.content, require('./GuildConfigs/guilds/' + message.guild.id + ".json").prefix);
                 if(args != 0)  
@@ -70,7 +82,7 @@ bot.on('message', (message)=>{
                     for(var i = 0; i < commands.length; i ++)
                     {
                         // TODO - Я могу сделать поля в объектах комманд для того, что бы оптимизировать объём кода.
-                        if(commands[i].name[LangID].indexOf(comm) != -1)
+                        if(commands[i].name[LangID].indexOf(comm.toLowerCase()) != -1)
                         {
                             commands[i].out(bot, message, getValuesAfter(1, args));
                             break;
@@ -116,3 +128,74 @@ function getValuesAfter(it, arr)
 
     return rtn;
 }
+/*
+    0-общее число
+    1-онлайн
+    2-ботов
+    3-админов - TODO Сделать конфигурацию ролей админов
+*/
+
+//TODO перевести названия каналов
+setInterval(()=>{
+
+    var en = require('./localisation/en/stat.json');
+    var rus = require('./localisation/rus/stat.json');
+
+    var lang = rus;
+    var langID = 0;
+
+    var keys = bot.guilds.cache.keyArray();
+    for(var i = 0; i < keys.length; i++)
+    {
+        if(guildF.getLang(keys[i]) == 'rus')
+        {
+            lang = rus;
+        }
+        else
+        {
+            lang = en;
+            langID = 1;
+        }
+
+        var gc = require('./GuildConfigs/guilds/' + keys[i] + ".json");
+        if(gc.statEnabled)
+        {
+            bot.guilds.cache.get(keys[i]).channels.cache
+            .get(gc.statChannels[0]).edit({name: lang.total[0] + bot.guilds.cache.get(keys[i]).memberCount + lang.total[1]})
+
+            var online = 0;
+            var uk = bot.guilds.cache.get(keys[i]).members.cache.keyArray();
+            for(var j = 0; j < uk.length; j++)
+            {
+                if(bot.guilds.cache.get(keys[i]).members.cache.get(uk[j]).presence.status == "online")
+                {
+                    if(!bot.guilds.cache.get(keys[i]).members.cache.get(uk[j]).user.bot)
+                    {
+                        online ++;
+                    }
+                }
+            }
+
+            bot.guilds.cache.get(keys[i]).channels.cache
+            .get(gc.statChannels[1]).edit({name: lang.online + online});
+
+            var bonline = 0;
+            var buk = bot.guilds.cache.get(keys[i]).members.cache.keyArray();
+            for(var j = 0; j < buk.length; j++)
+            {
+                if(bot.guilds.cache.get(keys[i]).members.cache.get(buk[j]).user.bot)
+                {
+                    
+                    if(bot.guilds.cache.get(keys[i]).members.cache.get(buk[j]).presence.status == "online")
+                    {
+                        
+                        bonline ++;
+                    }
+                }
+            }
+
+            bot.guilds.cache.get(keys[i]).channels.cache
+            .get(gc.statChannels[2]).edit({name: lang.bots + bonline});
+        }
+    }
+}, 5000);

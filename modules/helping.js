@@ -211,7 +211,7 @@ function dev(bot, msg, args)
       embed.addField("!CAUTION!", "This is instabile version.");
     }
 
-    embed.addField("Developer assistance:", "You can help me with \ n **-translation** \n ** - RP**(GIF search, keyword writing) \n **-[Donate](https://www.donationalerts.com/r/kartonks)**" + 
+    embed.addField("Developer assistance:", "You can help me with \n **-translation** \n ** - RP**(GIF search, keyword writing) \n **-[Donate](https://www.donationalerts.com/r/kartonks)**" + 
     "\n **Contact the developer** \n [Email](https://gornostaev.dmitry04@gmail.com) \n [Telegram](https://telegram.me/mrKarton) \n [GitHub](https://github.com/mrKarton) ");
 
     embed.setFooter("A bot by " + bot.users.cache.get(conf.karton).username + "#" + bot.users.cache.get(conf.karton).discriminator + 
