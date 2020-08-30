@@ -1,6 +1,6 @@
 {
     "dev": true,
-    "version": "0.5.2",
+    "version": "0.6.2",
     "localistion": 62,
-    "changelog":"Server's statistic added (see more !module admi\n`Yep, now you can just use it instead of manually count` \n\n\n Fixed some bugs "
+    "changelog":"Server's statistic added (see more !module admi\n`Yep, now you can just use it instead of manually count` \n\n Fixed some bugs"
 }

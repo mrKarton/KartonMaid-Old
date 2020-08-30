@@ -91,7 +91,15 @@ bot.on('message', (message)=>{
                 }
             }  
         }  
-    }                  
+    }   
+    if(LangID == 0)
+    {
+        if(message.content.toLowerCase().startsWith('я'))
+        {
+            var name = funcs.getStrValuesAfter(0, splitForBot(message.content.toLowerCase(), 'я'));
+            message.channel.send('Привет,**' + name + "**, я **" + bot.user.username + "**");
+        }
+    }               
 });
 
 function splitForBot(content, prefix)
