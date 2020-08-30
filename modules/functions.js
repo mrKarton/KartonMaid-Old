@@ -66,7 +66,15 @@ var transliterate = (
 		}
 	}
 )();
-
+function getHelpers(bot)
+{
+    var str = "";
+    for(var i in conf.helpers)
+    {
+        var acc = bot.users.cache.get(conf.helpers[i]);
+        str += acc.username + "#" + acc.discriminator + "\n";
+    }
+}
 
 function getHelloMsg(lang, bot)
 {
@@ -113,3 +121,4 @@ module.exports.isAdmin = isAdmin;
 module.exports.getValuesAfter = getValuesAfter;
 module.exports.getHelloMsg = getHelloMsg;
 module.exports.translit = transliterate;
+module.exports.getHelpers = getHelpers;

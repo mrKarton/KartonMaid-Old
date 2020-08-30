@@ -6,7 +6,10 @@
         "hug":"#FFA3EB",
         "kill":"#FF6060",
         "kick":"#FF6060",
-        "kiss":"#FFA3EB"
+        "kiss":"#FFA3EB",
+        "ban" :"#FF0000",
+        "fuck":"#FFA3EB",
+        "gift":"#ffff00"
     },
     "fun":"#545CFF"
 

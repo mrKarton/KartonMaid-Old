@@ -187,7 +187,12 @@ function dev(bot, msg, args)
     embed.addField("Помощь разработчику:", "Вы можете помочь мне с \n **-переводом** \n **-РП**(Поиск GIF, написание фраз)" + 
     "\n **Связь с разработчиком:** \n [Email](https://gornostaev.dmitry04@gmail.com) \n [Telegram](https://telegram.me/mrKarton) \n [GitHub](https://github.com/mrKarton) ");
 
-    embed.setFooter("Бот полностью разработан пользователем " + bot.users.cache.get(conf.karton).username + "#" + bot.users.cache.get(conf.karton).discriminator + 
+    if(!version.dev)
+    {
+      embed.addField("Отдельное спасибо за помощь в разработке:", funcs.getHelpers(bot));
+    }
+
+    embed.setFooter("Бот разработан пользователем " + bot.users.cache.get(conf.karton).username + "#" + bot.users.cache.get(conf.karton).discriminator + 
       " при поддержке \"Karton Bots Industries\". Спасибо за внимание!", bot.users.cache.get(conf.karton).avatarURL());
 
     msg.channel.send(embed);
@@ -213,6 +218,11 @@ function dev(bot, msg, args)
 
     embed.addField("Developer assistance:", "You can help me with \n **-translation** \n ** - RP**(GIF search, keyword writing) \n **-[Donate](https://www.donationalerts.com/r/kartonks)**" + 
     "\n **Contact the developer** \n [Email](https://gornostaev.dmitry04@gmail.com) \n [Telegram](https://telegram.me/mrKarton) \n [GitHub](https://github.com/mrKarton) ");
+
+    if(!version.dev)
+    {
+      embed.addField("Special thanks for:", funcs.getHelpers(bot));
+    }
 
     embed.setFooter("A bot by " + bot.users.cache.get(conf.karton).username + "#" + bot.users.cache.get(conf.karton).discriminator + 
       " with the support of \"Karton Bots Industries\".", bot.users.cache.get(conf.karton).avatarURL());

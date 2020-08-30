@@ -5,10 +5,10 @@
             "https://media1.tenor.com/images/52771f6dbc90809d30d2eae46d3db02b/tenor.gif?itemid=17014519"
         ],
         "phrase": [
-            "поцеловал", "засосал", "начал целовать в обнимку"
+            "kissed", "started kissing in an embrace"
         ],
         "title": [
-            "UwU", "О БОЖЕ МОЙ!!", "Ето так мило!", "Уууу ясно"
+            "UwU", "OH MY GOD!!", "This is so cute!", "Ooooo clear"
         ]
     },
     "kick":{
@@ -18,18 +18,17 @@
             "https://media.tenor.com/images/78066d5016667952d8a4171025e73330/tenor.gif"
         ],
         "phrase": [
-            "уебал",
-            "ударил",
-            "избил",
-            "пропесал с вертухи",
-            "дал подщечину"
+            "hit",
+            "beat",
+            "gave a punch up",
+            "slapped"
         ],
         "title": [
-            "На на%Yй",
-            "О нет!",
-            "Надеюсь теперь он понял",
-            "Так ему и надо",
-            "Пощеди его!"
+            "Fuck it",
+            "Oh no!",
+            "I hope now he understands",
+            "It serves him right",
+            "Spare him!"
         ]
     },
     "kill":{
@@ -39,14 +38,14 @@
             "https://media1.tenor.com/images/3264c743df173b2cece21083b0cfc6a3/tenor.gif"
         ],
         "phrase": [
-            "убил", "нанёс 28 ударов ножом", "уколол его шприцом с корона-вирусом", "кинул на голову наковальню", "заставил смотреть нубика в майнкрафте"
+            "killed", "struck 28 stabs", "pricked him with a corona virus syringe", "threw an anvil on my head", "made me watch noob in minecraft"
         ],
         "title": [
-            "ПАМ-ПАМ", 
-            "ВОУ",
-            "он скрылся в тени ночи",
-            "полиция приехала слишком позно",
-            "неожидано и жостко"
+            "PAM PAM", 
+            "WOW",
+            "He hid in the shadow of the night",
+            "the police arrived too late",
+            "Unexpected and hard"
         ]
     },
     "hug":{
@@ -55,13 +54,13 @@
             "https://media1.tenor.com/images/d7529f6003b20f3b21f1c992dffb8617/tenor.gif?itemid=4782499"
         ],
         "phrase": [
-            "обнял", "повёл к себе домой", "взял на руки"
+            "hugged", "took to his home", "picked up"
         ],
         "title": [
             "UwU", 
-            "О БОЖЕ МОЙ!!",
-            "Ето слишком мило что бы быть правдой",
-            "Вы очень красивая парочка"
+            "OH MY GOD!!",
+            "It's too cute to be true",
+            "You are a very beautiful couple"
         ]
     },
     "ban":{
@@ -70,11 +69,11 @@
             "https://media1.tenor.com/images/e1445e3f7ab9fbadcce5ca1cc66df9fd/tenor.gif?itemid=9811324"
         ],
         "phrase":[
-            "прописал бан"  
+            "ordered a ban"  
         ],
         "title":[
-            "БАН нах$уй!!!",
-            "Справедливый БАН"
+            "BAN fuck!!!",
+            "Fair ban"
         ]
     },
     "fuck":{
@@ -83,12 +82,12 @@
             "https://media1.tenor.com/images/3ae3d07295ce0d4d1e8ef2d5a643f775/tenor.gif?itemid=15366260"
         ],
         "phrase":[
-            "выебал в жопу",
-            "принудил к жоскому насилию"
+            "fucked in the ass",
+            "Coerced into brutal violence"
         ],
         "title":[
-            "Ето была жаркая ночка",
-            "Я приду и следующей ночъю"
+            "It was a hot night",
+            "I'll come next night too"
         ]
     },
     "gift":{
@@ -97,12 +96,12 @@
             "https://media1.tenor.com/images/a0b43198770ea7b9bc8fd18af11cbe6d/tenor.gif?itemid=3551806"
         ],
         "phrase":[
-            "дал подарок и пожелал всего самого лучшего",
-            "поздравил с чем-то"
+            "gave a gift and wished all the best",
+            "came up, hugged and gave the gift in hand"
         ],
         "title":[
-            "Как преятно",
-            "Ех хороший же ты человек"
+            "So glad",
+            "Oh, you're a good man"
         ]
     }
 
