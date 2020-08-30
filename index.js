@@ -92,12 +92,19 @@ bot.on('message', (message)=>{
             }  
         }  
     }   
+    
     if(LangID == 0)
     {
-        if(message.content.toLowerCase().startsWith('я'))
+        if(message.content.toLowerCase().startsWith('я '))
         {
-            var name = funcs.getStrValuesAfter(0, splitForBot(message.content.toLowerCase(), 'я'));
-            message.channel.send('Привет,**' + name + "**, я **" + bot.user.username + "**");
+            if(funcs.getRandomInt(0, 100) > 50)
+            {
+                if(splitForBot(message.content.toLowerCase(), 'я ') != 0 && splitForBot(message.content.toLowerCase(), 'я ').length < 4)
+                {
+                    var name = funcs.getStrValuesAfter(0, splitForBot(message.content.toLowerCase(), 'я '));
+                    message.channel.send('Привет,**' + name + "**, я **" + bot.user.username + "**");
+                }
+            }
         }
     }               
 });

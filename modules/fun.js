@@ -81,10 +81,38 @@ function meme(bot, msg, args)
     });
 }
 
+function emojis(bot, msg, args)
+{
+    var numbers = ["1","2","3","4","5","6","7","8","9","0"];
+    var numbers_str = ["one","two","three","four","five","six","seven","eight","nine","zero"];
+    let symbols = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
+    var targ = funcs.getStrValuesAfter(0, args).toLowerCase();
+    var targ = funcs.translit(targ);
+    var finalString = "";
+    for(let symb in targ)
+    {
+        var symbol = targ[symb];
+        if(numbers.indexOf(symbol) != -1)
+        {
+            finalString += ":" + numbers_str[numbers.indexOf(symbol)] + ":";
+        }
+        if(symbols.indexOf(symbol) != -1)
+        {
+            finalString += ":regional_indicator_" + symbol + ":"; 
+        }
+        if(symbol == " ")
+        {
+            finalString += ' ';
+        }
+    }
+    msg.channel.send(new discord.MessageEmbed().setDescription(finalString).setFooter(msg.author.username, msg.author.avatarURL()).setColor(colors.info));
+}
+
 var list = [
     {name: [["эмбед"], ["embed"]], out:MakeEmbed, ab:["(***Только для админов***) \n Создаёт Эмбед-сообщение. \n Синтаксис: `[#channel] [title] [other text]`"]},
     {name: [["коала"], ["koala"]], out:getCoala,ab:["Даёт вам лицезреть лучшее существо на планете!"]},
-    {name: [["мем"], ["meme"]], out:meme, ab:["Мемы мои мемы, получите дозу счастья с помощью этой команды!"]}
+    {name: [["мем"], ["meme"]], out:meme, ab:["Мемы мои мемы, получите дозу счастья с помощью этой команды!"]},
+    {name: [["emoji"], ["emoji"]], out:emojis, ab: ["Превратите свой \"*просто_текст*\" в не просто текст, а в эмоджи!","Nothing matter"]}
 ];
 
 module.exports.commands = list;
