@@ -190,14 +190,14 @@ function disableStat(bot, msg, args)
 
 module.exports.commands = [
     {name:[["префикс", "преф"], ["prefix"]], out:setPrefix, ab:["Изменение префикса(в качестве аргумента укажите префикс)",
-    "Changing the prefix(specify the prefix as an argument)"]},
+    "Changing the prefix(specify the prefix as an argument)"], requedPremissons:["ADMINISTRATOR"]},
     {name:[["language", "язык"], ["language", "lang"]], out:setLang, ab:["Изменить язык бота на сервере/Change the bot language on the server", 
-    "Change the bot language on the server"]},
-    {name:[["репорт"], ["report"]], out:report, ab:["Нашли баг? Сообщите нам о нём.", "Found an bug? Unexpected error? Talk me about it!"]},
+    "Change the bot language on the server"], requedPremissons:["ADMINISTRATOR"]},
+    {name:[["репорт"], ["report"]], out:report, ab:["Нашли баг? Сообщите нам о нём.", "Found an bug? Unexpected error? Talk me about it!"], requedPremissons:["ADMINSTRATOR"]},
     {name:[["статистика.включить", "стат.включить", "стат.вкл"],["statistic.enable", "stat.enable"]], out:enableStat, ab: ["Включитие статистику сервера, которая будет описана в списке каналов",
-    "turn on the servers statistic. I'll print it in channels list"]},
+    "turn on the servers statistic. I'll print it in channels list"], requedPremissons:["ADMINISTRATOR"]},
     {name:[["статистика.выключить", "стат.выключить", "стат.выкл"], ["statistic.disable", "stat.disable"]], out:disableStat, ab: ["Отключение статистики сервера. Каналы будут удалены автоматически",
-    "Disable the server stats. I'll delete() this channels."]}
+    "Disable the server stats. I'll delete() this channels."], requedPremissons:["ADMINISTRATOR"]}
 ];
 
 module.exports.about = {name:[["админ", "администрирование"], ["admin", "admining"]], about:["Изменение префикса, языка и многого другого здесь!", 

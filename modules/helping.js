@@ -34,7 +34,15 @@ function commands(bot, msg, args)
         var mod = moduler.modules[i];
         for(var j = 0; j < mod.commands.length; j++)
         {
-            allComands += "`" + guildF.getPrefix(msg.guild.id) + mod.commands[j].name[langID][0] + "` - " + mod.commands[j].ab[langID] + "\n\n";
+            allComands += "`" + guildF.getPrefix(msg.guild.id) + mod.commands[j].name[langID][0] + "` - " + mod.commands[j].ab[langID] + ", \n";
+            if(typeof mod.commands[i].requedPremissons != "undefined")
+            {
+              allComands += "***" + lang.commands.Premissions + ":*** \n";
+              mod.commands[i].requedPremissons.forEach((entr)=>{
+                allComands += "`" + entr + "` \n";
+              });
+            }
+            allComands+= "\n";
         }
 
         em.addField(mod.module.name[langID][0], allComands, inline);
@@ -74,7 +82,18 @@ function getModule(bot, msg, args)
             var cmdStr = "";
             for(var i =0; i < mod.commands.length; i++)
             {
-                cmdStr += "`" + guildF.getPrefix(msg.guild.id) + mod.commands[i].name[langID][0] + "` - " + mod.commands[i].ab[langID] + "\n\n"
+                cmdStr += "`" + guildF.getPrefix(msg.guild.id) + mod.commands[i].name[langID][0] + "` - " + mod.commands[i].ab[langID] + ". \n";
+                console.log(typeof mod.commands[i].requedPremissons != "undefined");
+                if(typeof mod.commands[i].requedPremissons != "undefined")
+                {
+                  cmdStr += "***" + lang.commands.Premissions + ":*** \n";
+                  mod.commands[i].requedPremissons.forEach((entr)=>{
+                    cmdStr += "`" + entr + "` \n";
+
+                  })
+                  
+                }
+                cmdStr+="\n\n";
             }
 
             embed.addField(lang.module.commands, cmdStr, false)

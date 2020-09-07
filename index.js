@@ -7,6 +7,7 @@ var guildClass = require('./GuildConfigs/guild-class');
 var guildF = require('./GuildConfigs/functions');
 var commands = require('./moduler.js').commands;
 var funcs = require('./modules/functions');
+var colors = require('./configurations/colors.json');
 var startupDat;
 
 bot.on('ready', ()=> {
@@ -84,7 +85,53 @@ bot.on('message', (message)=>{
                         // TODO - Я могу сделать поля в объектах комманд для того, что бы оптимизировать объём кода.
                         if(commands[i].name[LangID].indexOf(comm.toLowerCase()) != -1)
                         {
-                            commands[i].out(bot, message, getValuesAfter(1, args));
+                            var command = commands[i];
+                            var reqP = command.requedPremissons;
+                            if(typeof reqP != "undefined")
+                            {
+                                var premissionsEqualas = 0;
+                                reqP.forEach((entr)=>{
+                                    if(entr == "KARTON")
+                                    {
+                                        if(message.author.id == config.karton)
+                                        {
+                                            premissionsEqualas = reqP.length;
+                                        }
+                                    }
+                                    else if(entr == "HELPER")
+                                    {
+                                        if(config.helpers.indexOf(message.author.id) != -1)
+                                        {
+                                            premissionsEqualas++;
+                                        }
+                                    }
+                                    else if(message.guild.member(message.author).permissions.has(entr))
+                                    {
+                                        premissionsEqualas++;
+                                    }
+                                });
+                                if(premissionsEqualas >= reqP.length)
+                                {
+                                    commands[i].out(bot, message, getValuesAfter(1, args));
+                                }
+                                else
+                                {
+                                    if(LangID==0)
+                                    {
+                                        message.channel.send(new discord.MessageEmbed().setTitle("Ошибка")
+                                        .setColor(colors.error).setDescription(":x: У вас недостаточно прав для выполнения данной команды"));
+                                    }
+                                    else
+                                    {
+                                        message.channel.send(new discord.MessageEmbed().setTitle("Error")
+                                        .setColor(colors.error).setDescription(":x: You have no premissions to use this comand"));
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                commands[i].out(bot, message, getValuesAfter(1, args));   
+                            }
                             break;
                         }
                     }

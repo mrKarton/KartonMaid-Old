@@ -74,6 +74,7 @@ function getHelpers(bot)
         var acc = bot.users.cache.get(conf.helpers[i]);
         str += acc.username + "#" + acc.discriminator + "\n";
     }
+    return str;
 }
 
 function getHelloMsg(lang, bot)

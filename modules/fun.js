@@ -109,7 +109,8 @@ function emojis(bot, msg, args)
 }
 
 var list = [
-    {name: [["эмбед"], ["embed"]], out:MakeEmbed, ab:["(***Только для админов***) \n Создаёт Эмбед-сообщение. \n Синтаксис: `[#channel] [title] [other text]`"]},
+    {name: [["эмбед"], ["embed"]], out:MakeEmbed, ab:["(***Только для админов***) \n Создаёт Эмбед-сообщение. \n Синтаксис: `[#channel] [title] [other text]`"],
+    requedPremissons:["ADMINISTRATOR"]},
     {name: [["коала"], ["koala"]], out:getCoala,ab:["Даёт вам лицезреть лучшее существо на планете!"]},
     {name: [["мем"], ["meme"]], out:meme, ab:["Мемы мои мемы, получите дозу счастья с помощью этой команды!"]},
     {name: [["emoji"], ["emoji"]], out:emojis, ab: ["Превратите свой \"*просто_текст*\" в не просто текст, а в эмоджи!","Nothing matter"]}
