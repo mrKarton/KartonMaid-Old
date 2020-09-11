@@ -27,6 +27,14 @@ bot.on('ready', ()=> {
             fs.writeFileSync('./GuildConfigs/guilds/' + keys[i] + ".json", JSON.stringify(gc), (err)=>{console.log(err)});
         }
     }
+
+    bot.user.setPresence({
+        status: "online",  //You can show online, idle....
+        game: {
+            name: "Using !help",  //The message shown
+            type: "STREAMING" //PLAYING: WATCHING: LISTENING: STREAMING:
+        }
+    });
 });
 
 
