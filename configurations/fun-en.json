@@ -1,21 +1,21 @@
 {
-    "koala":{
-        "phrases":[
-            "UwU",
-            "ОЙ А КТО ТУТ МОЯ ХОРОШАЯ БУЛОЧКА??",
-            "Зовите Картона, у нас тут просто Няшка-обоняшка!",
-            "Вы только взгляните на эту сладкую булочку",
-            "AWW"
-        ],
-        "heads":[
-            "Вот вам ваша коала..",
-            "Это вы заказывали дозу умиления и нежности?",
-            "О да, это коала!"
-        ]
+    "koala": {
+    "phrases": [
+    "UwU",
+    "OH, WHO'S MY GOOD BUN??",
+    "Call me, We have just a Cute oboyashka here!",
+    "Just look at this sweet bun.",
+    "AWW"
+    ],
+    "heads": [
+    "Here's your Koala..",
+    "Did you order a dose of tenderness?",
+    "Oh Yes, it's a Koala!"
+    ]
     },
     "meme":{
-        "phrases":[
-            
-        ]
+    "phrases":[
+    "123"
+    ]
     }
-}
+    }

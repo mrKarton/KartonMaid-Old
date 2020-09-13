@@ -40,10 +40,10 @@ function getCoala(bot, msg, args)
 
     
 
-    var Phrase = Phrases[funcs.getRandomInt(0, lang.koala.phrases.length)];
+    var Phrase = lang.koala.phrases[funcs.getRandomInt(0, lang.koala.phrases.length)];
 
 
-    var Head = Heads[funcs.getRandomInt(0, lang.koala.heads.length)]
+    var Head = lang.koala.heads[funcs.getRandomInt(0, lang.koala.heads.length)]
 
     var em = new discord.MessageEmbed().setTitle(Head).setFooter(Phrase).setImage(URL).setColor(colors.fun);
 
@@ -68,7 +68,7 @@ function meme(bot, msg, args)
     {
         var Data = JSON.parse(body);
         
-        var Head = Heads[funcs.getRandomInt(0, lang.meme.phrases.length)];
+        var Head = lang.meme.phrases[funcs.getRandomInt(0, lang.meme.phrases.length)];
                 
         var em = new discord.MessageEmbed().setImage(Data.url)
         .setURL(Data.postLink)
