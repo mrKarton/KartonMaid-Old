@@ -1,6 +1,6 @@
 {
     "dev": true,
-    "version": "0.6.5",
-    "localistion": 80,
-    "changelog":"So now I (mrKarton) (developer) \n can change Bot's presence... \n  heh. \n ||The most important update..:thinking:||"
+    "version": "1.0",
+    "localistion": 100,
+    "changelog":"**1.0 Version TIME** \n--Translated module Fun, \n --Translated roleplay, \n --Added 1 gif to roleplay, \n --Edited 1 function ||(`functions.js/getID()`)||"
 }

@@ -103,7 +103,12 @@ function RP(bot, msg, args, type)
 
     if(args.length > 1)
     {
-        embed.addField("Со словами:", funcs.getStrValuesAfter(1, args));
+        var wWords = "Со словами"
+        if(lang == dataEn)
+        {
+            wWords = "Talking:"
+        }
+        embed.addField(wWords, funcs.getStrValuesAfter(1, args) );
     }
 
     msg.channel.send(embed);

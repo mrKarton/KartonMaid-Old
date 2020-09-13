@@ -2,6 +2,7 @@ var discord = require('discord.js');
 var conf = require('../conf.json');
 var funcs = require('./functions.js');
 var colors = require('../configurations/colors.json');
+var guildF = require('../GuildConfigs/functions');
 
 function MakeEmbed(bot, msg, args)
 {
@@ -27,25 +28,22 @@ function getCoala(bot, msg, args)
         "https://cdn.fishki.net/upload/post/201503/17/1467388/IR0XSUROobY.jpg"
     ];
 
+    var ru = require('../configurations/fun-ru.json');
+    var en = require('../configurations/fun-en.json');
+    var lang = ru;
+    if(guildF.getLang(msg.guild.id) != 'rus')
+    {
+        lang = en;
+    }
+
     var URL = URLs[funcs.getRandomInt(0, URLs.length)];
 
-    var Phrases = [
-        "UwU",
-        "ОЙ А КТО ТУТ МОЯ ХОРОШАЯ БУЛОЧКА??",
-        "Зовите Картона, у нас тут просто Няшка-обоняшка!",
-        "Вы только взгляните на эту сладкую булочку",
-        "AWW"
-    ];
+    
 
-    var Phrase = Phrases[funcs.getRandomInt(0, Phrases.length)];
+    var Phrase = Phrases[funcs.getRandomInt(0, lang.koala.phrases.length)];
 
-    var Heads = [
-        "Вот вам ваша коала..",
-        "Это вы заказывали дозу умиления и нежности?",
-        "О да, это коала!"
-    ];
 
-    var Head = Heads[funcs.getRandomInt(0, Heads.length)]
+    var Head = Heads[funcs.getRandomInt(0, lang.koala.heads.length)]
 
     var em = new discord.MessageEmbed().setTitle(Head).setFooter(Phrase).setImage(URL).setColor(colors.fun);
 
@@ -54,7 +52,13 @@ function getCoala(bot, msg, args)
 
 function meme(bot, msg, args)
 {
-    msg.channel.send("Подождите пару секунд..");
+    var ru = require('../configurations/fun-ru.json');
+    var en = require('../configurations/fun-en.json');
+    var lang = ru;
+    if(guildF.getLang(msg.guild.id) != 'rus')
+    {
+        lang = en;
+    }
 
     var request = require('request');
 
@@ -63,14 +67,8 @@ function meme(bot, msg, args)
     request(URL, function (err, res, body) 
     {
         var Data = JSON.parse(body);
-        var Heads = [
-            "Мемы мои мемы",
-            "Хотел пивас а получил МЕМАС",
-            "Мой смысл жизни - мемы, мемы",
-            "Шутка юмора",
-            "Еш"
-        ];
-        var Head = Heads[funcs.getRandomInt(0, Heads.length)];
+        
+        var Head = Heads[funcs.getRandomInt(0, lang.meme.phrases.length)];
                 
         var em = new discord.MessageEmbed().setImage(Data.url)
         .setURL(Data.postLink)
@@ -109,12 +107,15 @@ function emojis(bot, msg, args)
 }
 
 var list = [
-    {name: [["эмбед"], ["embed"]], out:MakeEmbed, ab:["(***Только для админов***) \n Создаёт Эмбед-сообщение. \n Синтаксис: `[#channel] [title] [other text]`"],
+    {name: [["эмбед"], ["embed"]], out:MakeEmbed, ab:["(***Только для админов***) \n Создаёт Эмбед-сообщение. \n Синтаксис: `[#channel] [#color-HEX] [title] [other text]`", 
+    "Create a *BeaUtIfulL* embed-messge. Command syntax: `[#channel] [#color-HEX] [title] [other text]`"],
     requedPremissons:["ADMINISTRATOR"]},
-    {name: [["коала"], ["koala"]], out:getCoala,ab:["Даёт вам лицезреть лучшее существо на планете!"]},
-    {name: [["мем"], ["meme"]], out:meme, ab:["Мемы мои мемы, получите дозу счастья с помощью этой команды!"]},
-    {name: [["emoji"], ["emoji"]], out:emojis, ab: ["Превратите свой \"*просто_текст*\" в не просто текст, а в эмоджи!","Nothing matter"]}
+    {name: [["коала"], ["koala"]], out:getCoala,ab:["Даёт вам лицезреть лучшее существо на планете!", 
+    "Awww, is this KOALA?? I wanna more pictures with this cute creations.. ||Seriously, send me more photos in DM||"]},
+    {name: [["мем"], ["meme"]], out:meme, ab:["Мемы мои мемы, получите дозу счастья с помощью этой команды!", "Meme review! Take your portion of memes"]},
+    {name: [["emoji"], ["emoji"]], out:emojis, ab: ["Превратите свой \"*просто_текст*\" в не просто текст, а в эмоджи!","turn your plain text to.. **Not plain** *EmoJieS*!"]}
 ];
 
 module.exports.commands = list;
-module.exports.about = {name:[["развелечния", "фан"], ["fun"]], about: ["О мемы, мемы.. и коалы.. И много всякой другой весёлой фигни в этом модуле!", "Not translated"]};
+module.exports.about = {name:[["развелечния", "фан"], ["fun"]], about: ["О мемы, мемы.. и коалы.. И много всякой другой весёлой фигни в этом модуле!", 
+"There are so many funny things in this module. Enjoy "]};

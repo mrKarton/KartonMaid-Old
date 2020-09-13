@@ -5,17 +5,29 @@ var conf = require('../conf.json');
 
 function getID(snake)
 {
-    var step1 = "";
-    for(var i = 2; i < snake.length; i++)
+    if(snake[0] == '<' && snake[snake.length - 1] == '>')
     {
-        step1 += snake[i];
+        var startFrom = 2;
+        if(snake[1] == "@" || snake[1] == "!")
+        {
+            startFrom = 3;
+        }
+        var step1 = "";
+        for(var i = startFrom; i < snake.length; i++)
+        {
+            step1 += snake[i];
+        }
+        var step2 = "";
+        for(var i = 0; i < step1.length - 1; i ++)
+        {
+            step2 += step1[i];
+        }
+        return step2;
     }
-    var step2 = "";
-    for(var i = 0; i < step1.length - 1; i ++)
+    else
     {
-        step2 += step1[i];
+        return snake;
     }
-    return step2;
 }
 
 function getStrValuesAfter(it, arrr)

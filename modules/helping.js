@@ -203,7 +203,7 @@ function dev(bot, msg, args)
       embed.addField("Внимание!", "Это нестабильная версия бота.");
     }
 
-    embed.addField("Помощь разработчику:", "Вы можете помочь мне с \n **-переводом** \n **-РП**(Поиск GIF, написание фраз)" + 
+    embed.addField("Помощь разработчику:", "Вы можете помочь мне с \n **-РП**(Поиск GIF, написание фраз)" + 
     "\n **Связь с разработчиком:** \n [Email](https://gornostaev.dmitry04@gmail.com) \n [Telegram](https://telegram.me/mrKarton) \n [GitHub](https://github.com/mrKarton) ");
 
     if(!version.dev)
@@ -235,7 +235,7 @@ function dev(bot, msg, args)
       embed.addField("!CAUTION!", "This is instabile version.");
     }
 
-    embed.addField("Developer assistance:", "You can help me with \n **-translation** \n ** - RP**(GIF search, keyword writing) \n **-[Donate](https://www.donationalerts.com/r/kartonks)**" + 
+    embed.addField("Developer assistance:", "You can help me with \n ** - RP**(GIF search, keyword writing) \n **-[Donate](https://www.donationalerts.com/r/kartonks)**" + 
     "\n **Contact the developer** \n [Email](https://gornostaev.dmitry04@gmail.com) \n [Telegram](https://telegram.me/mrKarton) \n [GitHub](https://github.com/mrKarton) ");
 
     if(!version.dev)
