@@ -16,17 +16,39 @@ bot.on('ready', ()=> {
     console.log(bot.user.username + "#" + bot.user.discriminator + " started");// when bot is ready, message it
     bot.generateInvite(["ADMINISTRATOR"]).then((link)=>{console.log("My link: " + link)});//when invition link created, messgae it
 
+    // console.log(fs.existsSync('./GuildConfigs/guilds/' + keys[i] + ".json"));
     var keys = bot.guilds.cache.keyArray();
-    for(var i = 0; i < keys.length; i++)
-    {
-        var gc = require('./GuildConfigs/guilds/' + keys[i] + ".json");
-        if(!gc.statEnabled)
+    console.log(keys);
+    keys.forEach((key)=>{
+        console.log(key)
+        fs.exists('./GuildConfigs/guilds/' + key + ".json", (ex)=>{
+            if(!ex)
+            {
+                fs.writeFileSync('./GuildConfigs/guilds/' + key + ".json", JSON.stringify(new guildClass(key, '!', 'en')));
+
+                if(bot.guilds.cache.get(key).systemChannel != null)
+                {
+                    bot.guilds.cache.get(key).systemChannel.send(new discord.MessageEmbed().setTitle('I am sorry.')
+                    .setDescription('I lost your server\'s configuration file. So, I\'ve make another.\n Your prefix now is `!` and language is `en`')
+                    .setColor(colors.info));
+                }
+            }
+        });
+    });
+   
+        if(fs.existsSync('./GuildConfigs/guilds/' + keys[i] + ".json"))
         {
-            gc.statEnabled = false;
-            gc.statChannels = [];
-            fs.writeFileSync('./GuildConfigs/guilds/' + keys[i] + ".json", JSON.stringify(gc), (err)=>{console.log(err)});
+            var gc = require('./GuildConfigs/guilds/' + keys[i] + ".json");
+            if(!gc.statEnabled)
+            {
+                gc.statEnabled = false;
+                gc.statChannels = [];
+                fs.writeFileSync('./GuildConfigs/guilds/' + keys[i] + ".json", JSON.stringify(gc), (err)=>{console.log(err)});
+            }
         }
-    }
+ 
+    
+
 
     bot.user.setPresence({
         status: "online",  //You can show online, idle....
@@ -206,66 +228,66 @@ function getValuesAfter(it, arr)
 */
 
 //TODO перевести названия каналов
-setInterval(()=>{
+// setInterval(()=>{
 
-    var en = require('./localisation/en/stat.json');
-    var rus = require('./localisation/rus/stat.json');
+//     var en = require('./localisation/en/stat.json');
+//     var rus = require('./localisation/rus/stat.json');
 
-    var lang = rus;
-    var langID = 0;
+//     var lang = rus;
+//     var langID = 0;
 
-    var keys = bot.guilds.cache.keyArray();
-    for(var i = 0; i < keys.length; i++)
-    {
-        if(guildF.getLang(keys[i]) == 'rus')
-        {
-            lang = rus;
-        }
-        else
-        {
-            lang = en;
-            langID = 1;
-        }
+//     var keys = bot.guilds.cache.keyArray();
+//     for(var i = 0; i < keys.length; i++)
+//     {
+//         if(guildF.getLang(keys[i]) == 'rus')
+//         {
+//             lang = rus;
+//         }
+//         else
+//         {
+//             lang = en;
+//             langID = 1;
+//         }
 
-        var gc = require('./GuildConfigs/guilds/' + keys[i] + ".json");
-        if(gc.statEnabled)
-        {
-            bot.guilds.cache.get(keys[i]).channels.cache
-            .get(gc.statChannels[0]).edit({name: lang.total[0] + bot.guilds.cache.get(keys[i]).memberCount + lang.total[1]})
+//         var gc = require('./GuildConfigs/guilds/' + keys[i] + ".json");
+//         if(gc.statEnabled)
+//         {
+//             bot.guilds.cache.get(keys[i]).channels.cache
+//             .get(gc.statChannels[0]).edit({name: lang.total[0] + bot.guilds.cache.get(keys[i]).memberCount + lang.total[1]})
 
-            var online = 0;
-            var uk = bot.guilds.cache.get(keys[i]).members.cache.keyArray();
-            for(var j = 0; j < uk.length; j++)
-            {
-                if(bot.guilds.cache.get(keys[i]).members.cache.get(uk[j]).presence.status == "online")
-                {
-                    if(!bot.guilds.cache.get(keys[i]).members.cache.get(uk[j]).user.bot)
-                    {
-                        online ++;
-                    }
-                }
-            }
+//             var online = 0;
+//             var uk = bot.guilds.cache.get(keys[i]).members.cache.keyArray();
+//             for(var j = 0; j < uk.length; j++)
+//             {
+//                 if(bot.guilds.cache.get(keys[i]).members.cache.get(uk[j]).presence.status == "online")
+//                 {
+//                     if(!bot.guilds.cache.get(keys[i]).members.cache.get(uk[j]).user.bot)
+//                     {
+//                         online ++;
+//                     }
+//                 }
+//             }
 
-            bot.guilds.cache.get(keys[i]).channels.cache
-            .get(gc.statChannels[1]).edit({name: lang.online + online});
+//             bot.guilds.cache.get(keys[i]).channels.cache
+//             .get(gc.statChannels[1]).edit({name: lang.online + online});
 
-            var bonline = 0;
-            var buk = bot.guilds.cache.get(keys[i]).members.cache.keyArray();
-            for(var j = 0; j < buk.length; j++)
-            {
-                if(bot.guilds.cache.get(keys[i]).members.cache.get(buk[j]).user.bot)
-                {
+//             var bonline = 0;
+//             var buk = bot.guilds.cache.get(keys[i]).members.cache.keyArray();
+//             for(var j = 0; j < buk.length; j++)
+//             {
+//                 if(bot.guilds.cache.get(keys[i]).members.cache.get(buk[j]).user.bot)
+//                 {
                     
-                    if(bot.guilds.cache.get(keys[i]).members.cache.get(buk[j]).presence.status == "online")
-                    {
+//                     if(bot.guilds.cache.get(keys[i]).members.cache.get(buk[j]).presence.status == "online")
+//                     {
                         
-                        bonline ++;
-                    }
-                }
-            }
+//                         bonline ++;
+//                     }
+//                 }
+//             }
 
-            bot.guilds.cache.get(keys[i]).channels.cache
-            .get(gc.statChannels[2]).edit({name: lang.bots + bonline});
-        }
-    }
-}, 5000);
+//             bot.guilds.cache.get(keys[i]).channels.cache
+//             .get(gc.statChannels[2]).edit({name: lang.bots + bonline});
+//         }
+//     }
+// }, 5000);
