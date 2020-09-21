@@ -8,6 +8,9 @@ var guildF = require('./GuildConfigs/functions');
 var commands = require('./moduler.js').commands;
 var funcs = require('./modules/functions');
 var colors = require('./configurations/colors.json');
+
+var DBL = require('dblapi.js')
+var dbl = new DBL(config.dblToken, bot);
 var startupDat;
 
 bot.on('ready', ()=> {
@@ -18,9 +21,7 @@ bot.on('ready', ()=> {
 
     // console.log(fs.existsSync('./GuildConfigs/guilds/' + keys[i] + ".json"));
     var keys = bot.guilds.cache.keyArray();
-    console.log(keys);
     keys.forEach((key)=>{
-        console.log(key)
         fs.exists('./GuildConfigs/guilds/' + key + ".json", (ex)=>{
             if(!ex)
             {
@@ -34,9 +35,8 @@ bot.on('ready', ()=> {
                 }
             }
         });
-    });
-   
-        if(fs.existsSync('./GuildConfigs/guilds/' + keys[i] + ".json"))
+
+        if(fs.existsSync('./GuildConfigs/guilds/' + key + ".json"))
         {
             var gc = require('./GuildConfigs/guilds/' + keys[i] + ".json");
             if(!gc.statEnabled)
@@ -46,6 +46,9 @@ bot.on('ready', ()=> {
                 fs.writeFileSync('./GuildConfigs/guilds/' + keys[i] + ".json", JSON.stringify(gc), (err)=>{console.log(err)});
             }
         }
+    });
+   
+        
  
     
 
