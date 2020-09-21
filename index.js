@@ -231,66 +231,66 @@ function getValuesAfter(it, arr)
 */
 
 //TODO перевести названия каналов
-// setInterval(()=>{
+setInterval(()=>{
 
-//     var en = require('./localisation/en/stat.json');
-//     var rus = require('./localisation/rus/stat.json');
+    var en = require('./localisation/en/stat.json');
+    var rus = require('./localisation/rus/stat.json');
 
-//     var lang = rus;
-//     var langID = 0;
+    var lang = rus;
+    var langID = 0;
 
-//     var keys = bot.guilds.cache.keyArray();
-//     for(var i = 0; i < keys.length; i++)
-//     {
-//         if(guildF.getLang(keys[i]) == 'rus')
-//         {
-//             lang = rus;
-//         }
-//         else
-//         {
-//             lang = en;
-//             langID = 1;
-//         }
+    var keys = bot.guilds.cache.keyArray();
+    for(var i = 0; i < keys.length; i++)
+    {
+        if(guildF.getLang(keys[i]) == 'rus')
+        {
+            lang = rus;
+        }
+        else
+        {
+            lang = en;
+            langID = 1;
+        }
 
-//         var gc = require('./GuildConfigs/guilds/' + keys[i] + ".json");
-//         if(gc.statEnabled)
-//         {
-//             bot.guilds.cache.get(keys[i]).channels.cache
-//             .get(gc.statChannels[0]).edit({name: lang.total[0] + bot.guilds.cache.get(keys[i]).memberCount + lang.total[1]})
+        var gc = require('./GuildConfigs/guilds/' + keys[i] + ".json");
+        if(gc.statEnabled)
+        {
+            bot.guilds.cache.get(keys[i]).channels.cache
+            .get(gc.statChannels[0]).edit({name: lang.total[0] + bot.guilds.cache.get(keys[i]).memberCount + lang.total[1]})
 
-//             var online = 0;
-//             var uk = bot.guilds.cache.get(keys[i]).members.cache.keyArray();
-//             for(var j = 0; j < uk.length; j++)
-//             {
-//                 if(bot.guilds.cache.get(keys[i]).members.cache.get(uk[j]).presence.status == "online")
-//                 {
-//                     if(!bot.guilds.cache.get(keys[i]).members.cache.get(uk[j]).user.bot)
-//                     {
-//                         online ++;
-//                     }
-//                 }
-//             }
+            var online = 0;
+            var uk = bot.guilds.cache.get(keys[i]).members.cache.keyArray();
+            for(var j = 0; j < uk.length; j++)
+            {
+                if(bot.guilds.cache.get(keys[i]).members.cache.get(uk[j]).presence.status == "online")
+                {
+                    if(!bot.guilds.cache.get(keys[i]).members.cache.get(uk[j]).user.bot)
+                    {
+                        online ++;
+                    }
+                }
+            }
 
-//             bot.guilds.cache.get(keys[i]).channels.cache
-//             .get(gc.statChannels[1]).edit({name: lang.online + online});
+            bot.guilds.cache.get(keys[i]).channels.cache
+            .get(gc.statChannels[1]).edit({name: lang.online + online});
 
-//             var bonline = 0;
-//             var buk = bot.guilds.cache.get(keys[i]).members.cache.keyArray();
-//             for(var j = 0; j < buk.length; j++)
-//             {
-//                 if(bot.guilds.cache.get(keys[i]).members.cache.get(buk[j]).user.bot)
-//                 {
+            var bonline = 0;
+            var buk = bot.guilds.cache.get(keys[i]).members.cache.keyArray();
+            for(var j = 0; j < buk.length; j++)
+            {
+                if(bot.guilds.cache.get(keys[i]).members.cache.get(buk[j]).user.bot)
+                {
                     
-//                     if(bot.guilds.cache.get(keys[i]).members.cache.get(buk[j]).presence.status == "online")
-//                     {
+                    if(bot.guilds.cache.get(keys[i]).members.cache.get(buk[j]).presence.status == "online")
+                    {
                         
-//                         bonline ++;
-//                     }
-//                 }
-//             }
+                        bonline ++;
+                    }
+                }
+            }
 
-//             bot.guilds.cache.get(keys[i]).channels.cache
-//             .get(gc.statChannels[2]).edit({name: lang.bots + bonline});
-//         }
-//     }
-// }, 5000);
+            bot.guilds.cache.get(keys[i]).channels.cache
+            .get(gc.statChannels[2]).edit({name: lang.bots + bonline});
+        }
+    }
+}, 5000);
