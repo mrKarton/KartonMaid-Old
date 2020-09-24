@@ -188,6 +188,27 @@ function disableStat(bot, msg, args)
     }
 }
 
+function reactRole(bot, msg, args)
+{
+    bot.channels.cache.get(funcs.getID(args[0])).send(funcs.getStrValuesAfter(3, args)).then(message => {
+
+        message.react(args[2]);
+        console.log(funcs.getID(args[1]));
+
+        var allMessages = require('../configurations/role-messages.json');
+        allMessages.push({
+            id      : message.id, 
+            channel : message.channel.id,
+            guild   : message.guild.id,
+            role    : funcs.getID(args[1]),
+            reaction: args[2]
+        });
+
+        fs.writeFileSync('./configurations/role-messages.json', JSON.stringify(allMessages));
+    });
+}
+
+
 module.exports.commands = [
     {name:[["префикс", "преф"], ["prefix"]], out:setPrefix, ab:["Изменение префикса(в качестве аргумента укажите префикс)",
     "Changing the prefix(specify the prefix as an argument)"], requedPremissons:["ADMINISTRATOR"]},
@@ -197,7 +218,11 @@ module.exports.commands = [
     {name:[["статистика.включить", "стат.включить", "стат.вкл"],["statistic.enable", "stat.enable"]], out:enableStat, ab: ["Включитие статистику сервера, которая будет описана в списке каналов",
     "turn on the servers statistic. I'll print it in channels list"], requedPremissons:["ADMINISTRATOR"]},
     {name:[["статистика.выключить", "стат.выключить", "стат.выкл"], ["statistic.disable", "stat.disable"]], out:disableStat, ab: ["Отключение статистики сервера. Каналы будут удалены автоматически",
-    "Disable the server stats. I'll delete() this channels."], requedPremissons:["ADMINISTRATOR"]}
+    "Disable the server stats. I'll delete() this channels."], requedPremissons:["ADMINISTRATOR"]},
+    {name:[["роль-реакция", "реакция_роль", "есть_идея_для_названия_получше??"], ["react", "reaction-role"]], out:reactRole, 
+    ab:["Пусть ваши пользователи получат то, что заслужили! Кхм.. То есть роль за то, что они поставили реакцию.. \n Использовать так: `[#канал] [@роль] [смайлик] [текст сообщения]`", 
+    "Your memebers will get what they fu&#ing deserve! Oh.. I mean role by reaction.. \n So, use it like `[#channel] [@role] [emoji] [message text]`"], 
+    requedPremissons:["ADMINISTRATOR"]}
 ];
 
 module.exports.about = {name:[["админ", "администрирование"], ["admin", "admining"]], about:["Изменение префикса, языка и многого другого здесь!", 

@@ -294,3 +294,25 @@ setInterval(()=>{
         }
     }
 }, 5000);
+
+setInterval(()=>{
+    var messages = require('./configurations/role-messages.json');
+    messages.forEach((data)=>{
+        bot.channels.cache.get(data.channel)
+        .messages.fetch(data.id).then(message=>{
+            var users = message.reactions.cache.get(data.reaction).users.cache.keyArray();
+
+            if(users.length > 0)
+            {
+                users.forEach((uId)=>{
+                    var user = bot.guilds.cache.get(data.guild).members.cache.get(uId);
+
+                    if(!user.roles.cache.has(data.role)) 
+                    {
+                        user.roles.add(data.role);
+                    }
+                })
+            }
+        });
+    });
+}, 5000);

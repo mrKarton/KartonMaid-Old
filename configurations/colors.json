@@ -3,7 +3,7 @@
     "error":"#FF0000",
     "success":"#16FF1E",
     "roleplay":{
-        "hug":"#FFA3EB",
+        "hug" :"#FFA3EB",
         "kill":"#FF6060",
         "kick":"#FF6060",
         "kiss":"#FFA3EB",

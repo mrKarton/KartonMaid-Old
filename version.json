@@ -1,6 +1,6 @@
 {
     "dev": true,
-    "version": "1.0",
+    "version": "1.0.1",
     "localistion": 100,
-    "changelog":"*Bug fix.* \n About shutdown. This bot was published on DBL. It caused one gloabal error, that not give Maid to start. It is fixed. \n **SORRY**"
+    "changelog":"Role by reaction! See more `!module admin`"
 }
