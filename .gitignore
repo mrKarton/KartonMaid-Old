@@ -1,3 +1,4 @@
 node_modules/**/*
 GuildConfigs/guilds
 *.exe
+configurations/role-messages.json

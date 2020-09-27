@@ -190,6 +190,16 @@ function disableStat(bot, msg, args)
 
 function reactRole(bot, msg, args)
 {
+    var en = require('../localisation/en/admin.json');
+    var rus = require('../localisation/rus/admin.json');
+
+    var lang = rus;
+
+    if(guildF.getLang(msg.guild.id) == "en")
+    {
+        lang = en;
+    }
+
     bot.channels.cache.get(funcs.getID(args[0])).send(funcs.getStrValuesAfter(3, args)).then(message => {
 
         message.react(args[2]);
@@ -203,8 +213,11 @@ function reactRole(bot, msg, args)
             role    : funcs.getID(args[1]),
             reaction: args[2]
         });
-
-        fs.writeFileSync('./configurations/role-messages.json', JSON.stringify(allMessages));
+        setTimeout(()=>{
+            fs.writeFileSync('./configurations/role-messages.json', JSON.stringify(allMessages));
+        }, 1000);
+        msg.channel.send(new discord.MessageEmbed().setDescription(':white_check_mark: ' + lang.rolemessage + "<#" + message.channel.id + ">")
+        .setColor(colors.success));
     });
 }
 
@@ -219,7 +232,7 @@ module.exports.commands = [
     "turn on the servers statistic. I'll print it in channels list"], requedPremissons:["ADMINISTRATOR"]},
     {name:[["статистика.выключить", "стат.выключить", "стат.выкл"], ["statistic.disable", "stat.disable"]], out:disableStat, ab: ["Отключение статистики сервера. Каналы будут удалены автоматически",
     "Disable the server stats. I'll delete() this channels."], requedPremissons:["ADMINISTRATOR"]},
-    {name:[["роль-реакция", "реакция_роль", "есть_идея_для_названия_получше??"], ["react", "reaction-role"]], out:reactRole, 
+    {name:[["рзр", "реакция_роль", "есть_идея_для_названия_получше??"], ["rbr", "reaction-role"]], out:reactRole, 
     ab:["Пусть ваши пользователи получат то, что заслужили! Кхм.. То есть роль за то, что они поставили реакцию.. \n Использовать так: `[#канал] [@роль] [смайлик] [текст сообщения]`", 
     "Your memebers will get what they fu&#ing deserve! Oh.. I mean role by reaction.. \n So, use it like `[#channel] [@role] [emoji] [message text]`"], 
     requedPremissons:["ADMINISTRATOR"]}

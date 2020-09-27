@@ -230,7 +230,6 @@ function getValuesAfter(it, arr)
     3-админов - TODO Сделать конфигурацию ролей админов
 */
 
-//TODO перевести названия каналов
 setInterval(()=>{
 
     var en = require('./localisation/en/stat.json');
@@ -300,18 +299,24 @@ setInterval(()=>{
     messages.forEach((data)=>{
         bot.channels.cache.get(data.channel)
         .messages.fetch(data.id).then(message=>{
-            var users = message.reactions.cache.get(data.reaction).users.cache.keyArray();
-
-            if(users.length > 0)
+            if(!message.deleted)
             {
-                users.forEach((uId)=>{
-                    var user = bot.guilds.cache.get(data.guild).members.cache.get(uId);
+                var users = message.reactions.cache.get(data.reaction).users.cache.keyArray();
 
-                    if(!user.roles.cache.has(data.role)) 
-                    {
-                        user.roles.add(data.role);
-                    }
-                })
+                if(users.length > 0)
+                {
+                    users.forEach((uId)=>{
+                        if(user != null)
+                        {
+                            var user = bot.guilds.cache.get(data.guild).members.cache.get(uId);
+
+                            if(!user.roles.cache.has(data.role)) 
+                            {
+                                user.roles.add(data.role);
+                            }
+                        }
+                    })
+                }
             }
         });
     });
