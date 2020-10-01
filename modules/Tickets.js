@@ -49,8 +49,19 @@ async function reportMember(bot, msg, args)
     
     if(guild.reportInit)
     {
-        var admMessage = await bot.channels.cache.get(guild.admReport).send(new discord.MessageEmbed().setColor(colors.info)
-        .setTitle(lang.reports.newTicket).setAuthor(msg.author.username, msg.author.avatarURL()).setDescription(funcs.getStrValuesAfter(0, args)));
+
+        var attachments = new Array();
+        // msg.attachments.forEaсh((attachment)=>{attachments.push(attachment.attachment)});
+
+        msg.attachments.forEach((att)=>{attachments.push(att.attachment)})
+
+        var admEmbed = new discord.MessageEmbed().setColor(colors.info)
+        .setTitle(lang.reports.newTicket).setAuthor(msg.author.username, msg.author.avatarURL()).setDescription(funcs.getStrValuesAfter(0, args))
+        // .setImage(attachments[0]);
+
+        attachments.forEach((att)=>{admEmbed.setImage(att)})
+        admEmbed.setURL(msg.url);
+        var admMessage = await bot.channels.cache.get(guild.admReport).send(admEmbed);
 
         var usrMessage = await bot.channels.cache.get(guild.usrReport).send(new discord.MessageEmbed().setColor(colors.info)
         .setTitle(lang.reports.newTicket).setAuthor(msg.author.username, msg.author.avatarURL()).setDescription(funcs.getStrValuesAfter(0, args)));

@@ -17,7 +17,9 @@ function getServers(bot, msg, args)
 
 function log(bot, msg, args)
 {
-    console.log(msg.content);
+    var str = "";
+    msg.attachments.forEach((att)=>{str += ", \n" + att.attachment})
+    console.log(msg.content, str);
 }
 
 module.exports.commands = [

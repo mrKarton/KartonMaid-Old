@@ -2,5 +2,9 @@
     "setPrefix":{"body":"Prefix changed succsessfull", "syntaxError":"The prefix must not contain spaces"},
     "changeLang":{"error": "The language is not supported, try `en` or `rus`", "succsess":"The language was changed successfully, and some modules will be translated within 5 minutes"},
     "stat":{"processing":"processing", "eSuccess":"Statistic enabled successful", "dSuccess":"Disabled succesfull", "eErr":"Error: statistic already enabled", "dErr":"Error: statistic is not enabled"},
-    "rolemessage":"message sended to "
+    "rolemessage":"message sended to ",
+
+    "reports":{"admInit":"The channel was set as an administrative channel for the reports module. This will take complaints from members of the server. Put the appropriate response under the complaint to approve or reject it", 
+        "usrInit":"The channel was set as public for the reports module. Complaints and reactions will be sent here according to the decision made by the administrator. Discussion of complaints in this channel is prohi",
+        "newTicket":"New ticket"}
 }
