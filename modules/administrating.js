@@ -222,20 +222,29 @@ function reactRole(bot, msg, args)
 }
 
 
+
 module.exports.commands = [
+    
     {name:[["префикс", "преф"], ["prefix"]], out:setPrefix, ab:["Изменение префикса(в качестве аргумента укажите префикс)",
     "Changing the prefix(specify the prefix as an argument)"], requedPremissons:["ADMINISTRATOR"]},
+    
     {name:[["language", "язык"], ["language", "lang"]], out:setLang, ab:["Изменить язык бота на сервере/Change the bot language on the server", 
     "Change the bot language on the server"], requedPremissons:["ADMINISTRATOR"]},
+    
     {name:[["репорт"], ["report"]], out:report, ab:["Нашли баг? Сообщите нам о нём.", "Found an bug? Unexpected error? Talk me about it!"], requedPremissons:["ADMINSTRATOR"]},
+    
     {name:[["статистика.включить", "стат.включить", "стат.вкл"],["statistic.enable", "stat.enable"]], out:enableStat, ab: ["Включитие статистику сервера, которая будет описана в списке каналов",
     "turn on the servers statistic. I'll print it in channels list"], requedPremissons:["ADMINISTRATOR"]},
+    
     {name:[["статистика.выключить", "стат.выключить", "стат.выкл"], ["statistic.disable", "stat.disable"]], out:disableStat, ab: ["Отключение статистики сервера. Каналы будут удалены автоматически",
     "Disable the server stats. I'll delete() this channels."], requedPremissons:["ADMINISTRATOR"]},
+    
     {name:[["рзр", "реакция_роль", "есть_идея_для_названия_получше??"], ["rbr", "reaction-role"]], out:reactRole, 
     ab:["Пусть ваши пользователи получат то, что заслужили! Кхм.. То есть роль за то, что они поставили реакцию.. \n Использовать так: `[#канал] [@роль] [смайлик] [текст сообщения]`", 
     "Your memebers will get what they fu&#ing deserve! Oh.. I mean role by reaction.. \n So, use it like `[#channel] [@role] [emoji] [message text]`"], 
     requedPremissons:["ADMINISTRATOR"]}
+    
+    
 ];
 
 module.exports.about = {name:[["админ", "администрирование"], ["admin", "admining"]], about:["Изменение префикса, языка и многого другого здесь!", 

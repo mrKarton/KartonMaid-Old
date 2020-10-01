@@ -21,8 +21,10 @@ bot.on('ready', ()=> {
 
     // console.log(fs.existsSync('./GuildConfigs/guilds/' + keys[i] + ".json"));
     var keys = bot.guilds.cache.keyArray();
+    console.log(keys);
     keys.forEach((key)=>{
         fs.exists('./GuildConfigs/guilds/' + key + ".json", (ex)=>{
+            console.log(key);
             if(!ex)
             {
                 fs.writeFileSync('./GuildConfigs/guilds/' + key + ".json", JSON.stringify(new guildClass(key, '!', 'en')));
@@ -35,31 +37,8 @@ bot.on('ready', ()=> {
                 }
             }
         });
-
-        if(fs.existsSync('./GuildConfigs/guilds/' + key + ".json"))
-        {
-            var gc = require('./GuildConfigs/guilds/' + keys[i] + ".json");
-            if(!gc.statEnabled)
-            {
-                gc.statEnabled = false;
-                gc.statChannels = [];
-                fs.writeFileSync('./GuildConfigs/guilds/' + keys[i] + ".json", JSON.stringify(gc), (err)=>{console.log(err)});
-            }
-        }
     });
-   
-        
- 
-    
 
-
-    bot.user.setPresence({
-        status: "online",  //You can show online, idle....
-        game: {
-            name: "Using !help",  //The message shown
-            type: "STREAMING" //PLAYING: WATCHING: LISTENING: STREAMING:
-        }
-    });
 });
 
 
@@ -302,14 +281,14 @@ setInterval(()=>{
             if(!message.deleted)
             {
                 var users = message.reactions.cache.get(data.reaction).users.cache.keyArray();
-
+                console.log(users);
                 if(users.length > 0)
                 {
                     users.forEach((uId)=>{
+                        var user = bot.guilds.cache.get(data.guild).members.cache.get(uId);
+                        
                         if(user != null)
                         {
-                            var user = bot.guilds.cache.get(data.guild).members.cache.get(uId);
-
                             if(!user.roles.cache.has(data.role)) 
                             {
                                 user.roles.add(data.role);
@@ -318,6 +297,51 @@ setInterval(()=>{
                     })
                 }
             }
+            else
+            {
+                messages.splice(messages.indexOf(data), 1);
+                fs.writeFileSync('./configurations/role-messages.json', JSON.stringify(messages));
+            }
+        });
+    });
+}, 5000);
+// ❌ ✅
+setInterval(()=>{
+    var tickets = require('./configurations/report-messages.json');
+    tickets.forEach((ticket)=>{
+        var guild = require('./GuildConfigs/guilds/' + ticket.server + ".json");
+        var end = false;
+        var admMessage = bot.channels.cache.get(guild.admReport).messages.fetch(ticket.admMessage).then(message=>{
+            message.reactions.cache.get('❌').users.cache.keyArray().forEach((uID)=>{
+                if(uID != bot.user.id)
+                {
+                    if(bot.guilds.cache.get(ticket.server).members.cache.get(uID).hasPermission("ADMINISTRATOR"))
+                    {
+                        bot.channels.cache.get(guild.usrReport).messages.fetch(ticket.usrMessage).then(msg=>{msg.react('❌')});
+
+                        tickets.splice(tickets.indexOf(ticket), 1);
+                        fs.writeFileSync('./configurations/report-messages.json', JSON.stringify(tickets));
+                        end = true;
+                    }
+                }
+            });
+            
+            if(!end)
+            {
+                message.reactions.cache.get('✅').users.cache.keyArray().forEach((uID)=>{
+                    if(uID != bot.user.id)
+                    {
+                        if(bot.guilds.cache.get(ticket.server).members.cache.get(uID).hasPermission("ADMINISTRATOR"))
+                        {
+                            bot.channels.cache.get(guild.usrReport).messages.fetch(ticket.usrMessage).then(msg=>{msg.react('✅')});
+
+                            tickets.splice(tickets.indexOf(ticket), 1);
+                            fs.writeFileSync('./configurations/report-messages.json', JSON.stringify(tickets));
+                        }
+                    }
+                })
+            }
+
         });
     });
 }, 5000);

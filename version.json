@@ -1,6 +1,6 @@
 {
     "dev": true,
-    "version": "1.0.2",
+    "version": "1.0.5",
     "localistion": 100,
-    "changelog":"Debugging &  **~\\*DOGS\\*~** \n ||actually D&D :D||"
+    "changelog":"Report Tickets (more in `module tickets`), role bu reaction fixed"
 }

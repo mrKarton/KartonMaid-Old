@@ -83,7 +83,7 @@ function getModule(bot, msg, args)
             for(var i =0; i < mod.commands.length; i++)
             {
                 cmdStr += "`" + guildF.getPrefix(msg.guild.id) + mod.commands[i].name[langID][0] + "` - " + mod.commands[i].ab[langID] + ". \n";
-                console.log(typeof mod.commands[i].requedPremissons != "undefined");
+                
                 if(typeof mod.commands[i].requedPremissons != "undefined")
                 {
                   cmdStr += "***" + lang.commands.Premissions + ":*** \n";
