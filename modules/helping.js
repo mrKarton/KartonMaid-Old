@@ -35,13 +35,17 @@ function commands(bot, msg, args)
         for(var j = 0; j < mod.commands.length; j++)
         {
             allComands += "`" + guildF.getPrefix(msg.guild.id) + mod.commands[j].name[langID][0] + "` - " + mod.commands[j].ab[langID] + ", \n";
+            
             if(typeof mod.commands[i].requedPremissons != "undefined")
             {
               allComands += "***" + lang.commands.Premissions + ":*** \n";
-              mod.commands[i].requedPremissons.forEach((entr)=>{
-                allComands += "`" + entr + "` \n";
-              });
+
+                mod.commands[i].requedPremissons.forEach((entr)=>{
+                  allComands += "`" + entr + "` \n";
+                });
+              
             }
+            console.log(mod.commands[j].name[langID][0]);
             allComands+= "\n";
         }
 

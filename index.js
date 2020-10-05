@@ -21,10 +21,8 @@ bot.on('ready', ()=> {
 
     // console.log(fs.existsSync('./GuildConfigs/guilds/' + keys[i] + ".json"));
     var keys = bot.guilds.cache.keyArray();
-    console.log(keys);
     keys.forEach((key)=>{
         fs.exists('./GuildConfigs/guilds/' + key + ".json", (ex)=>{
-            console.log(key);
             if(!ex)
             {
                 fs.writeFileSync('./GuildConfigs/guilds/' + key + ".json", JSON.stringify(new guildClass(key, '!', 'en')));
@@ -150,22 +148,7 @@ bot.on('message', (message)=>{
                 }
             }  
         }  
-    }   
-    
-    if(LangID == 0)
-    {
-        if(message.content.toLowerCase().startsWith('я '))
-        {
-            if(funcs.getRandomInt(0, 100) > 50)
-            {
-                if(splitForBot(message.content.toLowerCase(), 'я ') != 0 && splitForBot(message.content.toLowerCase(), 'я ').length < 4)
-                {
-                    var name = funcs.getStrValuesAfter(0, splitForBot(message.content.toLowerCase(), 'я '));
-                    message.channel.send('Привет,**' + name + "**, я **" + bot.user.username + "**");
-                }
-            }
-        }
-    }               
+    }                 
 });
 
 function splitForBot(content, prefix)
