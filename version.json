@@ -1,6 +1,6 @@
 {
-    "dev": false,
-    "version": "1.0.5",
+    "dev": true,
+    "version": "1.0.5.1",
     "localistion": 100,
-    "changelog":"Report Tickets (more in `module tickets`), role bu reaction fixed"
+    "changelog":"Fixed !commands"
 }
