@@ -3,6 +3,7 @@ var conf = require('../conf.json');
 var funcs = require('./functions.js');
 var colors = require('../configurations/colors.json');
 var guildF = require('../GuildConfigs/functions');
+const request = require('request');
 
 function MakeEmbed(bot, msg, args)
 {
@@ -151,6 +152,33 @@ function meme(bot, msg, args)
     });
 }
 
+function hentai(bot, msg, args)
+{
+    if(msg.channel.nsfw)
+    {
+        request('http://194.58.122.151:7777/Hentais', (req, res, body)=>{
+            var data = JSON.parse(body);
+
+            var count = 10;
+            var actuallArray = new Array();
+            for(var i = 0; i < count; i++)
+            {
+                var pic = data[funcs.getRandomInt(0, data.length)];
+
+                
+                    actuallArray.push(pic);
+                
+            }
+            
+            msg.channel.send({files:actuallArray});
+        })
+    }
+    else
+    {
+        msg.react('❌');
+    }
+}
+
 function emojis(bot, msg, args)
 {
     var numbers = ["1","2","3","4","5","6","7","8","9","0"];
@@ -186,7 +214,9 @@ var list = [
     "Awww, is this KOALA?? I wanna more pictures with this cute creations.. ||Seriously, send me more photos in DM||"]},
     {name:[["собака", "собаня"], ["dog", "doggy"]], out:getdog, ab:["КА ЖИ Я ЛЮБЛЮ СОБАНЕЙ!! Вот и вам парочка... На.. Ешб", "Oh! they are so f\*\*\*ng cute! Get one peace!"]},
     {name: [["мем"], ["meme"]], out:meme, ab:["Мемы мои мемы, получите дозу счастья с помощью этой команды!", "Meme review! Take your portion of memes"]},
-    {name: [["emoji"], ["emoji"]], out:emojis, ab: ["Превратите свой \"*просто_текст*\" в не просто текст, а в эмоджи!","turn your plain text to.. **Not plain** *EmoJieS*!"]}
+    {name: [["emoji"], ["emoji"]], out:emojis, ab: ["Превратите свой \"*просто_текст*\" в не просто текст, а в эмоджи!","turn your plain text to.. **Not plain** EmoJieS!"]},
+    {name: [["хентай"], ["hentai"]], out:hentai, ab:[" ***!18+!*** \n получите свою заслуженную порцию 2Д тянок ;) (работает только в NSFW канале)",
+    " *!18+ only* \nTake your 2D chan nudes ;) (Working **ONLY** in NSFW channel"]}
 ];
 
 module.exports.commands = list;
