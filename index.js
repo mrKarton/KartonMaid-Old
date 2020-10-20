@@ -156,11 +156,25 @@ function splitForBot(content, prefix)
     if(typeof(content) == typeof("String")) //Checking for type of content (we need a string)
     {
         var step1 = content.split(prefix);//spliting prefix
+        var step11 = new Array();
+        step1.forEach((elem)=>{
+            if(step1.indexOf(elem) != 1 && step1.indexOf(elem) != 0)
+            {
+                step11.push(prefix+elem);
+            }
+            else
+            {
+                step11.push(elem);
+            }
+        });
+        var step12 = funcs.GetString(step11);
         if(step1[1] != null)                     //if there are comands
         {
-            var step2 = step1[1].split(" ");     //spliting arguments
+            var step2 = step12.split(" ");     //spliting arguments
             var step3 = step2.filter(element => element != '');//remove empty entries
+
             return step3; //return
+
         }
         else
         {

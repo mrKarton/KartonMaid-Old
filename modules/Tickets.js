@@ -79,6 +79,8 @@ async function reportMember(bot, msg, args)
         allTickets.push(ticket);
 
         fs.writeFileSync('./configurations/report-messages.json', JSON.stringify(allTickets));
+
+        msg.react('✅');
     }
 }
 

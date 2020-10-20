@@ -123,6 +123,17 @@ function getHelloMsg(lang, bot)
     return em;
 }
 
+function GetString(array)
+{
+    var str = "";
+
+    array.forEach((elem)=>{
+        str+=elem;
+    })
+
+    return str;
+}
+
 // var exports = {getChannelID: getChannelID, getStrValuesAfter: getStrValuesAfter, getRandomInt: getRandomInt, isAdmin: isAdmin};
 
 // module.exports = exports;
@@ -135,3 +146,4 @@ module.exports.getValuesAfter = getValuesAfter;
 module.exports.getHelloMsg = getHelloMsg;
 module.exports.translit = transliterate;
 module.exports.getHelpers = getHelpers;
+module.exports.GetString = GetString;

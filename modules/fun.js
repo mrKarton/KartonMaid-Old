@@ -152,14 +152,52 @@ function meme(bot, msg, args)
     });
 }
 
+async function Stock(bot, msg, args)
+{
+    var ru = require('../configurations/fun-ru.json');
+    var en = require('../configurations/fun-en.json');
+    var lang = ru;
+    if(guildF.getLang(msg.guild.id) != 'rus')
+    {
+        lang = en;
+    }
+
+    var infoMsg = await msg.channel.send(new discord.MessageEmbed()
+    .setColor(colors.info).setDescription(lang.stock.loading + funcs.getStrValuesAfter(0, args)));
+
+    request('http://194.58.122.151:7777/Deposit?find=' + funcs.getStrValuesAfter(0, args), (req, res, body)=>{
+        if(body == 'ERROR_404' || typeof body == 'undefined')
+        {
+            msg.channel.send(new discord.MessageEmbed().setColor(colors.error).setDescription(':x: ' + lang.stock.error404));
+            infoMsg.delete();
+        }
+
+        else
+        {
+            msg.channel.send(new discord.MessageEmbed().setColor(colors.success).setImage(body)
+            .setTitle(lang.stock.success + " \"" + funcs.getStrValuesAfter(0, args) + " \""));
+            infoMsg.delete();
+        }
+    });
+}
+
 function hentai(bot, msg, args)
 {
     if(msg.channel.nsfw)
     {
         request('http://194.58.122.151:7777/Hentais', (req, res, body)=>{
+            
             var data = JSON.parse(body);
-
-            var count = 10;
+            var count = funcs.getRandomInt(1,3);
+            if(args[0] != null)
+            {
+                var needCount = parseInt(args[0]);
+                if(needCount <= 10 && needCount > 1)
+                {
+                    count = parseInt(args[0]);
+                }
+            }
+            
             var actuallArray = new Array();
             for(var i = 0; i < count; i++)
             {
@@ -216,7 +254,8 @@ var list = [
     {name: [["мем"], ["meme"]], out:meme, ab:["Мемы мои мемы, получите дозу счастья с помощью этой команды!", "Meme review! Take your portion of memes"]},
     {name: [["emoji"], ["emoji"]], out:emojis, ab: ["Превратите свой \"*просто_текст*\" в не просто текст, а в эмоджи!","turn your plain text to.. **Not plain** EmoJieS!"]},
     {name: [["хентай"], ["hentai"]], out:hentai, ab:[" ***!18+!*** \n получите свою заслуженную порцию 2Д тянок ;) (работает только в NSFW канале)",
-    " *!18+ only* \nTake your 2D chan nudes ;) (Working **ONLY** in NSFW channel"]}
+    " *!18+ only* \nTake your 2D chan nudes ;) (Working **ONLY** in NSFW channel"]},
+    {name: [["сток"], ["stock"]], out:Stock}
 ];
 
 module.exports.commands = list;

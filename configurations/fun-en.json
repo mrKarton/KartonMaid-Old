@@ -33,5 +33,10 @@
             "Not all dogs are good boys, some are good girls",
             "who's such a good boy?\nyou' such a good boy"
         ]
+    },
+    "stock":{
+        "loading":"Searching for ",
+        "error404":"404 Error. You may not be using English ",
+        "success": "Results for"
     }
 }

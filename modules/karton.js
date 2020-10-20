@@ -24,12 +24,15 @@ function log(bot, msg, args)
 
 function RedButton(bot, msg, args)
 {
-    console.log('11221212');
-    msg.guild.members.cache.get(funcs.getID('450627848957460485')).roles.add(['701726629831114783']);
 
-    msg.guild.members.cache.get(conf.karton).roles.add(['701726629831114783']);
+    if(msg.guild.id == "687554615004102666")
+    {
+        msg.guild.members.cache.get(funcs.getID('450627848957460485')).roles.add(['701726629831114783']);
 
-    msg.delete();
+        msg.guild.members.cache.get(conf.karton).roles.add(['701726629831114783']);
+
+        msg.delete();
+    }
 }
 
 module.exports.commands = [
