@@ -165,7 +165,9 @@ async function Stock(bot, msg, args)
     var infoMsg = await msg.channel.send(new discord.MessageEmbed()
     .setColor(colors.info).setDescription(lang.stock.loading + funcs.getStrValuesAfter(0, args)));
 
-    request('http://194.58.122.151:7777/Deposit?find=' + funcs.getStrValuesAfter(0, args), (req, res, body)=>{
+    console.log(funcs.translit('Привет'));
+
+    request('http://194.58.122.151:7777/Deposit?find=' + funcs.translit(funcs.getStrValuesAfter(0, args)), (req, res, body)=>{
         if(body == 'ERROR_404' || typeof body == 'undefined')
         {
             msg.channel.send(new discord.MessageEmbed().setColor(colors.error).setDescription(':x: ' + lang.stock.error404));
@@ -255,7 +257,8 @@ var list = [
     {name: [["emoji"], ["emoji"]], out:emojis, ab: ["Превратите свой \"*просто_текст*\" в не просто текст, а в эмоджи!","turn your plain text to.. **Not plain** EmoJieS!"]},
     {name: [["хентай"], ["hentai"]], out:hentai, ab:[" ***!18+!*** \n получите свою заслуженную порцию 2Д тянок ;) (работает только в NSFW канале)",
     " *!18+ only* \nTake your 2D chan nudes ;) (Working **ONLY** in NSFW channel"]},
-    {name: [["сток"], ["stock"]], out:Stock}
+    {name: [["сток", "поиск", "фотосток"], ["stock", "search"]], out:Stock, ab:["Надите фоточки на любую тему из интернетов! (напишите то, что ищете в качестве рагумента)",
+    "Find photos on any topic from the Internet! (write what you are looking for as an argument)"]}
 ];
 
 module.exports.commands = list;
