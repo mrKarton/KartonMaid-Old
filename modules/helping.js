@@ -35,7 +35,7 @@ function commands(bot, msg, args)
         for(var j = 0; j < mod.commands.length; j++)
         {
             allComands += "`" + guildF.getPrefix(msg.guild.id) + mod.commands[j].name[langID][0] + "` - " + mod.commands[j].ab[langID] + ", \n";
-            console.log(mod);
+            // console.log(mod);
             if(typeof mod.commands[i].requedPremissons != "undefined")
             {
               allComands += "***" + lang.commands.Premissions + ":*** \n";
@@ -86,7 +86,7 @@ function getModule(bot, msg, args)
             var cmdStr = "";
             for(var i =0; i < mod.commands.length; i++)
             {
-              console.log(mod.commands[i]);
+              // console.log(mod.commands[i]);
                 cmdStr += "`" + guildF.getPrefix(msg.guild.id) + mod.commands[i].name[langID][0] + "` - " + mod.commands[i].ab[langID] + ". \n";
                 
                 if(typeof mod.commands[i].requedPremissons != "undefined")
