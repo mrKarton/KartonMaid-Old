@@ -1,6 +1,6 @@
 {
     "dev": true,
-    "version": "1.4",
+    "version": "1.4.1",
     "localistion": 99,
-    "changelog":"ClanUpdate is here! (!module clans)"
+    "changelog":"**!!!** ClanUpdate is here! (!module clans) \n\n •Changed rating calculating system \n •Added clan deletion"
 }

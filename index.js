@@ -69,7 +69,6 @@ bot.on('guildCreate', (guild)=>{
         guild.systemChannel.send(funcs.getHelloMsg(newGC.language, bot));
     }
 });
-
 bot.on('message', (message)=>{
     
     clans.raiting(message);
@@ -346,3 +345,31 @@ setInterval(()=>{
         });
     });
 }, 5000);
+
+setInterval(()=>{
+    bot.guilds.cache.keyArray().forEach(gID =>{
+        var guild = require('./GuildConfigs/guilds/' + gID + '.json');
+        if(typeof guild.clans != 'undefined')
+        {
+            if(guild.clans.length > 0)
+            {   
+                var newClans = new Array();
+                guild.clans.forEach(clan => {
+                    if(clan.messages > 0)
+                    {
+                        var n = 0.6;
+                        var boost = 1;
+                        clan.rating += Math.trunc(((clan.symbols) * boost) / (clan.messages * (1/n)));
+                        clan.messages = 0;
+                        clan.symbols = 0;
+                        
+                    }
+
+                    newClans.push(clan);
+                });
+                guild.clans = newClans;
+                fs.writeFileSync('./GuildConfigs/guilds/' + gID + '.json', JSON.stringify(guild));
+            }
+        }
+    })
+}, 1000 * 1 * 5)

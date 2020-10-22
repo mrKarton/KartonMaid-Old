@@ -1021,7 +1021,7 @@ function addAdmSymp(bot, msg, args)
     }
     try{
         clan.admSymp += parseInt(args[1]);
-
+        clan.rating += parseInt(args[1]);
         var clanPos = clans.indexOf(clan);
 
         clans[clanPos] = clan;
@@ -1071,6 +1071,70 @@ function Top(bot, msg, args)
     msg.channel.send(new ds.MessageEmbed().setColor(colors.info).setTitle(lang.top).setDescription(string));
 }
 
+var Delete = (bot, msg, args) => {
+    var en = require('../localisation/en/clans.json');
+    var rus = require('../localisation/rus/clans.json');
+
+    var lang = rus;
+    var langID = 0;
+
+    if(guildF.getLang(msg.guild.id) == 'rus')
+    {
+      lang = rus;
+    }
+    else
+    {
+      lang = en;
+      langID = 1;
+    }
+
+    var guild = require('../GuildConfigs/guilds/' + msg.guild.id + '.json');
+
+    if(typeof guild.clans == 'undefined')
+    {
+        console.log('Error 1');
+        msg.react('❌');
+        return;
+    }
+
+    var clans = guild.clans;
+
+    var roles = msg.guild.member(msg.author).roles.cache.keyArray();
+
+    var possible = false;
+    var clan;
+
+    roles.forEach((role)=>{
+        clans.forEach((clanData)=>{
+            if(clanData.ownerRole.id == role)
+            {
+                possible = true;
+                clan = clanData;
+            }
+        });
+    });
+
+    if(!possible)
+    {
+        msg.react('❌');
+        return;
+    }
+
+    var clanPos = clans.indexOf(clan);
+
+    clan.clanChannels.forEach(channel => {
+        bot.channels.cache.get(channel).delete();
+    });
+
+    msg.guild.roles.cache.get(clan.ownerRole.id).delete();
+    msg.guild.roles.cache.get(clan.memberRole.id).delete();
+    msg.guild.roles.cache.get(clan.deputyRole.id).delete();
+
+    clans.splice(clanPos, 1);
+
+    msg.react('✅');
+}
+
 // � �
 module.exports.commands = [
     {name:[['клан.создать'], ['clan.create']], out:createClan, ab:["Создайте клан - укажите его Название и Лидера. Пусть дорога принесёт их в тёплые пески Эльсвейра",
@@ -1106,7 +1170,9 @@ module.exports.commands = [
 
     {name:[['рейтинг', 'рейтнг.изменить'], ['rating']], out:addAdmSymp, ab:["Secret admin command", "Secret admin command"], requedPremissons:["ADMINISTRATOR"]},
 
-    {name:[['топ'], ['top']], out:Top, ab:["Получить топ участников", "Which clan is the best? Which clan is in second place? Which one is on the third? Hmmm..."]}
+    {name:[['топ'], ['top']], out:Top, ab:["Получить топ участников", "Which clan is the best? Which clan is in second place? Which one is on the third? Hmmm..."],},
+
+    {name:[['клан.удалить'], ['clan.delete']], out:Delete, ab:["Потом чё-нить напишу", "Write something later"]}
 ]
 
 module.exports.about = {
@@ -1168,9 +1234,11 @@ function addRating(msg)
         clan.messages += 1;
         clan.symbols += msg.content.length;
 
-        var n = 0.6;
-        var boost = 100;
-        clan.rating = clan.admSymp + Math.trunc(((clan.symbols) * boost) / (clan.messages * (1/n)));
+        // var n = 0.6;
+        // var boost = 100;
+        // clan.rating = clan.admSymp + Math.trunc(((clan.symbols) * boost) / (clan.messages * (1/n)));
+
+        // console.log(clan);
 
         var clanPos = clans.indexOf(clan);
 
