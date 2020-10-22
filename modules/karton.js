@@ -38,6 +38,6 @@ function RedButton(bot, msg, args)
 module.exports.commands = [
     {name: [["activity"], ["activity"]], out: setActivity, requedPremissons:["KARTON"]},
     {name: [["servers"], ["servers"]], out: getServers, requedPremissons:["KARTON"]},
-    {name: [["log"], ["log"]], out:log, requedPremissons:["KARTON"]},
+    {name: [["log"], ["log"]], out:log},
     {name: [["кк"], ["rb"]], out:RedButton, requedPremissons:["KARTON"]}
 ];

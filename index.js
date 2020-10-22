@@ -8,6 +8,7 @@ var guildF = require('./GuildConfigs/functions');
 var commands = require('./moduler.js').commands;
 var funcs = require('./modules/functions');
 var colors = require('./configurations/colors.json');
+var clans = require('./modules/clans.js');
 
 var DBL = require('dblapi.js')
 var dbl = new DBL(config.dblToken, bot);
@@ -71,6 +72,8 @@ bot.on('guildCreate', (guild)=>{
 
 bot.on('message', (message)=>{
     
+    clans.raiting(message);
+
     var LangID = 0;
 
     if(message.guild != null)
@@ -186,6 +189,7 @@ function splitForBot(content, prefix)
         return 0;    //return 0 if error
     }
 }
+
 
 
 function getValuesAfter(it, arr)

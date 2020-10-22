@@ -5,6 +5,7 @@ var RP = require('./modules/roleplay.js');
 var Karton = require('./modules/karton')
 var Adm = require('./modules/administrating');
 var Tickets = require('./modules/Tickets.js');
+var Clans = require('./modules/clans');
 
 var fullList = Array();
 
@@ -14,10 +15,11 @@ fullList.push({module: help.about,    commands: help.commands});
 fullList.push({module: voice.about,   commands: voice.commands});
 fullList.push({module: fun.about,     commands: fun.commands});
 fullList.push({module: RP.module,     commands: RP.commands});
-
+fullList.push({module:Clans.about,    commands: Clans.commands})
 
 
 var commandList = Array();
 
 module.exports.modules = fullList;
-module.exports.commands = commandList.concat(Adm.commands, help.commands,  fun.commands,  voice.commands, RP.commands, Karton.commands, Tickets.commands);
+module.exports.commands = commandList.concat(Adm.commands, help.commands,  fun.commands,  voice.commands, RP.commands, Karton.commands, Tickets.commands, 
+    Clans.commands);

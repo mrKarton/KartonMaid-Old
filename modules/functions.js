@@ -7,8 +7,10 @@ function getID(snake)
 {
     if(snake[0] == '<' && snake[snake.length - 1] == '>')
     {
+        var numbers = ['1', '2', '3', '4', '5', '6','7', '8', '9', '0'];
+
         var startFrom = 2;
-        if(snake[1] == "@" || snake[1] == "!")
+        if(snake[2] == '!' || snake[2] == '&')
         {
             startFrom = 3;
         }
@@ -138,6 +140,12 @@ function GetString(array)
 
 // module.exports = exports;
 
+function declNum(number, words)
+{
+    return words[(number % 100 > 4 && number % 100 < 20) ? 2 : [2, 0, 1 ,1 ,1, 2][(number % 10 < 5) ? number % 10 : 5]];
+}
+
+module.exports.declNum = declNum;
 module.exports.getID = getID;
 module.exports.getStrValuesAfter = getStrValuesAfter;
 module.exports.getRandomInt = getRandomInt;

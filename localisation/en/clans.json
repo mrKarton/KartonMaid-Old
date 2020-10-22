@@ -1,0 +1,14 @@
+{
+    "invite": {"title":"New clan invitation", "decription":" invites you to join "},
+    "kick" : {"title": "You were kicked from clan", "description":" by ", "reason": "Reason:" },
+    "data" : {
+        "membersCount": ["member", "members", "members"],
+        "rating": "Rating",
+        "created":"Created",
+        "owner": "Owner",
+        "clan_closed": {"title":"Clan is close", "body":"To join, contact leader, or deputies \n"},
+        "clan_open":{"title":"Clan open", "body":"To join use "},
+        "members":"Members:"
+    },
+    "top":"Top"
+}
