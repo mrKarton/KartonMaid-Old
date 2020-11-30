@@ -10,9 +10,15 @@ var funcs = require('./modules/functions');
 var colors = require('./configurations/colors.json');
 var clans = require('./modules/clans.js');
 
+var APIwork = require('./API');
+
 var DBL = require('dblapi.js')
 var dbl = new DBL(config.dblToken, bot);
 var startupDat;
+
+var mysql = require('mysql2');
+const { modules } = require('./moduler');
+var connection = mysql.createConnection(config.mysql);
 
 bot.on('ready', ()=> {
     startupDat = new Date();
@@ -20,33 +26,59 @@ bot.on('ready', ()=> {
     console.log(bot.user.username + "#" + bot.user.discriminator + " started");// when bot is ready, message it
     bot.generateInvite(["ADMINISTRATOR"]).then((link)=>{console.log("My link: " + link)});//when invition link created, messgae it
 
-    // console.log(fs.existsSync('./GuildConfigs/guilds/' + keys[i] + ".json"));
-    var keys = bot.guilds.cache.keyArray();
-    keys.forEach((key)=>{
-        fs.exists('./GuildConfigs/guilds/' + key + ".json", (ex)=>{
-            if(!ex)
-            {
-                fs.writeFileSync('./GuildConfigs/guilds/' + key + ".json", JSON.stringify(new guildClass(key, '!', 'en')));
+    connection.query('SELECT * FROM `Guilds`', (err, res)=>{
+        var DBIDs = new Array();
+        res.forEach((dat)=>{
+            DBIDs.push(dat.ID);
+        })
 
-                if(bot.guilds.cache.get(key).systemChannel != null)
-                {
-                    bot.guilds.cache.get(key).systemChannel.send(new discord.MessageEmbed().setTitle('I am sorry.')
-                    .setDescription('I lost your server\'s configuration file. So, I\'ve make another.\n Your prefix now is `!` and language is `en`')
-                    .setColor(colors.info));
-                }
+        bot.guilds.cache.keyArray().forEach((key)=>{
+            if(DBIDs.indexOf(key) != -1)
+            {
+                console.log('Founded - ', key, '\n\n');
+            }
+            else
+            {
+                console.log('Lost - ', key);
+
+                var format = mysql.format("INSERT INTO `Guilds`(ID, Language, Prefix, Stat_Enabled, Stat_Channels, Clans, Report_Enabled, Report_Admin, Report_Public) " +
+                "VALUES(?,?,?,?,?,?,?,?,?) ", [key, 'en', '!', '0', '[]', '[]', '0', '', '']);
+                connection.query(format);
+                console.log('Used - ', format);
+                console.log('\n\n');
             }
         });
+    })
+    
+    connection.query('SELECT * FROM `Guilds`', (err, res)=>{
+        var dataArr = new Array();
+        res.forEach((dat)=>{
+            var gdat = dat;
+            if(dat.Stat_Channels != null)
+            {
+                gdat.Stat_Channels =JSON.parse(dat.Stat_Channels);
+            }
+            if(dat.Clans != null)
+            {
+                gdat.Clans =JSON.parse(dat.Clans);
+            }
+
+            dataArr.push(gdat);
+        })
+
+        fs.writeFileSync('configurations/guilds-data.temp', JSON.stringify(dataArr));
     });
 
 });
 
-
 if(!version.dev)
 {
+    console.log("loggined as main");
     bot.login(config.token); //logining with token from config
 }
 else
 {
+    console.log("loggined as dev");
     bot.login(config.devToken); //logining with dev token
 }
 
@@ -58,36 +90,43 @@ bot.on('guildCreate', (guild)=>{
         lang = "rus";
     }
 
-    fs.open('./GuildConfigs/guilds/' + guild.id + ".json", 'w+', (err, fd)=>{
-        if(err) console.log(err);
-    });
-    var newGC = new guildClass(guild.id, "!", lang);
-    fs.writeFileSync('./GuildConfigs/guilds/' + guild.id + ".json", JSON.stringify(newGC), (err)=>{console.log(err)});
-    console.log(newGC);
-    if(guild.systemChannel != null)
-    {
-        guild.systemChannel.send(funcs.getHelloMsg(newGC.language, bot));
-    }
+    connection.query('SELECT ID FROM `Guilds` WHERE ID=?', guild.id, (err,res)=>{
+        console.log(res);
+        if(res.ID == null)
+        {
+            var format = mysql.format("INSERT INTO `Guilds`(ID, Language, Prefix, Stat_Enabled, Stat_Channels, Clans, Report_Enabled, Report_Admin, Report_Public) " +
+            "VALUES(?,?,?,?,?,?,?,?,?) ", [guild.id, lang, '!', '0', '[]', '[]', '0', '', '']);
+            connection.query(format);
+
+            if(guild.systemChannel != null)
+            {
+                guild.systemChannel.send(funcs.getHelloMsg(lang, bot));
+            }
+
+            synchronize();
+        }
+    })
 });
+
 bot.on('message', (message)=>{
     
-    clans.raiting(message);
+    // clans.raiting(message);
 
     var LangID = 0;
+
+    if(guildF.get(message.guild.id).Language == "en")
+    {
+        LangID = 1;
+    }
 
     if(message.guild != null)
     {
         if(message.author.id != bot.user.id)
         {
-            if(guildF.getLang(message.guild.id) == "en")
-            {
-                LangID = 1;
-            }
             
-
-            if(message.content.startsWith(require('./GuildConfigs/guilds/' + message.guild.id + ".json").prefix))
+            if(true)
             {
-                var args = splitForBot(message.content, require('./GuildConfigs/guilds/' + message.guild.id + ".json").prefix);
+                var args = splitForBot(message.content, guildF.get(message.guild.id).Prefix);
                 if(args != 0)  
                 {
                     var comm = args[0];
@@ -152,6 +191,46 @@ bot.on('message', (message)=>{
         }  
     }                 
 });
+
+function synchronize()
+{
+    var guilds = JSON.parse(fs.readFileSync('configurations/guilds-data.temp'));
+    console.log(guilds);
+    guilds.forEach((data)=>{
+        var format = mysql.format("UPDATE `Guilds` SET Language=?, Prefix=?, Stat_Enabled=?, Stat_Channels=?, Clans=?, Report_Enabled=?, Report_Admin=?, Report_Public=? " +
+        "WHERE ID=?", 
+        [data.Language, data.Prefix, data.Stat_Enabled, JSON.stringify(data.Stat_Channels),
+            JSON.stringify(data.Clans), data.Report_Enabled, data.Report_Admin, data.Report_Public, data.ID]);
+        console.log(JSON.stringify(data.Clans));
+        console.log(format, '\n\n');
+        connection.query(format);
+    })
+
+    console.log('Database synchronized');
+
+    connection.query('SELECT * FROM `Guilds`', (err, res)=>{
+        var dataArr = new Array();
+        res.forEach((dat)=>{
+            var gdat = dat;
+            if(dat.Stat_Channels != null)
+            {
+                gdat.Stat_Channels =JSON.parse(dat.Stat_Channels);
+            }
+            if(dat.Clans != null)
+            {
+                gdat.Clans =JSON.parse(dat.Clans);
+            }
+
+            dataArr.push(gdat);
+        })
+
+        fs.writeFileSync('configurations/guilds-data.temp', JSON.stringify(dataArr));
+    });
+
+    console.log('Data Loaded');
+}
+
+setInterval(synchronize, 60000 * 1);
 
 function splitForBot(content, prefix)
 {
@@ -220,7 +299,7 @@ setInterval(()=>{
     var keys = bot.guilds.cache.keyArray();
     for(var i = 0; i < keys.length; i++)
     {
-        if(guildF.getLang(keys[i]) == 'rus')
+        if(guildF.get(keys[i]).Language == 'rus')
         {
             lang = rus;
         }
@@ -230,11 +309,11 @@ setInterval(()=>{
             langID = 1;
         }
 
-        var gc = require('./GuildConfigs/guilds/' + keys[i] + ".json");
+        var gc = guildF.get(keys[i]);
         if(gc.statEnabled)
         {
             bot.guilds.cache.get(keys[i]).channels.cache
-            .get(gc.statChannels[0]).edit({name: lang.total[0] + bot.guilds.cache.get(keys[i]).memberCount + lang.total[1]})
+            .get(gc.Stat_Channels[0]).edit({name: lang.total[0] + bot.guilds.cache.get(keys[i]).memberCount + lang.total[1]})
 
             var online = 0;
             var uk = bot.guilds.cache.get(keys[i]).members.cache.keyArray();
@@ -250,7 +329,7 @@ setInterval(()=>{
             }
 
             bot.guilds.cache.get(keys[i]).channels.cache
-            .get(gc.statChannels[1]).edit({name: lang.online + online});
+            .get(gc.Stat_Channels[1]).edit({name: lang.online + online});
 
             var bonline = 0;
             var buk = bot.guilds.cache.get(keys[i]).members.cache.keyArray();
@@ -268,7 +347,7 @@ setInterval(()=>{
             }
 
             bot.guilds.cache.get(keys[i]).channels.cache
-            .get(gc.statChannels[2]).edit({name: lang.bots + bonline});
+            .get(gc.Stat_Channels[2]).edit({name: lang.bots + bonline});
         }
     }
 }, 5000);
@@ -309,15 +388,15 @@ setInterval(()=>{
 setInterval(()=>{
     var tickets = require('./configurations/report-messages.json');
     tickets.forEach((ticket)=>{
-        var guild = require('./GuildConfigs/guilds/' + ticket.server + ".json");
+        var guild = guildF.get(ticket.server);
         var end = false;
-        var admMessage = bot.channels.cache.get(guild.admReport).messages.fetch(ticket.admMessage).then(message=>{
+        var admMessage = bot.channels.cache.get(guild.Report_Admin).messages.fetch(ticket.admMessage).then(message=>{
             message.reactions.cache.get('❌').users.cache.keyArray().forEach((uID)=>{
                 if(uID != bot.user.id)
                 {
                     if(bot.guilds.cache.get(ticket.server).members.cache.get(uID).hasPermission("ADMINISTRATOR"))
                     {
-                        bot.channels.cache.get(guild.usrReport).messages.fetch(ticket.usrMessage).then(msg=>{msg.react('❌')});
+                        bot.channels.cache.get(guild.Report_Public).messages.fetch(ticket.usrMessage).then(msg=>{msg.react('❌')});
 
                         tickets.splice(tickets.indexOf(ticket), 1);
                         fs.writeFileSync('./configurations/report-messages.json', JSON.stringify(tickets));
@@ -333,7 +412,7 @@ setInterval(()=>{
                     {
                         if(bot.guilds.cache.get(ticket.server).members.cache.get(uID).hasPermission("ADMINISTRATOR"))
                         {
-                            bot.channels.cache.get(guild.usrReport).messages.fetch(ticket.usrMessage).then(msg=>{msg.react('✅')});
+                            bot.channels.cache.get(guild.Report_Public).messages.fetch(ticket.usrMessage).then(msg=>{msg.react('✅')});
 
                             tickets.splice(tickets.indexOf(ticket), 1);
                             fs.writeFileSync('./configurations/report-messages.json', JSON.stringify(tickets));
@@ -348,7 +427,7 @@ setInterval(()=>{
 
 setInterval(()=>{
     bot.guilds.cache.keyArray().forEach(gID =>{
-        var guild = require('./GuildConfigs/guilds/' + gID + '.json');
+        var guild = guildF.get(gID);
         if(typeof guild.clans != 'undefined')
         {
             if(guild.clans.length > 0)
@@ -368,8 +447,9 @@ setInterval(()=>{
                     newClans.push(clan);
                 });
                 guild.clans = newClans;
-                fs.writeFileSync('./GuildConfigs/guilds/' + gID + '.json', JSON.stringify(guild));
+                guildF.set(guild);
             }
         }
     })
 }, 1000 * 1 * 5)
+

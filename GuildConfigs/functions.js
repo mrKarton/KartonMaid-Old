@@ -1,26 +1,41 @@
 var fs = require('fs');
 
-function getLanguage (id)
-{
-    return require('./guilds/' + id + ".json").language;
+var getGuild = (id) =>{
+    var guilds = JSON.parse(fs.readFileSync('configurations/guilds-data.temp'));
+
+    var IdArr = new Array();
+
+    guilds.forEach(guild => {
+        IdArr.push(guild.ID);
+    });
+
+    if(IdArr.indexOf(id) == -1)
+    {
+        return 0;
+    }
+    else
+    {
+        return guilds[IdArr.indexOf(id)];
+    }
 }
 
-function getPrefix(id)
-{
-    return require('./guilds/' + id + ".json").prefix;
+var setGuild = (n_guild) =>{
+    var guilds = JSON.parse(fs.readFileSync('configurations/guilds-data.temp'));
+
+    var IdArr = new Array();
+
+    guilds.forEach(guild => {
+        IdArr.push(guild.ID);
+    });
+
+    if(IdArr.indexOf(n_guild.ID) != -1)
+    {
+        guilds[IdArr.indexOf(n_guild.ID)] = n_guild;
+    }
+
+    fs.writeFileSync('configurations/guilds-data.temp', JSON.stringify(guilds));
 }
 
-function setStatChannels(arr, id)
-{
-    var gc = require('./guilds/' + id + ".json");
-     
-    gc.statChannels = arr;
-    gc.statEnabled = true;
-    console.log(gc);
-    fs.writeFileSync('./GuildConfigs/guilds/' + id + ".json", JSON.stringify(gc), (err)=>{console.log(err)});
-}
 
-
-module.exports.setStatChannels = setStatChannels;
-module.exports.getLang = getLanguage;
-module.exports.getPrefix = getPrefix;
+module.exports.get = getGuild;
+module.exports.set = setGuild;

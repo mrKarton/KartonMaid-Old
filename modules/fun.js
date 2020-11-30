@@ -1,6 +1,6 @@
 var discord = require('discord.js');
 var conf = require('../conf.json');
-var funcs = require('./functions.js');
+var funcs = require('./functions');
 var colors = require('../configurations/colors.json');
 var guildF = require('../GuildConfigs/functions');
 const request = require('request');
@@ -33,9 +33,12 @@ function getCoala(bot, msg, args)
     var ru = require('../configurations/fun-ru.json');
     var en = require('../configurations/fun-en.json');
     var lang = ru;
-    if(guildF.getLang(msg.guild.id) != 'rus')
+    var langID = 0;
+
+    if(guildF.get(msg.guild.id).Language == "en")
     {
         lang = en;
+        langID = 1;
     }
 
     var URL = URLs[funcs.getRandomInt(0, URLs.length)];
@@ -100,13 +103,15 @@ function getdog(bot, msg, args)
         "https://cdn.discordapp.com/attachments/512205598176313354/759779643497775124/77l4ml7Uqf8.png",
         "https://cdn.discordapp.com/attachments/512205598176313354/759779926818684938/YZ0jlAOYDQE.png"
     ];
-
     var ru = require('../configurations/fun-ru.json');
     var en = require('../configurations/fun-en.json');
     var lang = ru;
-    if(guildF.getLang(msg.guild.id) != 'rus')
+    var langID = 0;
+
+    if(guildF.get(msg.guild.id).Language == "en")
     {
         lang = en;
+        langID = 1;
     }
 
     var URL = URLs[funcs.getRandomInt(0, URLs.length)];
@@ -128,9 +133,12 @@ function meme(bot, msg, args)
     var ru = require('../configurations/fun-ru.json');
     var en = require('../configurations/fun-en.json');
     var lang = ru;
-    if(guildF.getLang(msg.guild.id) != 'rus')
+    var langID = 0;
+
+    if(guildF.get(msg.guild.id).Language == "en")
     {
         lang = en;
+        langID = 1;
     }
 
     var request = require('request');
@@ -157,9 +165,12 @@ async function Stock(bot, msg, args)
     var ru = require('../configurations/fun-ru.json');
     var en = require('../configurations/fun-en.json');
     var lang = ru;
-    if(guildF.getLang(msg.guild.id) != 'rus')
+    var langID = 0;
+
+    if(guildF.get(msg.guild.id).Language == "en")
     {
         lang = en;
+        langID = 1;
     }
 
     var infoMsg = await msg.channel.send(new discord.MessageEmbed()

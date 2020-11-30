@@ -43,17 +43,16 @@ function gift(bot, msg, args)
 
 function RP(bot, msg, args, type)
 {
-    var lang = dataRus;
+
+    var ru = require('../configurations/roleplay-ru.json');
+    var en = require('../configurations/roleplay-en.json');
+    var lang = ru;
     var langID = 0;
 
-    if(guildF.getLang(msg.guild.id) == 'rus')
+    if(guildF.get(msg.guild.id).Language == "en")
     {
-      lang = dataRus;
-    }
-    else
-    {
-      lang = dataEn;
-      langID = 1;
+        lang = en;
+        langID = 1;
     }
     var color_data = colors.roleplay;
     var color = color_data.kick;

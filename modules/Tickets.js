@@ -8,19 +8,20 @@ var colors = require('../configurations/colors.json');
 
 function reportInit(bot, msg, args)
 {
-    var guild = require('../GuildConfigs/guilds/' + msg.guild.id + ".json");
-
     var en = require('../localisation/en/admin.json');
     var rus = require('../localisation/rus/admin.json');
 
     var lang = rus;
 
-    if(!guild.reportInit)
+    if(guildF.get(msg.guild.id).Language == "en")
     {
-        if(guildF.getLang(msg.guild.id) == "en")
-        {
-            lang = en;
-        }
+        lang = en;
+    }
+
+    var guild = guildF.get(msg.guild.id);
+
+    if(!guild.Report_Enabled)
+    {
 
         var userChannel  = funcs.getID(args[0]);
         var adminChannel = funcs.getID(args[1]);
@@ -29,11 +30,11 @@ function reportInit(bot, msg, args)
         bot.channels.cache.get(adminChannel).send(new discord.MessageEmbed().setColor(colors.success).setDescription(lang.reports.admInit));
         bot.channels.cache.get(userChannel).send(new discord.MessageEmbed().setColor(colors.success).setDescription(lang.reports.usrInit));
 
-        guild.reportInit = true;
-        guild.admReport = adminChannel;
-        guild.usrReport = userChannel;
+        guild.Report_Enabled = true;
+        guild.Report_Admin = adminChannel;
+        guild.Report_Public = userChannel;
 
-        fs.writeFileSync('./GuildConfigs/guilds/' + msg.guild.id + ".json", JSON.stringify(guild));
+        guildF.set(guild);
     }
     
 }
@@ -45,9 +46,14 @@ async function reportMember(bot, msg, args)
 
     var lang = rus;
 
-    var guild = require('../GuildConfigs/guilds/' + msg.guild.id + ".json");
+    if(guildF.get(msg.guild.id).Language == "en")
+    {
+        lang = en;
+    }
+
+    var guild = guildF.get(msg.guild.id);
     
-    if(guild.reportInit)
+    if(guild.Report_Enabled)
     {
 
         var attachments = new Array();
@@ -61,9 +67,9 @@ async function reportMember(bot, msg, args)
 
         attachments.forEach((att)=>{admEmbed.setImage(att)})
         admEmbed.setURL(msg.url);
-        var admMessage = await bot.channels.cache.get(guild.admReport).send(admEmbed);
+        var admMessage = await bot.channels.cache.get(guild.Report_Admin).send(admEmbed);
 
-        var usrMessage = await bot.channels.cache.get(guild.usrReport).send(new discord.MessageEmbed().setColor(colors.info)
+        var usrMessage = await bot.channels.cache.get(guild.Report_Public).send(new discord.MessageEmbed().setColor(colors.info)
         .setTitle(lang.reports.newTicket).setAuthor(msg.author.username, msg.author.avatarURL()).setDescription(funcs.getStrValuesAfter(0, args)));
         // console.log(admMessage);
         admMessage.react('❌'); admMessage.react('✅');

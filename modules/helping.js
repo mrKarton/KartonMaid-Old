@@ -9,21 +9,17 @@ var guildF = require('../GuildConfigs/functions');
 
 function commands(bot, msg, args)
 {
-    var en = require('../localisation/en/helping.json');
-    var rus = require('../localisation/rus/helping.json');
+  var ru = require('../localisation/rus/helping.json');
+  var en = require('../localisation/en/helping.json');
+  var lang = ru;
+  var langID = 0;
 
-    var lang = rus;
-    var langID = 0;
-
-    if(guildF.getLang(msg.guild.id) == 'rus')
-    {
-      lang = rus;
-    }
-    else
-    {
+  if(guildF.get(msg.guild.id).Language == "en")
+  {
       lang = en;
       langID = 1;
-    }
+  }
+
 
     var em = new discord.MessageEmbed().setTitle(lang.commands.Title).setColor("#00e600")
     var c = 1;
@@ -34,7 +30,7 @@ function commands(bot, msg, args)
         var mod = moduler.modules[i];
         for(var j = 0; j < mod.commands.length; j++)
         {
-            allComands += "`" + guildF.getPrefix(msg.guild.id) + mod.commands[j].name[langID][0] + "` - " + mod.commands[j].ab[langID] + ", \n";
+            allComands += "`" + guildF.get(msg.guild.id).Prefix + mod.commands[j].name[langID][0] + "` - " + mod.commands[j].ab[langID] + ", \n";
             // console.log(mod);
             if(typeof mod.commands[i].requedPremissons != "undefined")
             {
@@ -58,21 +54,16 @@ function commands(bot, msg, args)
 
 function getModule(bot, msg, args)
 {
-    var en = require('../localisation/en/helping.json');
-    var rus = require('../localisation/rus/helping.json');
+  var ru = require('../localisation/rus/helping.json');
+  var en = require('../localisation/en/helping.json');
+  var lang = ru;
+  var langID = 0;
 
-    var lang = rus;
-    var langID = 0;
-
-    if(guildF.getLang(msg.guild.id) == 'rus')
-    {
-      lang = rus;
-    }
-    else
-    {
+  if(guildF.get(msg.guild.id).Language == "en")
+  {
       lang = en;
       langID = 1;
-    }
+  }
 
     for(var i =0; i < moduler.modules.length; i++)
     {
@@ -87,7 +78,7 @@ function getModule(bot, msg, args)
             for(var i =0; i < mod.commands.length; i++)
             {
               // console.log(mod.commands[i]);
-                cmdStr += "`" + guildF.getPrefix(msg.guild.id) + mod.commands[i].name[langID][0] + "` - " + mod.commands[i].ab[langID] + ". \n";
+                cmdStr += "`" +  guildF.get(msg.guild.id).Prefix + mod.commands[i].name[langID][0] + "` - " + mod.commands[i].ab[langID] + ". \n";
                 
                 if(typeof mod.commands[i].requedPremissons != "undefined")
                 {
@@ -112,8 +103,18 @@ function getModule(bot, msg, args)
 
 function Info(bot, msg, args)
 {
+  var ru = require('../localisation/rus/helping.json');
+  var en = require('../localisation/en/helping.json');
+    var lang = ru;
+    var langID = 0;
+
+    if(guildF.get(msg.guild.id).Language == "en")
+    {
+        lang = en;
+        langID = 1;
+    }
   //#region rus
-    if(guildF.getLang(msg.guild.id) == "rus")
+    if(langID == 0)
     {
       var embed = new discord.MessageEmbed().setTitle("Основная информация и помощь");
       embed.addField("О боте:", "Привет! Я твоя персональная горничная, я могу включить тебе музыку, сделаю для тебя эмбед, или покажу тебе смешной мем. \n" +
@@ -121,9 +122,9 @@ function Info(bot, msg, args)
       "\n\n\n **Основная Статистика:**", false);
       embed.addField("Серверов:", bot.guilds.cache.size, true);
       embed.addField("голосовых подключений: ", bot.voice.connections.size, true);
-      embed.addField("Пользователей:", bot.users.cache.size, true);
+      embed.addField("Пользователей:", 'Currently down because of new Discord politics', true);
       embed.addField("Каналов:", bot.channels.cache.size, true);
-      
+      console.log(bot.users.cache.keyArray());
       var options = {
           era: 'long',
           year: 'numeric',
@@ -142,8 +143,7 @@ function Info(bot, msg, args)
       embed.addField("Помощь автору проекта", "Помочь автору проекта вы можете задонатив ***[сюда](https://www.donationalerts.com/r/kartonks)***");
       embed.addField("Добавление бота на сервер", "Ссылка на добавление бота на ваш сервер -> [тык](https://discordapp.com/api/oauth2/authorize?client_id=688060877395722338&permissions=8&scope=bot)" +
       "\n\n");
-      embed.setFooter("Бот полностью разработан пользователем " + bot.users.cache.get(conf.karton).username + "#" + bot.users.cache.get(conf.karton).discriminator + 
-      " при поддержке \"Karton Bots Industries\". Спасибо за внимание!", bot.users.cache.get(conf.karton).avatarURL());
+      embed.setFooter("© " + bot.users.cache.get(conf.karton).username + " • 2020 • mrkarton.ru", bot.users.cache.get(conf.karton).avatarURL());
       embed.setThumbnail(bot.user.avatarURL());
       embed.setColor(colors.info);
       msg.channel.send(embed);
@@ -153,12 +153,12 @@ function Info(bot, msg, args)
     else
     {
       var embed = new discord.MessageEmbed().setTitle("Main information and help");
-      embed.addField("AboutL", "Hi! I'm your personal maid, I can play you music, make you an embed, or show you a funny meme. \n" +
+      embed.addField("About:", "Hi! I'm your personal maid, I can play you music, make you an embed, or show you a funny meme. \n" +
       "To find out all my commands, write `" + conf.prefix + module.exports.commands[0].name[1][0] + "`, I'll send you the entire list as private message " +
-      "\n\n\n **Основная Статистика:**", false);
+      "\n\n\n **Main statistic:**", false);
       embed.addField("Server count:", bot.guilds.cache.size, true);
       embed.addField("Voice connections: ", bot.voice.connections.size, true);
-      embed.addField("Users count:", bot.users.cache.size, true);
+      embed.addField("Users count:", 'Currently down because of new Discord politics', true);
       embed.addField("Channels count:", bot.channels.cache.size, true);
       
       var options = {
@@ -179,8 +179,7 @@ function Info(bot, msg, args)
       embed.addField("Developer assistance", "To help the author of the project, you can donate ***[here](https://www.donationalerts.com/r/kartonks)***");
       embed.addField("Add bot to your server", "Link to add a bot to your server -> [tap](https://discordapp.com/api/oauth2/authorize?client_id=688060877395722338&permissions=8&scope=bot)" +
       "\n\n");
-      embed.setFooter("A bot by " + bot.users.cache.get(conf.karton).username + "#" + bot.users.cache.get(conf.karton).discriminator + 
-      " with the support of \"Karton Bots Industries\".", bot.users.cache.get(conf.karton).avatarURL());
+      embed.setFooter("© " + bot.users.cache.get(conf.karton).username + " • 2020 • mrkarton.ru", bot.users.cache.get(conf.karton).avatarURL());
       embed.setThumbnail(bot.user.avatarURL());
       embed.setColor(colors.info);
       msg.channel.send(embed);
@@ -190,14 +189,26 @@ function Info(bot, msg, args)
 function dev(bot, msg, args)
 {
   var version = require('../version.json');
-  if(guildF.getLang(msg.guild.id) == "rus")
+
+  var ru = require('../localisation/rus/helping.json');
+    var en = require('../localisation/en/helping.json');
+    var lang = ru;
+    var langID = 0;
+
+    if(guildF.get(msg.guild.id).Language == "en")
+    {
+        lang = en;
+        langID = 1;
+    }
+
+  if(lang == 0)
   {
     var embed = new discord.MessageEmbed().setTitle("Информация о разработке");
     embed.setColor(colors.info);
     embed.setDescription("Информация о разработке бота и о том, как вы можете мне помочь.");
     embed.setThumbnail(bot.user.avatarURL());
     embed.addField("Баг репорт:", "Вы можете отпавить сведения о найденом баге с помощью команды `" 
-    + guildF.getPrefix(msg.guild.id) + "репорт`. (Команда доступна только серверным администраторам во избежание спама)");
+    + guildF.get(msg.guild.id).Prefix + "репорт`. (Команда доступна только серверным администраторам во избежание спама)");
     embed.addField("Информация о версии:", "Основная инфа.")
     embed.addField("Версия:", version.version, true);
     embed.addField("Перевод на английский:", version.localistion + "%", true);
@@ -216,8 +227,7 @@ function dev(bot, msg, args)
       embed.addField("Отдельное спасибо за помощь в разработке:", funcs.getHelpers(bot));
     }
 
-    embed.setFooter("Бот разработан пользователем " + bot.users.cache.get(conf.karton).username + "#" + bot.users.cache.get(conf.karton).discriminator + 
-      " при поддержке \"Karton Bots Industries\". Спасибо за внимание!", bot.users.cache.get(conf.karton).avatarURL());
+    embed.setFooter("© " + bot.users.cache.get(conf.karton).username + " • 2020 • mrkarton.ru", bot.users.cache.get(conf.karton).avatarURL());
 
     msg.channel.send(embed);
   }
@@ -229,7 +239,7 @@ function dev(bot, msg, args)
     embed.setDescription("Information on the development of the bot and how you can help me.");
     embed.setThumbnail(bot.user.avatarURL());
     embed.addField("Bug report:", "You can send information about a found bug using the command `" 
-    + guildF.getPrefix(msg.guild.id) + "report`. (This command is only available to server administrators to avoid spam)");
+    +  guildF.get(msg.guild.id).Prefix + "report`. (This command is only available to server administrators to avoid spam)");
     embed.addField("Version information:", "Basic info")
     embed.addField("Version:", version.version, true);
     embed.addField("English translation:", version.localistion + "%", true);
@@ -248,8 +258,7 @@ function dev(bot, msg, args)
       embed.addField("Special thanks for:", funcs.getHelpers(bot));
     }
 
-    embed.setFooter("A bot by " + bot.users.cache.get(conf.karton).username + "#" + bot.users.cache.get(conf.karton).discriminator + 
-      " with the support of \"Karton Bots Industries\".", bot.users.cache.get(conf.karton).avatarURL());
+    embed.setFooter("© " + bot.users.cache.get(conf.karton).username + " • 2020 • mrkarton.ru", bot.users.cache.get(conf.karton).avatarURL());
 
     msg.channel.send(embed);
   }

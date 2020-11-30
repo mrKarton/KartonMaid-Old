@@ -7,17 +7,17 @@ var colors  =    require('../configurations/colors.json');
 
 async function createClan(bot, msg, args)
 {
-    var guild = require('../GuildConfigs/guilds/' + msg.guild.id + '.json');
+    var guild = guildF.get(msg.guild.id);
 
     var guildClans;
 
-    if(typeof guild.clans == 'undefined')
+    if(guild.Clans == null)
     {
         guildClans = new Array();
     } 
     else
     {
-        guildClans = guild.clans;
+        guildClans = guild.Clans;
     }
 
     if(args[1][2] == '!')
@@ -81,21 +81,21 @@ async function createClan(bot, msg, args)
 
         guildClans.push(clanData);
 
-        guild.clans = guildClans;
+        guild.Clans = guildClans;
 
-        fs.writeFileSync('./GuildConfigs/guilds/' + msg.guild.id + '.json', JSON.stringify(guild));
+        guildF.set(guild);
     }
 }
 
 async function Invite(bot, msg, args)
 {
-    var en = require('../localisation/en/clans.json');
-    var rus = require('../localisation/rus/clans.json');
+    var en = require('../localisation/en/Clans.json');
+    var rus = require('../localisation/rus/Clans.json');
 
     var lang = rus;
     var langID = 0;
 
-    if(guildF.getLang(msg.guild.id) == 'rus')
+    if(guildF.get(msg.guild.id).Language == "rus")
     {
       lang = rus;
     }
@@ -105,9 +105,9 @@ async function Invite(bot, msg, args)
       langID = 1;
     }
 
-    var guild = require('../GuildConfigs/guilds/' + msg.guild.id + '.json');
+    var guild = guildF.get(msg.guild.id);
 
-    if(typeof guild.clans == 'undefined')
+    if(typeof guild.Clans == 'undefined')
     {
         console.log('Error 1');
         msg.react('❌');
@@ -128,7 +128,7 @@ async function Invite(bot, msg, args)
         return;
     }
 
-    var clans = guild.clans;
+    var Clans = guild.Clans;
 
     var roles = msg.guild.member(msg.author).roles.cache.keyArray();
 
@@ -137,7 +137,7 @@ async function Invite(bot, msg, args)
     var clan;
 
     roles.forEach((role)=>{
-        clans.forEach((clanData)=>{
+        Clans.forEach((clanData)=>{
             if(clanData.ownerRole.id == role
                 || clanData.deputyRole.id == role)
             {
@@ -151,7 +151,7 @@ async function Invite(bot, msg, args)
 
     var empoyeeRoles = msg.guild.members.cache.get(funcs.getID(args[0])).roles.cache.keyArray();
     empoyeeRoles.forEach((role)=>{
-        clans.forEach((clanData)=>{
+        Clans.forEach((clanData)=>{
             if(clanData.memberRole.id == role)
             {
                 possible = false;
@@ -192,13 +192,13 @@ async function Invite(bot, msg, args)
 
 function kick(bot, msg, args)
 {
-    var en = require('../localisation/en/clans.json');
-    var rus = require('../localisation/rus/clans.json');
+    var en = require('../localisation/en/Clans.json');
+    var rus = require('../localisation/rus/Clans.json');
 
     var lang = rus;
     var langID = 0;
 
-    if(guildF.getLang(msg.guild.id) == 'rus')
+    if(guildF.get(msg.guild.id).Language == "rus")
     {
       lang = rus;
     }
@@ -208,9 +208,9 @@ function kick(bot, msg, args)
       langID = 1;
     }
 
-    var guild = require('../GuildConfigs/guilds/' + msg.guild.id + '.json');
+    var guild = guildF.get(msg.guild.id);
 
-    if(typeof guild.clans == 'undefined')
+    if(typeof guild.Clans == 'undefined')
     {
         console.log('Error 1');
         msg.react('❌');
@@ -231,7 +231,7 @@ function kick(bot, msg, args)
         return;
     }
 
-    var clans = guild.clans;
+    var Clans = guild.Clans;
 
     var roles = msg.guild.member(msg.author).roles.cache.keyArray();
 
@@ -240,7 +240,7 @@ function kick(bot, msg, args)
     var clan;
 
     roles.forEach((role)=>{
-        clans.forEach((clanData)=>{
+        Clans.forEach((clanData)=>{
             if(clanData.ownerRole.id == role
                 || clanData.deputyRole.id == role)
             {
@@ -283,22 +283,22 @@ function kick(bot, msg, args)
 
     msg.react('✅');
 
-    var clanPos = clans.indexOf(clan);
+    var clanPos = Clans.indexOf(clan);
     clan.balckList.push(funcs.getID(args[0]));
-    clans[clanPos] = clan;
-    guild.clans = clans;
-    fs.writeFileSync('./GuildConfigs/guilds/' + msg.guild.id + '.json', JSON.stringify(guild));
+    Clans[clanPos] = clan;
+    guild.Clans = Clans;
+    guildF.set(guild);
 }
 
 function openClan(bot, msg, args)
 {
-    var en = require('../localisation/en/clans.json');
-    var rus = require('../localisation/rus/clans.json');
+    var en = require('../localisation/en/Clans.json');
+    var rus = require('../localisation/rus/Clans.json');
 
     var lang = rus;
     var langID = 0;
 
-    if(guildF.getLang(msg.guild.id) == 'rus')
+    if(guildF.get(msg.guild.id).Language == "rus")
     {
       lang = rus;
     }
@@ -308,16 +308,16 @@ function openClan(bot, msg, args)
       langID = 1;
     }
 
-    var guild = require('../GuildConfigs/guilds/' + msg.guild.id + '.json');
+    var guild = guildF.get(msg.guild.id);
 
-    if(typeof guild.clans == 'undefined')
+    if(typeof guild.Clans == 'undefined')
     {
         console.log('Error 1');
         msg.react('❌');
         return;
     }
 
-    var clans = guild.clans;
+    var Clans = guild.Clans;
 
     var roles = msg.guild.member(msg.author).roles.cache.keyArray();
 
@@ -325,7 +325,7 @@ function openClan(bot, msg, args)
     var clan;
 
     roles.forEach((role)=>{
-        clans.forEach((clanData)=>{
+        Clans.forEach((clanData)=>{
             if(clanData.ownerRole.id == role)
             {
                 possible = true;
@@ -346,26 +346,26 @@ function openClan(bot, msg, args)
         return;
     }
 
-    var clanPos = clans.indexOf(clan);
+    var clanPos = Clans.indexOf(clan);
     clan.open = true;
-    clans[clanPos] = clan;
-    guild.clans = clans;
+    Clans[clanPos] = clan;
+    guild.Clans = Clans;
     console.log(clan);
     setTimeout(()=>{
-        fs.writeFileSync('./GuildConfigs/guilds/' + msg.guild.id + '.json', JSON.stringify(guild));
+        guildF.set(guild);
     }, 1000)
     msg.react('✅');
 }
 
 function closeClan(bot, msg, args)
 {
-    var en = require('../localisation/en/clans.json');
-    var rus = require('../localisation/rus/clans.json');
+    var en = require('../localisation/en/Clans.json');
+    var rus = require('../localisation/rus/Clans.json');
 
     var lang = rus;
     var langID = 0;
 
-    if(guildF.getLang(msg.guild.id) == 'rus')
+    if(guildF.get(msg.guild.id).Language == "rus")
     {
       lang = rus;
     }
@@ -375,16 +375,16 @@ function closeClan(bot, msg, args)
       langID = 1;
     }
 
-    var guild = require('../GuildConfigs/guilds/' + msg.guild.id + '.json');
+    var guild = guildF.get(msg.guild.id);
 
-    if(typeof guild.clans == 'undefined')
+    if(typeof guild.Clans == 'undefined')
     {
         console.log('Error 1');
         msg.react('❌');
         return;
     }
 
-    var clans = guild.clans;
+    var Clans = guild.Clans;
 
     var roles = msg.guild.member(msg.author).roles.cache.keyArray();
 
@@ -392,7 +392,7 @@ function closeClan(bot, msg, args)
     var clan;
 
     roles.forEach((role)=>{
-        clans.forEach((clanData)=>{
+        Clans.forEach((clanData)=>{
             if(clanData.ownerRole.id == role
                 || clanData.deputyRole.id == role)
             {
@@ -414,27 +414,27 @@ function closeClan(bot, msg, args)
         return;
     }
 
-    var clanPos = clans.indexOf(clan);
+    var clanPos = Clans.indexOf(clan);
 
     clan.open = false;
 
-    clans[clanPos] = clan;
+    Clans[clanPos] = clan;
 
-    guild.clans = clans;
+    guild.Clans = Clans;
 
-    fs.writeFileSync('./GuildConfigs/guilds/' + msg.guild.id + '.json', JSON.stringify(guild));
+    guildF.set(guild);
     msg.react('✅');
 }
 
 function enterClan(bot, msg, args)
 {
-    var en = require('../localisation/en/clans.json');
-    var rus = require('../localisation/rus/clans.json');
+    var en = require('../localisation/en/Clans.json');
+    var rus = require('../localisation/rus/Clans.json');
 
     var lang = rus;
     var langID = 0;
 
-    if(guildF.getLang(msg.guild.id) == 'rus')
+    if(guildF.get(msg.guild.id).Language == "rus")
     {
       lang = rus;
     }
@@ -444,9 +444,9 @@ function enterClan(bot, msg, args)
       langID = 1;
     }
 
-    var guild = require('../GuildConfigs/guilds/' + msg.guild.id + '.json');
+    var guild = guildF.get(msg.guild.id);
 
-    if(typeof guild.clans == 'undefined')
+    if(typeof guild.Clans == 'undefined')
     {
         console.log('Error 1');
         msg.react('❌');
@@ -467,7 +467,7 @@ function enterClan(bot, msg, args)
         return;
     }
 
-    var clans = guild.clans;
+    var Clans = guild.Clans;
 
     var roles = msg.guild.member(msg.author).roles.cache.keyArray();
 
@@ -475,7 +475,7 @@ function enterClan(bot, msg, args)
     var clan;
 
     roles.forEach((role)=>{
-        clans.forEach((clanData)=>{
+        Clans.forEach((clanData)=>{
             if(clanData.memberRole == role)
             {
                 possible = false;
@@ -492,7 +492,7 @@ function enterClan(bot, msg, args)
 
     possible = false;
 
-    clans.forEach((clanData)=>{
+    Clans.forEach((clanData)=>{
         if(clanData.name.toLowerCase() == args[0].toLowerCase())
         {
             possible = true;
@@ -534,13 +534,13 @@ function enterClan(bot, msg, args)
 
 function leaveClan(bot, msg, args)
 {
-    var en = require('../localisation/en/clans.json');
-    var rus = require('../localisation/rus/clans.json');
+    var en = require('../localisation/en/Clans.json');
+    var rus = require('../localisation/rus/Clans.json');
 
     var lang = rus;
     var langID = 0;
 
-    if(guildF.getLang(msg.guild.id) == 'rus')
+    if(guildF.get(msg.guild.id).Language == "rus")
     {
       lang = rus;
     }
@@ -550,16 +550,16 @@ function leaveClan(bot, msg, args)
       langID = 1;
     }
 
-    var guild = require('../GuildConfigs/guilds/' + msg.guild.id + '.json');
+    var guild = guildF.get(msg.guild.id);
 
-    if(typeof guild.clans == 'undefined')
+    if(typeof guild.Clans == 'undefined')
     {
         console.log('Error 1');
         msg.react('❌');
         return;
     }
 
-    var clans = guild.clans;
+    var Clans = guild.Clans;
 
     var roles = msg.guild.member(msg.author).roles.cache.keyArray();
 
@@ -568,7 +568,7 @@ function leaveClan(bot, msg, args)
     var leader = false;
 
     roles.forEach((role)=>{
-        clans.forEach((clanData)=>{
+        Clans.forEach((clanData)=>{
             if(clanData.memberRole.id == role)
             {
                 possible = true;
@@ -601,13 +601,13 @@ function leaveClan(bot, msg, args)
 function getClanInfo(bot, msg, args)
 {
 
-    var en = require('../localisation/en/clans.json');
-    var rus = require('../localisation/rus/clans.json');
+    var en = require('../localisation/en/Clans.json');
+    var rus = require('../localisation/rus/Clans.json');
 
     var lang = rus;
     var langID = 0;
 
-    if(guildF.getLang(msg.guild.id) == 'rus')
+    if(guildF.get(msg.guild.id).Language == "rus")
     {
       lang = rus;
     }
@@ -617,8 +617,8 @@ function getClanInfo(bot, msg, args)
       langID = 1;
     }
 
-    var guild = require('../GuildConfigs/guilds/' + msg.guild.id + '.json');
-    var clans = guild.clans;
+    var guild = guildF.get(msg.guild.id);
+    var Clans = guild.Clans;
     
     var clan;
 
@@ -626,7 +626,7 @@ function getClanInfo(bot, msg, args)
     if(args[0] == null)
     {
         msg.guild.member(msg.author).roles.cache.keyArray().forEach((role)=>{
-            clans.forEach((clanData)=>{
+            Clans.forEach((clanData)=>{
                 if(clanData.memberRole.id == role)
                 {
                     clan = clanData;
@@ -644,7 +644,7 @@ function getClanInfo(bot, msg, args)
     {
         if(args[0][0] == '<' && args[0][args[0].length -1] == '>')
         {
-            clans.forEach((clanData)=>{
+            Clans.forEach((clanData)=>{
                 if(clanData.memberRole == funcs.getID(args[0]))
                 {
                     clan = clanData;
@@ -655,7 +655,7 @@ function getClanInfo(bot, msg, args)
 
         else
         {
-            clans.forEach((clanData)=>{
+            Clans.forEach((clanData)=>{
                 if(clanData.name == args[0])
                 {
                     clan = clanData;
@@ -743,13 +743,13 @@ function getClanInfo(bot, msg, args)
 
 function Promotion(bot, msg, args)
 {
-    var en = require('../localisation/en/clans.json');
-    var rus = require('../localisation/rus/clans.json');
+    var en = require('../localisation/en/Clans.json');
+    var rus = require('../localisation/rus/Clans.json');
 
     var lang = rus;
     var langID = 0;
 
-    if(guildF.getLang(msg.guild.id) == 'rus')
+    if(guildF.get(msg.guild.id).Language == "rus")
     {
       lang = rus;
     }
@@ -759,9 +759,9 @@ function Promotion(bot, msg, args)
       langID = 1;
     }
 
-    var guild = require('../GuildConfigs/guilds/' + msg.guild.id + '.json');
+    var guild = guildF.get(msg.guild.id);
 
-    if(typeof guild.clans == 'undefined')
+    if(typeof guild.Clans == 'undefined')
     {
         console.log('Error 1');
         msg.react('❌');
@@ -782,7 +782,7 @@ function Promotion(bot, msg, args)
         return;
     }
 
-    var clans = guild.clans;
+    var Clans = guild.Clans;
 
     var roles = msg.guild.member(msg.author).roles.cache.keyArray();
 
@@ -790,7 +790,7 @@ function Promotion(bot, msg, args)
     var clan;
 
     roles.forEach((role)=>{
-        clans.forEach((clanData)=>{
+        Clans.forEach((clanData)=>{
             if(clanData.ownerRole.id == role)
             {
                 possible = true;
@@ -832,13 +832,13 @@ function Promotion(bot, msg, args)
 
 function DisPromotion(bot, msg, args)
 {
-    var en = require('../localisation/en/clans.json');
-    var rus = require('../localisation/rus/clans.json');
+    var en = require('../localisation/en/Clans.json');
+    var rus = require('../localisation/rus/Clans.json');
 
     var lang = rus;
     var langID = 0;
 
-    if(guildF.getLang(msg.guild.id) == 'rus')
+    if(guildF.get(msg.guild.id).Language == "rus")
     {
       lang = rus;
     }
@@ -848,9 +848,9 @@ function DisPromotion(bot, msg, args)
       langID = 1;
     }
 
-    var guild = require('../GuildConfigs/guilds/' + msg.guild.id + '.json');
+    var guild = guildF.get(msg.guild.id);
 
-    if(typeof guild.clans == 'undefined')
+    if(typeof guild.Clans == 'undefined')
     {
         console.log('Error 1');
         msg.react('❌');
@@ -871,7 +871,7 @@ function DisPromotion(bot, msg, args)
         return;
     }
 
-    var clans = guild.clans;
+    var Clans = guild.Clans;
 
     var roles = msg.guild.member(msg.author).roles.cache.keyArray();
 
@@ -879,7 +879,7 @@ function DisPromotion(bot, msg, args)
     var clan;
 
     roles.forEach((role)=>{
-        clans.forEach((clanData)=>{
+        Clans.forEach((clanData)=>{
             if(clanData.ownerRole.id == role)
             {
                 possible = true;
@@ -951,8 +951,8 @@ function addAdmSymp(bot, msg, args)
 {
     // console.log('trying');
 
-    var en = require('../localisation/en/clans.json');
-    var rus = require('../localisation/rus/clans.json');
+    var en = require('../localisation/en/Clans.json');
+    var rus = require('../localisation/rus/Clans.json');
 
     var lang = rus;
     var langID = 0;
@@ -968,7 +968,7 @@ function addAdmSymp(bot, msg, args)
     }
     // console.log(msg.guild);
     var guild = require('../GuildConfigs/guilds/' + msg.guild.id + '.json');
-    var clans = guild.clans;
+    var Clans = guild.Clans;
     
     var clan;
 
@@ -976,7 +976,7 @@ function addAdmSymp(bot, msg, args)
     if(args[0] == null)
     {
         msg.guild.member(msg.author).roles.cache.keyArray().forEach((role)=>{
-            clans.forEach((clanData)=>{
+            Clans.forEach((clanData)=>{
                 if(clanData.memberRole.id == role)
                 {
                     clan = clanData;
@@ -994,7 +994,7 @@ function addAdmSymp(bot, msg, args)
     {
         if(args[0][0] == '<' && args[0][args[0].length -1] == '>')
         {
-            clans.forEach((clanData)=>{
+            Clans.forEach((clanData)=>{
                 if(clanData.memberRole == funcs.getID(args[0]))
                 {
                     clan = clanData;
@@ -1005,7 +1005,7 @@ function addAdmSymp(bot, msg, args)
 
         else
         {
-            clans.forEach((clanData)=>{
+            Clans.forEach((clanData)=>{
                 if(clanData.name == args[0])
                 {
                     clan = clanData;
@@ -1022,13 +1022,13 @@ function addAdmSymp(bot, msg, args)
     try{
         clan.admSymp += parseInt(args[1]);
         clan.rating += parseInt(args[1]);
-        var clanPos = clans.indexOf(clan);
+        var clanPos = Clans.indexOf(clan);
 
-        clans[clanPos] = clan;
+        Clans[clanPos] = clan;
 
-        guild.clans = clans;
+        guild.Clans = Clans;
 
-        fs.writeFileSync('./GuildConfigs/guilds/' + msg.guild.id + '.json', JSON.stringify(guild));
+        guildF.set(guild);
         msg.react('✅');
 
     }catch(e){
@@ -1041,13 +1041,13 @@ function Top(bot, msg, args)
 {
     // console.log('trying');
 
-    var en = require('../localisation/en/clans.json');
-    var rus = require('../localisation/rus/clans.json');
+    var en = require('../localisation/en/Clans.json');
+    var rus = require('../localisation/rus/Clans.json');
 
     var lang = rus;
     var langID = 0;
 
-    if(guildF.getLang(msg.guild.id) == 'rus')
+    if(guildF.get(msg.guild.id).Language == 'rus')
     {
       lang = rus;
     }
@@ -1057,23 +1057,23 @@ function Top(bot, msg, args)
       langID = 1;
     }
     // console.log(msg.guild);
-    var guild = require('../GuildConfigs/guilds/' + msg.guild.id + '.json');
-    var clans = guild.clans;
+    var guild = guildF.get(msg.guild.id);
+    var Clans = guild.Clans;
 
-    clans.sort((prev, next) => next.rating - prev.rating);
+    Clans.sort((prev, next) => next.rating - prev.rating);
 
     var string = "";
 
-    clans.forEach(clan => {
-        string += "**" + parseInt(clans.indexOf(clan) + 1) + "** - " + clan.name + " (" + clan.rating + ")\n";
+    Clans.forEach(clan => {
+        string += "**" + parseInt(Clans.indexOf(clan) + 1) + "** - " + clan.name + " (" + clan.rating + ")\n";
     })
 
     msg.channel.send(new ds.MessageEmbed().setColor(colors.info).setTitle(lang.top).setDescription(string));
 }
 
 var Delete = (bot, msg, args) => {
-    var en = require('../localisation/en/clans.json');
-    var rus = require('../localisation/rus/clans.json');
+    var en = require('../localisation/en/Clans.json');
+    var rus = require('../localisation/rus/Clans.json');
 
     var lang = rus;
     var langID = 0;
@@ -1090,14 +1090,14 @@ var Delete = (bot, msg, args) => {
 
     var guild = require('../GuildConfigs/guilds/' + msg.guild.id + '.json');
 
-    if(typeof guild.clans == 'undefined')
+    if(typeof guild.Clans == 'undefined')
     {
         console.log('Error 1');
         msg.react('❌');
         return;
     }
 
-    var clans = guild.clans;
+    var Clans = guild.Clans;
 
     var roles = msg.guild.member(msg.author).roles.cache.keyArray();
 
@@ -1105,7 +1105,7 @@ var Delete = (bot, msg, args) => {
     var clan;
 
     roles.forEach((role)=>{
-        clans.forEach((clanData)=>{
+        Clans.forEach((clanData)=>{
             if(clanData.ownerRole.id == role)
             {
                 possible = true;
@@ -1120,7 +1120,7 @@ var Delete = (bot, msg, args) => {
         return;
     }
 
-    var clanPos = clans.indexOf(clan);
+    var clanPos = Clans.indexOf(clan);
 
     clan.clanChannels.forEach(channel => {
         bot.channels.cache.get(channel).delete();
@@ -1130,7 +1130,7 @@ var Delete = (bot, msg, args) => {
     msg.guild.roles.cache.get(clan.memberRole.id).delete();
     msg.guild.roles.cache.get(clan.deputyRole.id).delete();
 
-    clans.splice(clanPos, 1);
+    Clans.splice(clanPos, 1);
 
     msg.react('✅');
 }
@@ -1176,7 +1176,7 @@ module.exports.commands = [
 ]
 
 module.exports.about = {
-    name: [["кланы", "клан"], ["clans", "clan"]],
+    name: [["кланы", "клан"], ["сlans", "clan"]],
     about:["Устройте эпичные битвы кланов(Сами, конечно же, я просто помогу вести учёт <3)", "Arrange epic clan battles(By yourself, of course, I'll just help you keep track of <3)"]
 }
 
@@ -1195,12 +1195,12 @@ function addRating(msg)
 
         var guild = require('../GuildConfigs/guilds/' + msg.guild.id + '.json');
 
-        if(typeof guild.clans == 'undefined')
+        if(typeof guild.Clans == 'undefined')
         {
             return;
         }
 
-        var clans = guild.clans;
+        var Clans = guild.Clans;
 
         var roles = msg.guild.member(msg.author).roles.cache.keyArray();
 
@@ -1208,7 +1208,7 @@ function addRating(msg)
         var clan;
 
         roles.forEach((role)=>{
-            clans.forEach((clanData)=>{
+            Clans.forEach((clanData)=>{
                 if(clanData.ownerRole.id == role)
                 {
                     clan = clanData;
@@ -1240,13 +1240,13 @@ function addRating(msg)
 
         // console.log(clan);
 
-        var clanPos = clans.indexOf(clan);
+        var clanPos = Clans.indexOf(clan);
 
-        clans[clanPos] = clan;
+        Clans[clanPos] = clan;
 
-        guild.clans = clans;
+        guild.Clans = Clans;
 
-        fs.writeFileSync('./GuildConfigs/guilds/' + msg.guild.id + '.json', JSON.stringify(guild));
+        guildF.set(guild);
     
 }
 

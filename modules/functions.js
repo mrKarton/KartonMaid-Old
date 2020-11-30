@@ -103,8 +103,7 @@ function getHelloMsg(lang, bot)
         "2: You can set every prefix you want using `!prefix` (no spaces, please)");
         em.addField("Helping", "Use `!commands` for get commands list as dirrect message" + 
         "\n Use `!developing` for get knowlege, how can you help developing process.");
-        em.setFooter("A bot by " + bot.users.cache.get(conf.karton).username + "#" + bot.users.cache.get(conf.karton).discriminator + 
-        " with the support of \"Karton Bots Industries\".", bot.users.cache.get(conf.karton).avatarURL());
+        em.setFooter("© " + bot.users.cache.get(conf.karton).username + " • 2020 • mrkarton.ru", bot.users.cache.get(conf.karton).avatarURL());
         em.setThumbnail(bot.user.avatarURL());
     }
     else
@@ -116,10 +115,9 @@ function getHelloMsg(lang, bot)
         "2: Установите префикс, какой вам удобно `!префикс` (Давайте без пробелов, пожалуйста)");
         em.addField("Помощь", "Используйте `!команды` что бы я отправила вам весь список вам в ЛС" + 
         "\n Напишите `!разработка` что бы узнать, как **вы** можете помочь процессу разработки.");
-        em.setFooter("Бот разработан пользователем " + bot.users.cache.get(conf.karton).username + "#" + bot.users.cache.get(conf.karton).discriminator + 
-        " при поддержке \"Karton Bots Industries\".", bot.users.cache.get(conf.karton).avatarURL());
+        em.setFooter("© " + bot.users.cache.get(conf.karton).username + " • 2020 • mrkarton.ru", bot.users.cache.get(conf.karton).avatarURL());
         em.setThumbnail(bot.user.avatarURL());
-        em.addField("How to change language?", "If you don't talk russian and all this text is a some kinda ХРЕНЬ, type `!language en` for set english lang");
+        em.addField("How to change language?", "If you don't talk russian, type `!language en` for set english lang");
     }
 
     return em;

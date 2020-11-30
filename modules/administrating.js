@@ -7,32 +7,36 @@ var colors = require('../configurations/colors.json');
 
 function setPrefix(bot, msg, args)
 {
+
     var en = require('../localisation/en/admin.json');
     var rus = require('../localisation/rus/admin.json');
 
     var lang = rus;
 
-    if(guildF.getLang(msg.guild.id) == "en")
+    if(guildF.get(msg.guild.id).Language == 'en')
     {
         lang = en;
+        
     }
 
-    if(funcs.isAdmin(msg.author, msg.guild.id, bot))
-    {
+
         if (args.length > 1)
         {
+            console.log('err');
             msg.channel.send(new discord.MessageEmbed().setColor(colors.error).setDescription(lang.setPrefix.syntaxError));
         }
         else
         {
-            var guildObj = require('../GuildConfigs/guilds/' + msg.guild.id + ".json");
-            guildObj.prefix = args[0];
+            console.log('set')
+            var guild = guildF.get(msg.guild.id);
 
-            fs.writeFile('./GuildConfigs/guilds/' + msg.guild.id + ".json", JSON.stringify(guildObj), (err)=>{if(err) console.log(err)});
+            guild.Prefix = args[0];
+
+            guildF.set(guild);
 
             msg.channel.send(new discord.MessageEmbed().setColor(colors.success).setDescription(lang.setPrefix.body));
         }
-    }
+    
 }
 
 function setLang(bot,msg, args)
@@ -42,14 +46,13 @@ function setLang(bot,msg, args)
 
     var lang = rus;
 
-    if(guildF.getLang(msg.guild.id) == "en")
+    if(guildF.get(msg.guild.id).Language == "en")
     {
         lang = en;
     }
 
-    if(funcs.isAdmin(msg.author, msg.guild.id, bot))
-    {
-        var guildObj = require('../GuildConfigs/guilds/' + msg.guild.id + ".json");
+
+        var guildObj = guildF.get(msg.guild.id);
         
         var succ = true;
 
@@ -76,12 +79,12 @@ function setLang(bot,msg, args)
         {
             guildObj.language = newLang;
 
-            fs.writeFile('./GuildConfigs/guilds/' + msg.guild.id + ".json", JSON.stringify(guildObj), (err)=>{if(err) console.log(err)});
+            guildF.set(guildObj);
 
             
             msg.channel.send(new discord.MessageEmbed().setColor(colors.success).setDescription(lang.changeLang.succsess));
         }
-    }
+    
 }
 
 function report(bot, msg, args)
@@ -107,14 +110,14 @@ async function enableStat(bot, msg, args)
 
     var lang = rus;
 
-    if(guildF.getLang(msg.guild.id) == "en")
+    if(guildF.get(msg.guild.id).Language == "en")
     {
         lang = en;
     }
     
-    var guildC = require('../GuildConfigs/guilds/' + msg.guild.id + '.json');
+    var guildC = guildF.get(msg.guild.id);
 
-    if(!guildC.statEnabled)
+    if(!guildC.Stat_Enabled)
     {
 
         msg.channel.send(new discord.MessageEmbed().setColor(colors.info).setDescription(lang.stat.processing));
@@ -143,7 +146,10 @@ async function enableStat(bot, msg, args)
         ], position: 0});
         statChanels.push(botStat.id);
 
-        guildF.setStatChannels(statChanels, msg.guild.id)
+        guildC.Stat_Channels = statChanels;
+        guildC.Stat_Enabled = true;
+
+        guildF.set(guildC)
         
         msg.channel.send(new discord.MessageEmbed().setColor(colors.success).setDescription(lang.stat.eSuccess));
     }
@@ -160,25 +166,25 @@ function disableStat(bot, msg, args)
 
     var lang = rus;
 
-    if(guildF.getLang(msg.guild.id) == "en")
+    if(guildF.get(msg.guild.id).Language == "en")
     {
         lang = en;
     }
 
     
-    var guildC = require('../GuildConfigs/guilds/' + msg.guild.id + '.json');
+    var guildC = guildF.get(msg.guild.id);
 
-    if(guildC.statEnabled)
+    if(guildC.Stat_Enabled)
     {
         bot.channels.cache.get(guildC.statChannels[0]).delete();
         bot.channels.cache.get(guildC.statChannels[1]).delete();
         bot.channels.cache.get(guildC.statChannels[2]).delete();
 
-        var gc = require('../GuildConfigs/guilds/' + msg.guild.id + ".json");
+        var gc = guildF.get(msg.guild.id);
         
         gc.statChannels = [];
         gc.statEnabled = false;
-        fs.writeFileSync('./GuildConfigs/guilds/' + msg.guild.id + ".json", JSON.stringify(gc), (err)=>{console.log(err)});
+        guildF.set(gc);
 
         msg.channel.send(new discord.MessageEmbed().setColor(colors.error).setDescription(lang.stat.dSuccess));
     }
@@ -195,7 +201,7 @@ function reactRole(bot, msg, args)
 
     var lang = rus;
 
-    if(guildF.getLang(msg.guild.id) == "en")
+    if(guildF.get(msg.guild.id).Language == "en")
     {
         lang = en;
     }
@@ -233,8 +239,8 @@ module.exports.commands = [
     
     {name:[["репорт"], ["report"]], out:report, ab:["Нашли баг? Сообщите нам о нём.", "Found an bug? Unexpected error? Talk me about it!"], requedPremissons:["ADMINSTRATOR"]},
     
-    {name:[["статистика.включить", "стат.включить", "стат.вкл"],["statistic.enable", "stat.enable"]], out:enableStat, ab: ["Включитие статистику сервера, которая будет описана в списке каналов",
-    "turn on the servers statistic. I'll print it in channels list"], requedPremissons:["ADMINISTRATOR"]},
+    {name:[["статистика.включить", "стат.включить", "стат.вкл"],["statistic.enable", "stat.enable"]], out:enableStat, ab: ["Включитие статистику сервера, которая будет описана в списке каналов \n \n Currently bugged because of new Discord politics",
+    "turn on the servers statistic. I'll print it in channels list \n Currently bugged because of new Discord politics"], requedPremissons:["ADMINISTRATOR"]},
     
     {name:[["статистика.выключить", "стат.выключить", "стат.выкл"], ["statistic.disable", "stat.disable"]], out:disableStat, ab: ["Отключение статистики сервера. Каналы будут удалены автоматически",
     "Disable the server stats. I'll delete() this channels."], requedPremissons:["ADMINISTRATOR"]},

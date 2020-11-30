@@ -35,9 +35,20 @@ function RedButton(bot, msg, args)
     }
 }
 
+function anounce(bot, msg, args)
+{
+    bot.guilds.cache.forEach((guild)=>{
+        if(guild.systemChannel != null)
+        {
+            guild.systemChannel.send("**Developing anounce**\n" + funcs.getStrValuesAfter(0, args));
+        }
+    });
+}
+
 module.exports.commands = [
     {name: [["activity"], ["activity"]], out: setActivity, requedPremissons:["KARTON"]},
     {name: [["servers"], ["servers"]], out: getServers, requedPremissons:["KARTON"]},
-    {name: [["log"], ["log"]], out:log},
-    {name: [["кк"], ["rb"]], out:RedButton, requedPremissons:["KARTON"]}
+    {name: [["log"], ["log"]], out:log, requedPremissons:["KARTON"]},
+    {name: [["кк"], ["rb"]], out:RedButton, requedPremissons:["KARTON"]},
+    {name: [["anounce"], ["anounce"]], out:anounce, requedPremissons:["KARTON"]}
 ];

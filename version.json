@@ -1,6 +1,6 @@
 {
-    "dev": true,
-    "version": "1.4.1",
-    "localistion": 99,
-    "changelog":"**!!!** ClanUpdate is here! (!module clans) \n\n •Changed rating calculating system \n •Added clan deletion"
+    "dev": false,
+    "version": "2.0 alpha",
+    "localistion": 100,
+    "changelog":"New Database system, \n\n Removed Music module from list (not deleted)"
 }
