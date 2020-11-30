@@ -89,8 +89,8 @@ async function createClan(bot, msg, args)
 
 async function Invite(bot, msg, args)
 {
-    var en = require('../localisation/en/Clans.json');
-    var rus = require('../localisation/rus/Clans.json');
+    var en = require('../localisation/en/clans.json');
+    var rus = require('../localisation/rus/clans.json');
 
     var lang = rus;
     var langID = 0;
@@ -192,8 +192,8 @@ async function Invite(bot, msg, args)
 
 function kick(bot, msg, args)
 {
-    var en = require('../localisation/en/Clans.json');
-    var rus = require('../localisation/rus/Clans.json');
+    var en = require('../localisation/en/clans.json');
+    var rus = require('../localisation/rus/clans.json');
 
     var lang = rus;
     var langID = 0;
@@ -292,8 +292,8 @@ function kick(bot, msg, args)
 
 function openClan(bot, msg, args)
 {
-    var en = require('../localisation/en/Clans.json');
-    var rus = require('../localisation/rus/Clans.json');
+    var en = require('../localisation/en/clans.json');
+    var rus = require('../localisation/rus/clans.json');
 
     var lang = rus;
     var langID = 0;
@@ -359,8 +359,8 @@ function openClan(bot, msg, args)
 
 function closeClan(bot, msg, args)
 {
-    var en = require('../localisation/en/Clans.json');
-    var rus = require('../localisation/rus/Clans.json');
+    var en = require('../localisation/en/clans.json');
+    var rus = require('../localisation/rus/clans.json');
 
     var lang = rus;
     var langID = 0;
@@ -428,8 +428,8 @@ function closeClan(bot, msg, args)
 
 function enterClan(bot, msg, args)
 {
-    var en = require('../localisation/en/Clans.json');
-    var rus = require('../localisation/rus/Clans.json');
+    var en = require('../localisation/en/clans.json');
+    var rus = require('../localisation/rus/clans.json');
 
     var lang = rus;
     var langID = 0;
@@ -534,8 +534,8 @@ function enterClan(bot, msg, args)
 
 function leaveClan(bot, msg, args)
 {
-    var en = require('../localisation/en/Clans.json');
-    var rus = require('../localisation/rus/Clans.json');
+    var en = require('../localisation/en/clans.json');
+    var rus = require('../localisation/rus/clans.json');
 
     var lang = rus;
     var langID = 0;
@@ -601,8 +601,8 @@ function leaveClan(bot, msg, args)
 function getClanInfo(bot, msg, args)
 {
 
-    var en = require('../localisation/en/Clans.json');
-    var rus = require('../localisation/rus/Clans.json');
+    var en = require('../localisation/en/clans.json');
+    var rus = require('../localisation/rus/clans.json');
 
     var lang = rus;
     var langID = 0;
@@ -743,8 +743,8 @@ function getClanInfo(bot, msg, args)
 
 function Promotion(bot, msg, args)
 {
-    var en = require('../localisation/en/Clans.json');
-    var rus = require('../localisation/rus/Clans.json');
+    var en = require('../localisation/en/clans.json');
+    var rus = require('../localisation/rus/clans.json');
 
     var lang = rus;
     var langID = 0;
@@ -832,8 +832,8 @@ function Promotion(bot, msg, args)
 
 function DisPromotion(bot, msg, args)
 {
-    var en = require('../localisation/en/Clans.json');
-    var rus = require('../localisation/rus/Clans.json');
+    var en = require('../localisation/en/clans.json');
+    var rus = require('../localisation/rus/clans.json');
 
     var lang = rus;
     var langID = 0;
@@ -951,8 +951,8 @@ function addAdmSymp(bot, msg, args)
 {
     // console.log('trying');
 
-    var en = require('../localisation/en/Clans.json');
-    var rus = require('../localisation/rus/Clans.json');
+    var en = require('../localisation/en/clans.json');
+    var rus = require('../localisation/rus/clans.json');
 
     var lang = rus;
     var langID = 0;
@@ -1041,8 +1041,8 @@ function Top(bot, msg, args)
 {
     // console.log('trying');
 
-    var en = require('../localisation/en/Clans.json');
-    var rus = require('../localisation/rus/Clans.json');
+    var en = require('../localisation/en/clans.json');
+    var rus = require('../localisation/rus/clans.json');
 
     var lang = rus;
     var langID = 0;
@@ -1072,8 +1072,8 @@ function Top(bot, msg, args)
 }
 
 var Delete = (bot, msg, args) => {
-    var en = require('../localisation/en/Clans.json');
-    var rus = require('../localisation/rus/Clans.json');
+    var en = require('../localisation/en/clans.json');
+    var rus = require('../localisation/rus/clans.json');
 
     var lang = rus;
     var langID = 0;
