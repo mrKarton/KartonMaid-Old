@@ -110,7 +110,20 @@ bot.on('guildCreate', (guild)=>{
 
 bot.on('message', (message)=>{
     
-    // clans.raiting(message);
+    
+
+    if(message.author.id == bot.user.id)
+    {
+        return;
+    }
+
+    if(message.guild == null)
+    {
+        message.reply('I don\'t working in DM');
+        return;
+    }
+
+    clans.raiting(message);
 
     var LangID = 0;
 
@@ -124,7 +137,7 @@ bot.on('message', (message)=>{
         if(message.author.id != bot.user.id)
         {
             
-            if(true)
+            if(typeof message.guild.id != 'undefined')
             {
                 var args = splitForBot(message.content, guildF.get(message.guild.id).Prefix);
                 if(args != 0)  

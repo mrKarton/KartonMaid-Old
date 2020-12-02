@@ -93,10 +93,14 @@ function report(bot, msg, args)
     {
         if(args.length > 1)
         {
-            bot.users.cache.get(conf.karton).send(new discord.MessageEmbed().setColor(colors.info)
-            .setTimestamp(new Date()).setTitle("Новое сообщение о баге.").setDescription("Сервер: " + msg.guild.name + "(" + msg.guild.id + ")" + "-" + 
-            guildF.getLang(msg.guild.id)  + " \n Пользователь: " + msg.author.username + "(" + msg.author.id + ")")
-            .addField("Текст сообщения:", funcs.getStrValuesAfter(0, args)));
+            var guild = guildF.get(msg.guild.id);
+            var embed = (new discord.MessageEmbed().setColor(colors.info)
+            .setTimestamp(new Date()).setTitle("Новое сообщение о баге.")
+            .addField("Текст сообщения:", funcs.getStrValuesAfter(0, args)))
+            .addField("Пользователь", msg.author.username + " (" + msg.author.id + ")")
+            .setFooter(msg.guild.name + " • " + msg.guild.id + " • " + guild.Language + " • " + msg.guild.members.cache.size,
+            msg.guild.iconURL());
+            bot.users.cache.get(conf.karton).send(embed);
 
             msg.channel.send(new discord.MessageEmbed().setColor(colors.success).setDescription("Report sended. Thank you <3"));
         }
@@ -182,8 +186,8 @@ function disableStat(bot, msg, args)
 
         var gc = guildF.get(msg.guild.id);
         
-        gc.statChannels = [];
-        gc.statEnabled = false;
+        gc.Stat_Channels = [];
+        gc.Stat_Enabled = false;
         guildF.set(gc);
 
         msg.channel.send(new discord.MessageEmbed().setColor(colors.error).setDescription(lang.stat.dSuccess));

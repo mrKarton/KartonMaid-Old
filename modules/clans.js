@@ -671,7 +671,7 @@ function getClanInfo(bot, msg, args)
     }
 
     var embed = new ds.MessageEmbed().setColor(colors.info);
-    var data = ":crown: **" + lang.data.owner + " -** " + msg.guild.members.cache.get(clan.owner).displayName + "\n";
+    var data = ":crown: **" + lang.data.owner + " -** " + msg.guild.members.cache.get(clan.owner).username + "\n";
     data += ":military_medal: **" + lang.data.rating  +" -** "+ clan.rating + "(" + clan.admSymp + ")" + "\n";
     data += ":busts_in_silhouette: " + GetClanMembers(clan, msg.guild.id, bot).length + " **" + funcs.declNum(GetClanMembers(clan, msg.guild.id, bot).length, lang.data.membersCount) + "**";
 
@@ -1193,7 +1193,7 @@ function addRating(msg)
             return;
         }
 
-        var guild = require('../GuildConfigs/guilds/' + msg.guild.id + '.json');
+        var guild = guildF.get(msg.guild.id);
 
         if(typeof guild.Clans == 'undefined')
         {
@@ -1201,6 +1201,14 @@ function addRating(msg)
         }
 
         var Clans = guild.Clans;
+
+        // console.log( msg.guild.member(msg.author).roles)
+        // console.log(msg.guild.id);
+
+        if(typeof msg.guild.member(msg.author).roles == 'undefined')
+        {
+            return;
+        }
 
         var roles = msg.guild.member(msg.author).roles.cache.keyArray();
 
