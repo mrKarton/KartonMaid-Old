@@ -208,14 +208,14 @@ bot.on('message', (message)=>{
 function synchronize()
 {
     var guilds = JSON.parse(fs.readFileSync('configurations/guilds-data.temp'));
-    console.log(guilds);
+    // console.log(guilds);
     guilds.forEach((data)=>{
         var format = mysql.format("UPDATE `Guilds` SET Language=?, Prefix=?, Stat_Enabled=?, Stat_Channels=?, Clans=?, Report_Enabled=?, Report_Admin=?, Report_Public=? " +
         "WHERE ID=?", 
         [data.Language, data.Prefix, data.Stat_Enabled, JSON.stringify(data.Stat_Channels),
             JSON.stringify(data.Clans), data.Report_Enabled, data.Report_Admin, data.Report_Public, data.ID]);
-        console.log(JSON.stringify(data.Clans));
-        console.log(format, '\n\n');
+        // console.log(JSON.stringify(data.Clans));
+        // console.log(format, '\n\n');
         connection.query(format);
     })
 

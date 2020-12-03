@@ -1,6 +1,6 @@
 {
     "dev": false,
-    "version": "2.0 alpha",
+    "version": "2.0 alpha 4",
     "localistion": 100,
-    "changelog":"New Database system, \n\n Removed Music module from list (not deleted)"
+    "changelog":"Fixed Language settings \n \n Fixed Language at `!dev` command \n\n Returned members countion in `!help` (not in server stats)"
 }

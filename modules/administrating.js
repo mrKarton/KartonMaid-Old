@@ -77,7 +77,7 @@ function setLang(bot,msg, args)
         }
         if(succ)
         {
-            guildObj.language = newLang;
+            guildObj.Language = newLang;
 
             guildF.set(guildObj);
 

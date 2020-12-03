@@ -122,7 +122,7 @@ function Info(bot, msg, args)
       "\n\n\n **Основная Статистика:**", false);
       embed.addField("Серверов:", bot.guilds.cache.size, true);
       embed.addField("голосовых подключений: ", bot.voice.connections.size, true);
-      embed.addField("Пользователей:", 'Currently down because of new Discord politics', true);
+      embed.addField("Пользователей:", bot.users.cache.size, true);
       embed.addField("Каналов:", bot.channels.cache.size, true);
       console.log(bot.users.cache.keyArray());
       var options = {
@@ -140,8 +140,8 @@ function Info(bot, msg, args)
 
       embed.addField("Запущена я была ", bot.startupDate.toLocaleString("ru", options) + "\n\n\n", true);
 
-      embed.addField("Помощь автору проекта", "Помочь автору проекта вы можете задонатив ***[сюда](https://www.donationalerts.com/r/kartonks)***");
-      embed.addField("Добавление бота на сервер", "Ссылка на добавление бота на ваш сервер -> [тык](https://discordapp.com/api/oauth2/authorize?client_id=688060877395722338&permissions=8&scope=bot)" +
+      embed.addField("Помощь автору проекта", "Вы можете **[задонатить](https://www.donationalerts.com/r/kartonks)** мне на Donation Alerts ([link](https://www.donationalerts.com/r/kartonks))");
+      embed.addField("Добавление бота на сервер", "[Ссылка на добавление бота на ваш сервер](https://discordapp.com/api/oauth2/authorize?client_id=688060877395722338&permissions=8&scope=bot)" +
       "\n\n");
       embed.setFooter("© " + bot.users.cache.get(conf.karton).username + " • 2020 • mrkarton.ru", bot.users.cache.get(conf.karton).avatarURL());
       embed.setThumbnail(bot.user.avatarURL());
@@ -158,7 +158,7 @@ function Info(bot, msg, args)
       "\n\n\n **Main statistic:**", false);
       embed.addField("Server count:", bot.guilds.cache.size, true);
       embed.addField("Voice connections: ", bot.voice.connections.size, true);
-      embed.addField("Users count:", 'Currently down because of new Discord politics', true);
+      embed.addField("Users count:", bot.users.cache.size, true);
       embed.addField("Channels count:", bot.channels.cache.size, true);
       
       var options = {
@@ -176,8 +176,8 @@ function Info(bot, msg, args)
 
       embed.addField("I was started ", bot.startupDate.toLocaleString("en", options) + "\n\n\n", true);
 
-      embed.addField("Developer assistance", "To help the author of the project, you can donate ***[here](https://www.donationalerts.com/r/kartonks)***");
-      embed.addField("Add bot to your server", "Link to add a bot to your server -> [tap](https://discordapp.com/api/oauth2/authorize?client_id=688060877395722338&permissions=8&scope=bot)" +
+      embed.addField("Developer assistance", "To help the author of the project, you can ***[DONATE](https://www.donationalerts.com/r/kartonks)***");
+      embed.addField("Add bot to your server", "[Link to add a bot to your server](https://discordapp.com/api/oauth2/authorize?client_id=688060877395722338&permissions=8&scope=bot)" +
       "\n\n");
       embed.setFooter("© " + bot.users.cache.get(conf.karton).username + " • 2020 • mrkarton.ru", bot.users.cache.get(conf.karton).avatarURL());
       embed.setThumbnail(bot.user.avatarURL());
@@ -201,7 +201,7 @@ function dev(bot, msg, args)
         langID = 1;
     }
 
-  if(lang == 0)
+  if(langID == 0)
   {
     var embed = new discord.MessageEmbed().setTitle("Информация о разработке");
     embed.setColor(colors.info);
@@ -219,7 +219,7 @@ function dev(bot, msg, args)
       embed.addField("Внимание!", "Это нестабильная версия бота.");
     }
 
-    embed.addField("Помощь разработчику:", "Вы можете помочь мне с \n **-РП**(Поиск GIF, написание фраз)" + 
+    embed.addField("Помощь разработчику:", "[Донат](https://www.donationalerts.com/r/kartonks)" +  
     "\n **Связь с разработчиком:** \n [Email](https://gornostaev.dmitry04@gmail.com) \n [Telegram](https://telegram.me/mrKarton) \n [GitHub](https://github.com/mrKarton) ");
 
     if(!version.dev)
@@ -250,7 +250,7 @@ function dev(bot, msg, args)
       embed.addField("!CAUTION!", "This is instabile version.");
     }
 
-    embed.addField("Developer assistance:", "You can help me with \n ** - RP**(GIF search, keyword writing) \n **-[Donate](https://www.donationalerts.com/r/kartonks)**" + 
+    embed.addField("Developer assistance:", "You can help me with \n **-[Donate](https://www.donationalerts.com/r/kartonks)**" + 
     "\n **Contact the developer** \n [Email](https://gornostaev.dmitry04@gmail.com) \n [Telegram](https://telegram.me/mrKarton) \n [GitHub](https://github.com/mrKarton) ");
 
     if(!version.dev)
