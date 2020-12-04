@@ -1,6 +1,6 @@
 {
     "dev": false,
-    "version": "2.0 alpha 4",
+    "version": "2.0 alpha 5",
     "localistion": 100,
-    "changelog":"Fixed Language settings \n \n Fixed Language at `!dev` command \n\n Returned members countion in `!help` (not in server stats)"
+    "changelog":"Fixed Language settings \n \n Fixed Language at `!dev` command \n\n Returned members countion in `!help` (not in server stats) \n\n Core bug fixed"
 }

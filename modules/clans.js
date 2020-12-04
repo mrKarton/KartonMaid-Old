@@ -1205,7 +1205,8 @@ function addRating(msg)
         // console.log( msg.guild.member(msg.author).roles)
         // console.log(msg.guild.id);
 
-        if(typeof msg.guild.member(msg.author).roles == 'undefined')
+
+        if(msg.guild.member(msg.author).roles == null)
         {
             return;
         }
