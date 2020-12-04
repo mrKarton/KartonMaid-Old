@@ -1217,12 +1217,15 @@ function addRating(msg)
         var clan;
 
         roles.forEach((role)=>{
-            Clans.forEach((clanData)=>{
-                if(clanData.ownerRole.id == role)
-                {
-                    clan = clanData;
-                }
-            });
+            if(Clans.forEach != null);
+            {
+                Clans.forEach((clanData)=>{
+                    if(clanData.ownerRole.id == role)
+                    {
+                        clan = clanData;
+                    }
+                });
+            }
         });
 
         if(clan == null)
