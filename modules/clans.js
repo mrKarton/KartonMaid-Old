@@ -1205,12 +1205,19 @@ function addRating(msg)
         // console.log( msg.guild.member(msg.author).roles)
         // console.log(msg.guild.id);
 
-
-        if(msg.guild.member(msg.author).roles == null)
+        
+        try
         {
-            return;
+            if(msg.guild.member(msg.author) == null
+            || msg.guild.member(msg.author).roles == null 
+            || msg.guild == null
+            || typeof msg.guild.member == 'undefined')
+            {
+                console.log(msg.guild.member(msg.author));
+                return;
+            }
         }
-
+        finally {console.log(msg.guild.member(msg.author)); return;}
         var roles = msg.guild.member(msg.author).roles.cache.keyArray();
 
         var possible = false;

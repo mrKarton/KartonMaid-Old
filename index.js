@@ -35,7 +35,7 @@ bot.on('ready', ()=> {
         bot.guilds.cache.keyArray().forEach((key)=>{
             if(DBIDs.indexOf(key) != -1)
             {
-                console.log('Founded - ', key, '\n\n');
+
             }
             else
             {
@@ -44,8 +44,7 @@ bot.on('ready', ()=> {
                 var format = mysql.format("INSERT INTO `Guilds`(ID, Language, Prefix, Stat_Enabled, Stat_Channels, Clans, Report_Enabled, Report_Admin, Report_Public) " +
                 "VALUES(?,?,?,?,?,?,?,?,?) ", [key, 'en', '!', '0', '[]', '[]', '0', '', '']);
                 connection.query(format);
-                console.log('Used - ', format);
-                console.log('\n\n');
+                console.log('Returned \n\n')
             }
         });
     })
