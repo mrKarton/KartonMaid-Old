@@ -41,6 +41,11 @@ function gift(bot, msg, args)
     RP(bot,msg,args,"gift");
 }
 
+function pat(bot, msg, args)
+{
+    RP(bot,msg,args,"pat");
+}
+
 function RP(bot, msg, args, type)
 {
 
@@ -102,6 +107,12 @@ function RP(bot, msg, args, type)
             color = color_data.gift;
             dat = lang.gift;
         break;
+
+        case "pat":
+            tennorQuery = "pat"
+            color = color_data.hug;
+            dat = lang.pat;
+        break;
     }
 
     request('http://194.58.122.151:7777/Tennor?find=' + tennorQuery, (req, res, body)=>{
@@ -154,7 +165,8 @@ module.exports.commands = [
     {name: [["обнять", "обнял"], ["hug"]], out:hug, ab:["Обнимашки!", "Oh! Come to me, I'll give you a hug"]},
     {name: [["забанить", "бан"], ["ban"]], out:ban, ab:["Как же ты задолбал.. Бан в ЖБАН!", "Oh, you're so deliverable, take a ban!"]},
     {name: [["выебать", "засексить"], ["fuck"]], out:fuck, ab:["О да, иди ко мне.. (18+)", "||censored||"]},
-    {name: [["подарок", "подарить"], ["gift", "give"]], out:gift, ab:["От серца и почек дарю тебе цветочек", "Here's your gift!"]}
+    {name: [["подарок", "подарить"], ["gift", "give"]], out:gift, ab:["От серца и почек дарю тебе цветочек", "Here's your gift!"]},
+    {name: [["погладить"], ["pat"]], out:pat, ab:["Погладь его/её по головке QwQ", "Pat him / her on the head QwQ"]}
 ];
 
 module.exports.module = {name:[["ролеплей", "рп", "странные-гифки"], ["roleplay", "rp"]], about:["РП команды на \\Почти все\\ случаи жизни: от поцелуев до секоса, от ударов до убийства \n (Гифки взяты с **[Тенора](https://tenor.com)**)", 

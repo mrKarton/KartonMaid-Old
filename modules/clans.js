@@ -1216,8 +1216,7 @@ function addRating(msg)
                 console.log(msg.guild.member(msg.author));
                 return;
             }
-        }
-        finally {console.log(msg.guild.member(msg.author)); return;}
+        
         var roles = msg.guild.member(msg.author).roles.cache.keyArray();
 
         var possible = false;
@@ -1266,7 +1265,8 @@ function addRating(msg)
         guild.Clans = Clans;
 
         guildF.set(guild);
-    
+    }
+    finally {return;}
 }
 
 module.exports.raiting = addRating;
